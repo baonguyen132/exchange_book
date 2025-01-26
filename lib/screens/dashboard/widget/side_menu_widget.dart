@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/theme/theme.dart';
 
-import '../model/MenuModal.dart';
+import '../../../model/MenuModal.dart';
 
 class SideMenuWidget extends StatefulWidget {
 

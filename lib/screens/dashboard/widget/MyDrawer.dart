@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/theme/theme.dart';
 
-import '../data/SideMenuData.dart';
-import '../model/MenuModal.dart';
-import '../widget/dark_light_mode.dart';
-import '../widget/side_menu_widget.dart';
+import '../../../data/SideMenuData.dart';
+import '../../../model/MenuModal.dart';
+import 'dark_light_mode.dart';
+import 'side_menu_widget.dart';
 
 class Mydrawer extends StatefulWidget {
 
@@ -88,43 +88,49 @@ class _MydrawerState extends State<Mydrawer> {
 
               ),
               Container(
-                height: MediaQuery.of(context).size.height*0.2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
+                  height: MediaQuery.of(context).size.height*0.2,
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const DarkLightMode() ,
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {
 
-                    DarkLightMode() ,
+                                },
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(13),
+                                      child: Icon(
+                                        Icons.logout,
+                                        color: Theme.of(context).colorScheme.maintext,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Log out",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Theme.of(context).colorScheme.maintext
+                                      ),
 
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: InkWell(
-                        onTap: () {
+                                    )
 
-                        },
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(13),
-                              child: Icon(
-                                Icons.logout,
-                                color: Theme.of(context).colorScheme.maintext,
+                                  ],
+                                ),
                               ),
                             ),
-                            Text(
-                              "Log out",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).colorScheme.maintext
-                              ),
-
-                            )
-
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                )
+                    ),
+                  )
               )
             ],
           )

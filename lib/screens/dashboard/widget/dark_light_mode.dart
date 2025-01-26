@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:project_admin/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-import '../data/ConstraintData.dart';
-import '../theme/theme_provider.dart';
+import '../../../data/ConstraintData.dart';
+import '../../../theme/theme_provider.dart';
 
 
 class DarkLightMode extends StatefulWidget {

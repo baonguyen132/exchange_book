@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_admin/screens/dashboard/dashboard.dart';
+import 'package:project_admin/screens/login/login.dart';
 import 'package:project_admin/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'mainProject.dart';
 
 void main() async {
   runApp(ChangeNotifierProvider(
@@ -18,8 +19,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const MainProject(),
+      home: Container(
+        color: Theme.of(context).colorScheme.background ,
+        child: Login(),
+      ),
       theme: Provider.of<ThemeProvider>(context).themeData,
+      routes: {
+        "/login": (context) => Login(),
+        "/dashboard": (context) => Dashboard() ,
+      },
     );
   }
 }
