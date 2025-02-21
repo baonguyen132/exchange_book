@@ -11,7 +11,7 @@ class Responsive extends StatefulWidget {
         required this.mobile,
         required this.tablet
       }
-      );
+  );
 
   @override
   State<Responsive> createState() => _ResponsiveState();

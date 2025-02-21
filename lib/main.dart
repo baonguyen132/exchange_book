@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/screens/dashboard/dashboard.dart';
 import 'package:project_admin/screens/login/login.dart';
+import 'package:project_admin/screens/signup/sign_up.dart';
 import 'package:project_admin/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/login": (context) => Login(),
         "/dashboard": (context) => Dashboard() ,
+        "/signup": (context) => SignUp() ,
       },
     );
   }
