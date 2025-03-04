@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:project_admin/screens/dashboard/page/home.dart';
 import 'package:project_admin/screens/dashboard/page/profile.dart';
+import 'package:project_admin/screens/dashboard/page/test.dart';
 
 
 import '../../data/ConstraintData.dart';
@@ -25,6 +26,8 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
     }
     else if (mainPage == 2) {
       return Profile() ;
+    }else if(mainPage ==3){
+      return Test();
     }
 
     return Container() ;
