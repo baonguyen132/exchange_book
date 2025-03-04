@@ -11,7 +11,7 @@ class _TestState extends State<Test> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("Hello"),
+      child: Text("Hello Phương"),
     );
   }
 }
