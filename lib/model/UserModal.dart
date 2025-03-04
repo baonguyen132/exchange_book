@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import '../data/ConstraintData.dart';
 
 class UserModel {
+  String? id ;
   String name;
   String email;
   String password;
@@ -14,6 +15,7 @@ class UserModel {
   String token;
 
   UserModel({
+    this.id ,
     required this.name,
     required this.email,
     required this.password,
@@ -24,17 +26,18 @@ class UserModel {
     this.token = "some_token",
   });
 
-  // Chuyển từ JSON thành Object
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  // ✅ Chuyển JSON thành Object
+  factory UserModel.fromJson(List<dynamic> json) {
     return UserModel(
-      name: json['name'],
-      email: json['email'],
-      password: json['password'],
-      cccd: json['cccd'],
-      dob: json['dob'],
-      gender: json['gender'],
-      address: json['address'],
-      token: json['token'] ?? "some_token",
+      id: json[0].toString(),
+      name: json[1].toString() ,
+      email: json[2].toString() ,
+      password: json[3].toString(),
+      cccd: json[5].toString(),
+      dob: (json[6]),
+      gender: json[7].toString() ,
+      address: json[8].toString() ,
+      token: json[10].toString() ,
     );
   }
 
@@ -52,6 +55,31 @@ class UserModel {
     };
   }
 
+  static Future<UserModel?> login(String email, String password) async {
+    Map<String, dynamic> requestBody = {
+      "email": email,
+      "password": password
+    };
+    try {
+      final response = await http.post(
+        Uri.parse(location+"/login"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(requestBody), // Chuyển đổi model thành JSON
+      );
+      if(response.statusCode == 200) {
+        List<dynamic> json = jsonDecode(response.body);
+        return UserModel.fromJson(json);
+      }
+      else {
+        print("Lỗi đăng nhập: ${response.statusCode}");
+        return null;
+      }
+    }
+    catch (e) {
+      print("Lỗi kết nối API: $e");
+      return null;
+    }
+  }
   static Future<void> registerUser(UserModel user , Function () handle) async {
 
     final response = await http.post(

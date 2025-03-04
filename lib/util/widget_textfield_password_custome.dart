@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 
 class WidgetTextfieldPasswordCustome extends StatefulWidget {
-  final FocusNode _focusNode = FocusNode() ;
-  FocusNode? focusNodeNext ;
+  
   TextEditingController controller ;
   String? hint ;
-  bool _isVisibility = false ;
-  bool _isFocus = false ;
 
-  WidgetTextfieldPasswordCustome({super.key , this.focusNodeNext ,  this.hint = "Password", required this.controller});
+  WidgetTextfieldPasswordCustome({super.key,  this.hint = "Password", required this.controller});
 
   @override
   State<WidgetTextfieldPasswordCustome> createState() => _WidgetTextfieldPasswordCustomeState();
 }
 
 class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPasswordCustome> {
+  final FocusNode _focusNode = FocusNode() ;
+  bool _isVisibility = false ;
+  bool _isFocus = false ;
+  
   @override
   void initState() {
     // TODO: implement initState
-    widget._focusNode.addListener(() {
+    _focusNode.addListener(() {
       setState(() {
-        widget._isFocus = widget._focusNode.hasFocus ;
+        _isFocus = _focusNode.hasFocus ;
       });
     },);
   }
@@ -28,9 +29,9 @@ class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPassword
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      focusNode: widget._focusNode,
+      focusNode: _focusNode,
       keyboardType: TextInputType.visiblePassword,
-      obscureText: !widget._isVisibility,
+      obscureText: !_isVisibility,
       style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500
@@ -47,27 +48,24 @@ class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPassword
                   width: 2
               )
           ),
-          prefixIcon: Icon(!widget._isVisibility ? Icons.lock : Icons.lock_open),
-          prefixIconColor: widget._isFocus ? Colors.blue : Colors.black ,
+          prefixIcon: Icon(!_isVisibility ? Icons.lock : Icons.lock_open),
+          prefixIconColor: _isFocus ? Colors.blue : Colors.black ,
 
           suffixIcon: GestureDetector(
             onTap: () {
               setState(() {
-                widget._isVisibility = !widget._isVisibility ;
+                _isVisibility = !_isVisibility ;
               });
             },
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Icon(
-                widget._isVisibility ? Icons.visibility : Icons.visibility_off ,
-                color: widget._isFocus ? Colors.blue : Colors.black ,
+                _isVisibility ? Icons.visibility : Icons.visibility_off ,
+                color: _isFocus ? Colors.blue : Colors.black ,
               ),
             ),
           )
       ),
-      onFieldSubmitted: (value) {
-        FocusScope.of(context).requestFocus(widget.focusNodeNext) ;
-      },
     );
   }
 }

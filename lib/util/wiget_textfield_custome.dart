@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
 
 class WigetTextfieldCustome extends StatefulWidget {
-  final FocusNode _focusNode = FocusNode() ;
-  FocusNode? focusNodeNext ;
   TextEditingController controller ;
   TextInputType textInputType ;
   String hint ;
   IconData iconData ;
-  bool _isFocus = false ;
+
+  
+  Function (String value)? onChange ;
 
 
-  WigetTextfieldCustome({super.key, this.focusNodeNext , required this.controller, required this.textInputType, required this.hint, required this.iconData,});
+  WigetTextfieldCustome({
+    super.key, 
+    required this.controller, 
+    required this.textInputType, 
+    required this.hint, 
+    required this.iconData,
+    this.onChange
+  });
 
   @override
   State<WigetTextfieldCustome> createState() => _WigetTextfieldCustomeState();
 }
 
 class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
+  final FocusNode _focusNode = FocusNode() ;
+  bool _isFocus = false ;
+
   @override
   void initState() {
     // TODO: implement initState
-    widget._focusNode.addListener(() {
+    _focusNode.addListener(() {
       setState(() {
-        widget._isFocus = widget._focusNode.hasFocus ;
+        _isFocus = _focusNode.hasFocus ;
       });
     },);
   }
@@ -30,7 +40,7 @@ class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      focusNode:  widget._focusNode,
+      focusNode:  _focusNode,
       controller: widget.controller,
       keyboardType: widget.textInputType,
       style: const TextStyle(
@@ -44,7 +54,7 @@ class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
             letterSpacing: 1,
           ),
           prefixIcon: Icon(widget.iconData),
-          prefixIconColor: widget._isFocus ? Colors.blue : Colors.black,
+          prefixIconColor: _isFocus ? Colors.blue : Colors.black,
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
@@ -56,9 +66,8 @@ class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
               )
           )
       ),
-      onFieldSubmitted: (value) {
-
-        FocusScope.of(context).requestFocus(widget.focusNodeNext);
+      onChanged: (value) {
+        widget.onChange!(value) ;
       },
     );
   }

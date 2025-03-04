@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_admin/screens/dashboard/page/home.dart';
+import 'package:project_admin/screens/dashboard/page/profile.dart';
 
 
 import '../../data/ConstraintData.dart';
@@ -11,22 +13,11 @@ class DashboardTablet extends StatefulWidget {
 }
 
 class _DashboardTabletState extends State<DashboardTablet> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-      ),
-      drawer: Mydrawer(
-        selection: mainPage,
-        handle: (page) {
-          setState(() {
-            Navigator.pop(context) ;
-            mainPage = page ;
-          });
-        },
-      ),
-      body: ListView(
+  int mainPage = 2 ;
+
+  Widget getPage() {
+    if(mainPage == 1) {
+      return ListView(
           children: [
             Container(
               child: Column(
@@ -49,7 +40,31 @@ class _DashboardTabletState extends State<DashboardTablet> {
               ),
             )
           ]
-      )
+      );
+    }
+    else if (mainPage == 2) {
+      return Profile() ;
+    }
+
+    return Container() ;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+      ),
+      drawer: Mydrawer(
+        selection: mainPage,
+        handle: (page) {
+          setState(() {
+            Navigator.pop(context) ;
+            mainPage = page ;
+          });
+        },
+      ),
+      body: getPage()
     );
   }
 }

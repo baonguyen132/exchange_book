@@ -8,7 +8,7 @@ import 'side_menu_widget.dart';
 
 class Mydrawer extends StatefulWidget {
 
-  int selection = 1 ;
+  int selection ;
 
   final Function (int page) handle ;
 
@@ -26,7 +26,7 @@ class _MydrawerState extends State<Mydrawer> {
 
 
     return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.mainDraw,
+      backgroundColor: Theme.of(context).colorScheme.mainCard,
       elevation: 8.0,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

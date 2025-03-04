@@ -10,6 +10,7 @@ class WigetStatistical extends StatefulWidget {
 }
 
 class _WigetStatisticalState extends State<WigetStatistical> {
+  int choosed = 0 ;
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -18,8 +19,13 @@ class _WigetStatisticalState extends State<WigetStatistical> {
           itemCount: 4,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
           itemBuilder: (context, index) => WidgetBox(
-            index: index,
+            condition: choosed == index,
             child: Container(),
+            handle: () {
+              setState(() {
+                choosed = index ;
+              });
+            },
           )
       ),
     );

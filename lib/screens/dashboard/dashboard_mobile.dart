@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_admin/screens/dashboard/page/profile.dart';
 
 import '../../data/ConstraintData.dart';
 import 'widget/MyDrawer.dart';
@@ -11,6 +12,42 @@ class DashboardMobile extends StatefulWidget {
 }
 
 class _DashboardMobileState extends State<DashboardMobile> {
+  int mainPage = 2 ;
+
+  Widget getPage() {
+    if(mainPage == 1) {
+      return ListView(
+          children: [
+            Container(
+              child: Column(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: GridView.builder(
+                      itemCount: 4,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                      itemBuilder: (context, index) => Container(
+                        padding: EdgeInsets.all(10),
+                        child: Container(
+                          color: Colors.green,
+                        ),
+
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ]
+      );
+    }
+    else if (mainPage == 2) {
+      return Profile() ;
+    }
+
+    return Container() ;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,29 +63,7 @@ class _DashboardMobileState extends State<DashboardMobile> {
             });
           },
         ),
-        body: ListView(
-            children: [
-              Container(
-                child: Column(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: GridView.builder(
-                        itemCount: 4,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                        itemBuilder: (context, index) => Container(
-                          padding: EdgeInsets.all(10),
-                          child: Container(
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ]
-        )
+        body: getPage()
     );
   }
 }

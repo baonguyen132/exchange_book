@@ -23,7 +23,7 @@ class _WidgetButtonLoginState extends State<WidgetButtonLogin> {
                 )
             ),
           ),
-          onPressed: () {widget.handle;},
+          onPressed: () {widget.handle();},
           child: const Text(
             "Login",
             style: TextStyle(

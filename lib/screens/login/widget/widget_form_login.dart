@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_admin/model/UserModal.dart';
 import 'package:project_admin/screens/login/widget/widget_button_login.dart';
 import 'package:project_admin/screens/login/widget/widget_finger.dart';
 import 'package:project_admin/screens/login/widget/wiget_navigator_to_sign_up.dart';
@@ -70,8 +71,9 @@ class _WidgetFormLoginState extends State<WidgetFormLogin> {
             const SizedBox(height: 25,),
             Row(
               children: [
-                Expanded(child:WidgetButtonLogin(handle: () {
-
+                Expanded(child:WidgetButtonLogin(handle: () async {
+                  UserModel? user = await UserModel.login(widget.emailController.text, widget.passwordController.text);
+                  Navigator.pushReplacementNamed(context, "/dashboard");
                 },)),
                 !widget.isDesktop ? const SizedBox(width: 20,) : Container() ,
                 !widget.isDesktop ? WidgetFinger(handle: () {},) : Container()

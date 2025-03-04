@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class WidgetBox extends StatefulWidget {
   Widget child ;
-  int index ;
-  WidgetBox({super.key , required this.child , required this.index});
+  bool condition ;
+  Function () handle ;
+  WidgetBox({super.key , required this.child , required this.condition , required this.handle});
 
   @override
   State<WidgetBox> createState() => _WidgetBoxState();
@@ -18,25 +19,39 @@ class _WidgetBoxState extends State<WidgetBox> {
         bottom: 10,
         left: 10,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: widget.index + 1 == 1 ? Colors.green : Colors.greenAccent ,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.black12 ,
-                offset: Offset(2, 2),
-                blurRadius: 5
+      child: GestureDetector(
+        onTap: () {
+          widget.handle() ;
+        },
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Container(
+            decoration: BoxDecoration(
+              color: widget.condition  ? Colors.white.withOpacity(0.95) : Colors.grey.shade100,
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              boxShadow:  widget.condition  ? [
+                const BoxShadow(
+                    color: Colors.blue ,
+                    offset: Offset(2, 2),
+                    blurRadius: 2,
+                    spreadRadius: 2
+                ),
+                const BoxShadow(
+                    color: Colors.blue ,
+                    offset: Offset(-2, -2),
+                    blurRadius: 2,
+                    spreadRadius: 2
+                )
+              ] : null,
+              border: !widget.condition ? Border.all(
+                color: Colors.blue.shade200,
+                width: 2,
+              ) : null ,
             ),
-            BoxShadow(
-                color: Colors.black12 ,
-                offset: Offset(-2, -2),
-                blurRadius: 5
-            )
-          ],
+            child: widget.child,
+          ),
         ),
-        child: widget.child,
-      ),
+      )
     );
   }
 }

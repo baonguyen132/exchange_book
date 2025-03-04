@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:project_admin/screens/dashboard/page/home.dart';
+import 'package:project_admin/screens/dashboard/page/profile.dart';
 
 
 import '../../data/ConstraintData.dart';
@@ -15,6 +17,18 @@ class DashboardDesktop extends StatefulWidget {
 }
 
 class _DashboardDesktopState extends State<DashboardDesktop> {
+  int mainPage = 2 ;
+
+  Widget getPage() {
+    if(mainPage == 1) {
+       return Home() ;
+    }
+    else if (mainPage == 2) {
+      return Profile() ;
+    }
+
+    return Container() ;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,30 +52,7 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
               ),
               Expanded(
                 flex: 8,
-                  child: SingleChildScrollView(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Expanded(
-                              child: Column(
-                                children: [
-                                  WigetStatistical()
-                                ],
-                              )
-                          ),
-                          Container(
-                              height: 700,
-                              width: min(400, MediaQuery.of(context).size.width * 0.2),
-                              padding: EdgeInsets.all(10),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.all(Radius.circular(8))
-                                ),
-                              ))
-                        ],
-                      )
-                  )
+                  child: getPage()
               )
             ],
           ),

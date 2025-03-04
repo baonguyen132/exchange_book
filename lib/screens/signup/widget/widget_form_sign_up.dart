@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:math';
 
@@ -9,6 +7,7 @@ import 'package:project_admin/screens/signup/widget/widget_button_sign_up.dart';
 import 'package:project_admin/screens/signup/widget/wiget_choose_gender.dart';
 import 'package:project_admin/screens/signup/widget/wiget_scan_qr_code.dart';
 
+import '../../../data/ConstraintData.dart';
 import '../../../model/UserModal.dart';
 import '../../../util/widget_textfield_password_custome.dart';
 import '../../../util/wiget_textfield_custome.dart';
@@ -60,7 +59,7 @@ class _WidgetFormSignUpState extends State<WidgetFormSignUp> {
           setState(() {
             widget.numberIdController.text = arrayData[0] ;
             widget.fullnameController.text = arrayData[2] ;
-            widget.dobController.text = arrayData[3];
+            widget.dobController.text = formatIDToDate(arrayData[3]);
             if (arrayData[4] == "Nam") {widget.gender = "Male";} else {widget.gender = "Female" ;}
             widget.addressController.text = arrayData[5] ;
           });
@@ -81,7 +80,20 @@ class _WidgetFormSignUpState extends State<WidgetFormSignUp> {
             Expanded(
               child: Column(
                 children: [
-                  WigetTextfieldCustome(controller: widget.dobController, textInputType: TextInputType.datetime, hint: "Day of birth", iconData: Icons.edit_calendar),
+                  WigetTextfieldCustome(
+                      controller: widget.dobController,
+                      textInputType: TextInputType.datetime,
+                      hint: "DDMMYYYY",
+                      iconData: Icons.edit_calendar,
+                      onChange: (value) {
+                        if (value.length == 8) {
+                          String formatted = formatIDToDate(value);
+                          setState(() {
+                            widget.dobController.text = formatted;
+                          });
+                        }
+                      },
+                  ),
                   const SizedBox(height: 25,),
                   WigetTextfieldCustome(controller: widget.numberIdController, textInputType: TextInputType.number, hint: "Number Id", iconData: Icons.perm_identity_rounded),
                 ],
@@ -125,6 +137,4 @@ class _WidgetFormSignUpState extends State<WidgetFormSignUp> {
       ],
     );
   }
-
-
 }
