@@ -2,30 +2,31 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../widget/wiget_statistical.dart';
+import 'widget/home_admin/wiget_statistical.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeAdmin extends StatefulWidget {
+  final bool isMobile  ;
+  HomeAdmin({super.key , this.isMobile = false });
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeAdmin> createState() => _HomeAdminState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeAdminState extends State<HomeAdmin> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Expanded(
+            Expanded(
                 child: Column(
                   children: [
-                    WigetStatistical()
+                    WigetStatistical(isMobile: widget.isMobile)
                   ],
                 )
             ),
-            Container(
+            !widget.isMobile ? Container(
                 height: 700,
                 width: min(400, MediaQuery.of(context).size.width * 0.2),
                 padding: EdgeInsets.all(10),
@@ -35,7 +36,7 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.all(Radius.circular(8))
                   ),
                 )
-            )
+            ): Container()
           ],
         )
     );

@@ -9,10 +9,11 @@ import 'side_menu_widget.dart';
 class Mydrawer extends StatefulWidget {
 
   int selection ;
+  int status ;
 
-  final Function (int page) handle ;
+  final Function (MenuModal item) handle ;
 
-  Mydrawer({super.key , required this.selection , required this.handle});
+  Mydrawer({super.key , required this.selection , required this.handle , required this.status});
 
   @override
   State<Mydrawer> createState() => _MydrawerState();
@@ -72,17 +73,20 @@ class _MydrawerState extends State<Mydrawer> {
                         ],
                       ),
                     ),
-                    for (MenuModal item in listmenu)
-                      SideMenuWidget(
-                          item: item,
-                          isSelected: widget.selection,
-                          ontap: () {
-                            setState(() {
-                              widget.selection = item.id ;
-                              widget.handle(item.id) ;
-                            });
-                          },
-                      )
+                    Column(
+                      children: listmenu
+                          .where((item) => item.status == widget.status)
+                          .map((item) => SideMenuWidget(
+                        item: item,
+                        isSelected: widget.selection,
+                        ontap: () {
+                          setState(() {
+                            widget.selection = item.id;
+                            widget.handle(item);
+                          });
+                        },
+                      )).toList(),
+                    )
                   ],
                 ),
 

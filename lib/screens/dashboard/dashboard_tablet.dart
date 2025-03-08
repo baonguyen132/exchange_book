@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/home.dart';
+import 'package:project_admin/screens/dashboard/page/home_admin.dart';
 import 'package:project_admin/screens/dashboard/page/profile.dart';
 
 
@@ -13,36 +13,14 @@ class DashboardTablet extends StatefulWidget {
 }
 
 class _DashboardTabletState extends State<DashboardTablet> {
-  int mainPage = 2 ;
+  int mainPage = 4 ;
+  int status = 0 ;
 
   Widget getPage() {
-    if(mainPage == 1) {
-      return ListView(
-          children: [
-            Container(
-              child: Column(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 4,
-                    child: GridView.builder(
-                      itemCount: 4,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-                      itemBuilder: (context, index) => Container(
-                        padding: EdgeInsets.all(10),
-                        child: Container(
-                          color: Colors.green,
-                        ),
-
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ]
-      );
+    if(mainPage == 6) {
+      return HomeAdmin() ;
     }
-    else if (mainPage == 2) {
+    else if (mainPage == 4) {
       return Profile() ;
     }
 
@@ -56,11 +34,22 @@ class _DashboardTabletState extends State<DashboardTablet> {
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
       drawer: Mydrawer(
+        status: status,
         selection: mainPage,
-        handle: (page) {
+        handle: (item) {
           setState(() {
             Navigator.pop(context) ;
-            mainPage = page ;
+            if(item.title == "Admin") {
+              status = 1 ;
+              mainPage = item.id + 1;
+            }
+            else if(item.title == "Client") {
+              status = 0 ;
+              mainPage = 1 ;
+            }
+            else {
+              mainPage = item.id;
+            }
           });
         },
       ),

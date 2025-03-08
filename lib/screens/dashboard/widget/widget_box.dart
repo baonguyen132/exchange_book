@@ -4,6 +4,7 @@ class WidgetBox extends StatefulWidget {
   Widget child ;
   bool condition ;
   Function () handle ;
+  
   WidgetBox({super.key , required this.child , required this.condition , required this.handle});
 
   @override
@@ -14,11 +15,7 @@ class _WidgetBoxState extends State<WidgetBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-        top: 10,
-        bottom: 10,
-        left: 10,
-      ),
+      padding: EdgeInsets.all(10),
       child: GestureDetector(
         onTap: () {
           widget.handle() ;

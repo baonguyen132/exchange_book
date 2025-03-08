@@ -5,6 +5,8 @@ class MenuModal {
   final IconData icon ;
   final String title ;
 
-  const MenuModal({required this.id, required this.icon , required this.title}) ;
+  final int status ;
+
+  const MenuModal({required this.id, required this.icon , required this.title , this.status = 0}) ;
 
 }
