@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Container(
         color: Theme.of(context).colorScheme.background ,
-        child: Login(),
+        child: Dashboard(),
       ),
       theme: Provider.of<ThemeProvider>(context).themeData,
       routes: {

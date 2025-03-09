@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../widget/widget_box.dart';
+import 'widget_box.dart';
 
 class WigetStatistical extends StatefulWidget {
   final bool isMobile ;

@@ -106,19 +106,19 @@ class _MydrawerState extends State<Mydrawer> {
                               cursor: SystemMouseCursors.click,
                               child: GestureDetector(
                                 onTap: () {
-
+                                  Navigator.pushReplacementNamed(context, "/login") ;
                                 },
                                 child: Row(
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.all(13),
                                       child: Icon(
-                                        Icons.logout,
+                                        Icons.login,
                                         color: Theme.of(context).colorScheme.maintext,
                                       ),
                                     ),
                                     Text(
-                                      "Log out",
+                                      "Log in",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Theme.of(context).colorScheme.maintext
@@ -130,7 +130,7 @@ class _MydrawerState extends State<Mydrawer> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

@@ -3,29 +3,23 @@ import 'package:project_admin/screens/dashboard/page/home_admin.dart';
 import 'package:project_admin/screens/dashboard/page/profile.dart';
 
 import '../../data/ConstraintData.dart';
+import '../../model/MenuModal.dart';
 import 'widget/MyDrawer.dart';
 
 class DashboardMobile extends StatefulWidget {
-  const DashboardMobile({super.key});
+  int status ;
+  int mainPage ;
+  Function (MenuModal item)  hanlde ;
+  Widget child ;
+
+  DashboardMobile({super.key , required this.status , required this.mainPage , required this.hanlde , required this.child});
 
   @override
   State<DashboardMobile> createState() => _DashboardMobileState();
 }
 
 class _DashboardMobileState extends State<DashboardMobile> {
-  int mainPage = 4 ;
-  int status = 0 ;
 
-  Widget getPage() {
-    if(mainPage == 6) {
-      return HomeAdmin(isMobile: true,) ;
-    }
-    else if (mainPage == 4) {
-      return Profile() ;
-    }
-
-    return Container() ;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +28,14 @@ class _DashboardMobileState extends State<DashboardMobile> {
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
         drawer: Mydrawer(
-          selection: mainPage,
-          status: status,
+          selection: widget.mainPage,
+          status: widget.status,
           handle: (item) {
-            setState(() {
-              Navigator.pop(context) ;
-              if(item.title == "Admin") {
-                status = 1 ;
-                mainPage = item.id + 1;
-              }
-              else if(item.title == "Client") {
-                status = 0 ;
-                mainPage = 1 ;
-              }
-              else {
-                mainPage = item.id;
-              }
-            });
+            Navigator.pop(context) ;
+            widget.hanlde(item) ;
           },
         ),
-        body: getPage()
+        body: widget.child
     );
   }
 }

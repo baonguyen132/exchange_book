@@ -1,4 +1,3 @@
-var mainPage = 1 ;
 var mainLightDarkMode = true ;
 
 final location = "https://de46-2405-4802-b550-96a0-1856-563c-7ae8-990e.ngrok-free.app" ;
