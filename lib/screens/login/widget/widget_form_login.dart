@@ -23,6 +23,20 @@ class WidgetFormLogin extends StatefulWidget {
 
 class _WidgetFormLoginState extends State<WidgetFormLogin> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initPre() ;
+  }
+
+  initPre() async {
+    String? username =  await UserModel.loadUserName();
+    setState(() {
+      widget.emailController.text =  username;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -73,6 +87,9 @@ class _WidgetFormLoginState extends State<WidgetFormLogin> {
               children: [
                 Expanded(child:WidgetButtonLogin(handle: () async {
                   UserModel? user = await UserModel.login(widget.emailController.text, widget.passwordController.text);
+                  UserModel.saveAccount(widget.emailController.text, widget.passwordController.text) ;
+                  UserModel.saveUserData(user!) ;
+
                   Navigator.pushReplacementNamed(context, "/dashboard");
                 },)),
                 !widget.isDesktop ? const SizedBox(width: 20,) : Container() ,

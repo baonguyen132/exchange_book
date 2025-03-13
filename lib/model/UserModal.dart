@@ -1,7 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/ConstraintData.dart';
+import 'package:mime/mime.dart';
+
+
+import 'package:http_parser/http_parser.dart';
 
 class UserModel {
   String? id ;
@@ -13,6 +19,7 @@ class UserModel {
   String gender;
   String address;
   String token;
+  String? status ;
 
   UserModel({
     this.id ,
@@ -23,6 +30,7 @@ class UserModel {
     required this.dob,
     required this.gender,
     required this.address,
+    this.status ,
     this.token = "some_token",
   });
 
@@ -36,14 +44,29 @@ class UserModel {
       cccd: json[5].toString(),
       dob: (json[6]),
       gender: json[7].toString() ,
-      address: json[8].toString() ,
+      address: json[9].toString() ,
       token: json[10].toString() ,
+      status: json[4].toString()
     );
   }
-
+  factory UserModel.fromJsons(Map<String, dynamic> json) {
+    return UserModel(
+      id: json["id"].toString(),
+      name: json["name"].toString(),
+      email: json["email"].toString(),
+      password: json["password"].toString(),
+      cccd: json["cccd"].toString(),
+      dob: json["dob"].toString(),
+      gender: json["gender"].toString(),
+      address: json["address"].toString(),
+      token: json["token"].toString(),
+        status: json["status"].toString()
+    );
+  }
   // Chuyển từ Object thành JSON
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "email": email,
       "password": password,
@@ -51,6 +74,7 @@ class UserModel {
       "dob": dob,
       "gender": gender,
       "address": address,
+      "status": status ,
       "token": token,
     };
   }
@@ -113,5 +137,116 @@ class UserModel {
       print("Lỗi: ${response.statusCode}");
     }
   }
+
+  // Hàm lưu dữ liệu
+  static saveAccount(String username , String password) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance() ;
+    preferences.setString("username", username);
+    preferences.setString("password", password) ;
+  }
+  static Future<void> saveUserData(UserModel userData) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String jsonString = jsonEncode(userData.toJson()); // Chuyển đối tượng thành JSON
+    await preferences.setString("user_data", jsonString);
+  }
+
+  // Hàm load dữ liệu
+  static Future<String> loadUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString("username") ?? ""; // Trả về chuỗi rỗng nếu null
+  }
+
+  static Future<UserModel?> loadUserData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? jsonString = preferences.getString("user_data");
+
+
+    if (jsonString != null) {
+      try {
+        Map<String, dynamic> jsonData = jsonDecode(jsonString);
+        return UserModel.fromJsons(jsonData); // Chuyển đổi JSON thành UserModel
+      } catch (e) {
+        print("Lỗi khi parse JSON: $e");
+        return null;
+      }
+    }
+    return null;
+  }
+
+
+  // Hàm xoá dữ liêuj
+  static Future<void> removeUserData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove("user_data"); // Xóa dữ liệu user
+    print("Dữ liệu người dùng đã bị xoá!");
+  }
+
+  static Future<void> uploadImage(File _image, String cccd , String status , String id ) async {
+    if (_image == null) {
+      print("Không có ảnh để upload");
+      return;
+    }
+
+    try {
+      var uri = Uri.parse("$location/upload_image"); // Đổi IP nếu cần
+      var request = http.MultipartRequest('POST', uri);
+
+      request.fields['number'] = cccd;
+
+      request.fields['status'] = status ;
+
+      request.fields['id'] = id ;
+
+      // Lấy MIME type (nếu không tìm thấy, mặc định là image/jpeg)
+      var mimeType = lookupMimeType(_image!.path) ?? 'image/jpeg';
+
+      // Thêm file ảnh
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        _image!.path,
+        contentType: MediaType.parse(mimeType),
+      ));
+
+      // Gửi request
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        print("Upload thành công!");
+        print("Server response: $responseBody");
+      } else {
+        print("Upload thất bại! Mã lỗi: ${response.statusCode}");
+        print("Server response: $responseBody");
+      }
+    } catch (e) {
+      print("Lỗi khi upload ảnh: $e");
+    }
+  }
+
+  static Future<String?> export_image_avata(String id) async {
+    try {
+      var uri = Uri.parse("$location/export_image_avata"); // API đúng
+      var response = await http.post(
+        uri,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"id": id}),
+      );
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+
+        if (jsonResponse.containsKey("path")) {
+          return jsonResponse["path"][0].toString();
+        }
+      }
+    } catch (e) {
+      print("Lỗi kết nối API: $e");
+      return null;
+    }
+  }
+
+
+
+
 }
 

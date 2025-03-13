@@ -1,6 +1,6 @@
 var mainLightDarkMode = true ;
 
-final location = "https://de46-2405-4802-b550-96a0-1856-563c-7ae8-990e.ngrok-free.app" ;
+final location = "https://2d33-2405-4802-60be-8cd0-3858-f9df-d7e6-6263.ngrok-free.app" ;
 
 
 // Hàm chuyển số CCCD thành ngày tháng năm

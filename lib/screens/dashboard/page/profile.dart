@@ -6,6 +6,8 @@ import 'package:project_admin/screens/dashboard/page/widget/profile/product_prof
 import 'package:project_admin/screens/dashboard/page/widget/profile/user_profile_card.dart';
 import 'package:project_admin/theme/theme.dart';
 
+import '../../../model/UserModal.dart';
+
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -14,6 +16,20 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  UserModel user = UserModel(id: '', name: '', email: '', password: '', cccd: '', dob: '', gender: '', address: '', token: '');
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initLoadData() ;
+  }
+
+  Future<void> initLoadData() async {
+    UserModel? loadedUser = await UserModel.loadUserData(); // Chờ dữ liệu trước
+    setState(() {
+      user = loadedUser!;
+    });
+  }
 
   Widget getLayout(double width) {
     if(width < 1000 && width >=650) {
@@ -21,7 +37,7 @@ class _ProfileState extends State<Profile> {
         margin: EdgeInsets.all(16),
         child: Column(
           children: [
-            UserProfileCard(),
+            UserProfileCard(userModel: user,),
             SizedBox(height: 30,),
             IntroduceProfile(height: 400, weight: MediaQuery.of(context).size.width , margin: 0,),
             SizedBox(height: 30,),
@@ -35,7 +51,7 @@ class _ProfileState extends State<Profile> {
         margin: EdgeInsets.all(16),
         child: Column(
           children: [
-            UserProfileCard(ismobile: true,),
+            UserProfileCard(ismobile: true, userModel: user,),
             SizedBox(height: 10,),
             IntroduceProfile(height: 400, weight: MediaQuery.of(context).size.width , margin: 0,),
             SizedBox(height: 10,),
@@ -53,7 +69,7 @@ class _ProfileState extends State<Profile> {
                 margin: EdgeInsets.only(left: 10 , top: 10 , bottom: 10),
                 child: Column(
                   children: [
-                    UserProfileCard(),
+                    UserProfileCard(userModel: user,),
                     SizedBox(height: 10,),
                     ProductProfile()
                   ],

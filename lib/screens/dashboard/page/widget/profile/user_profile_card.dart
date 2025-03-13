@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:project_admin/model/UserModal.dart';
 import 'package:project_admin/screens/dashboard/page/widget/profile/user_profile_card_img.dart';
 import 'package:project_admin/screens/dashboard/page/widget/profile/user_profile_card_infor.dart';
 import 'package:project_admin/theme/theme.dart';
 
 class UserProfileCard extends StatefulWidget {
   bool ismobile  ;
-  UserProfileCard({super.key , this.ismobile = false});
+  UserModel userModel ;
+  UserProfileCard({super.key , this.ismobile = false , required this.userModel});
 
   @override
   State<UserProfileCard> createState() => _UserProfileCardState();
@@ -37,12 +39,12 @@ class _UserProfileCardState extends State<UserProfileCard> {
           children: [
             Container(
               width: 300,
-              child: UserProfileCardImg(isMobile: widget.ismobile,),
+              child: UserProfileCardImg(isMobile: widget.ismobile,userModel: widget.userModel,),
             ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(30),
-                child: UserProfileCardInfor()
+                child: UserProfileCardInfor(user: widget.userModel,)
               ),
             )
           ],
@@ -57,12 +59,13 @@ class _UserProfileCardState extends State<UserProfileCard> {
             height: 400,
             child: UserProfileCardImg(
               isMobile: widget.ismobile,
+              userModel: widget.userModel
             ),
           ),
           Container(
             margin: EdgeInsets.all(30),
             alignment: Alignment.topLeft,
-            child: UserProfileCardInfor()
+            child: UserProfileCardInfor(user: widget.userModel)
           )
 
         ],

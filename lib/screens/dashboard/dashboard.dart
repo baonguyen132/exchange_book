@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/model/MenuModal.dart';
+import 'package:project_admin/screens/dashboard/page/product.dart';
 
 import '../../util/responsive.dart';
 import 'dashboard_desktop.dart';
@@ -17,12 +18,14 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int mainPage = 1 ;
+  int mainPage = 2 ;
   int status = 0 ;
-
   Widget getPage(bool isMobile) {
     if(mainPage == 6) {
       return HomeAdmin(isMobile: isMobile,) ;
+    }
+    else if(mainPage == 2) {
+      return Product() ;
     }
     else if (mainPage == 4) {
       return Profile() ;
@@ -31,7 +34,6 @@ class _DashboardState extends State<Dashboard> {
     }
     return Container() ;
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -43,7 +43,7 @@ class _ProductProfileState extends State<ProductProfile> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: 350,
+            height: 500,
             padding: EdgeInsets.only(right: 20 , left: 20 , bottom: 20),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,

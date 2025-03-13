@@ -3,6 +3,7 @@ import 'package:project_admin/theme/theme.dart';
 
 import '../../../data/SideMenuData.dart';
 import '../../../model/MenuModal.dart';
+import '../../../model/UserModal.dart';
 import 'dark_light_mode.dart';
 import 'side_menu_widget.dart';
 
@@ -20,6 +21,34 @@ class Mydrawer extends StatefulWidget {
 }
 
 class _MydrawerState extends State<Mydrawer> {
+  UserModel? user ;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initLoadData() ;
+  }
+
+  Future<void> initLoadData() async {
+    UserModel? loadedUser = await UserModel.loadUserData(); // Chờ dữ liệu trước
+    setState(() {
+      user = loadedUser!;
+    });
+  }
+
+  Widget _buildMenuItem(int index) {
+    return SideMenuWidget(
+      item: listmenu.elementAt(index),
+      isSelected: widget.selection,
+      ontap: () {
+        setState(() {
+          widget.selection = listmenu.elementAt(index).id;
+          widget.handle(listmenu.elementAt(index));
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +102,25 @@ class _MydrawerState extends State<Mydrawer> {
                         ],
                       ),
                     ),
-                    Column(
-                      children: listmenu
-                          .where((item) => item.status == widget.status)
-                          .map((item) => SideMenuWidget(
-                        item: item,
-                        isSelected: widget.selection,
-                        ontap: () {
-                          setState(() {
-                            widget.selection = item.id;
-                            widget.handle(item);
-                          });
-                        },
-                      )).toList(),
+                    widget.status == 0
+                        ? Column(
+                      children: [
+                        _buildMenuItem(0),
+                        _buildMenuItem(1),
+                        if (user != null) ...[
+                          _buildMenuItem(2),
+                          _buildMenuItem(3),
+                          if (user?.status == "5") _buildMenuItem(4),
+                        ],
+                      ],
                     )
+                        : Column(
+                      children: [
+                        _buildMenuItem(5),
+                        _buildMenuItem(6),
+                        _buildMenuItem(7),
+                      ],
+                    ),
                   ],
                 ),
 
@@ -106,6 +140,11 @@ class _MydrawerState extends State<Mydrawer> {
                               cursor: SystemMouseCursors.click,
                               child: GestureDetector(
                                 onTap: () {
+                                  if(user == null) {
+                                  }
+                                  else {
+                                    UserModel.removeUserData() ;
+                                  }
                                   Navigator.pushReplacementNamed(context, "/login") ;
                                 },
                                 child: Row(
@@ -113,12 +152,12 @@ class _MydrawerState extends State<Mydrawer> {
                                     Padding(
                                       padding: EdgeInsets.all(13),
                                       child: Icon(
-                                        Icons.login,
+                                        user == null ? Icons.login :Icons.logout  ,
                                         color: Theme.of(context).colorScheme.maintext,
                                       ),
                                     ),
                                     Text(
-                                      "Log in",
+                                      user == null ?  "Log in" : "Log out" ,
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Theme.of(context).colorScheme.maintext
