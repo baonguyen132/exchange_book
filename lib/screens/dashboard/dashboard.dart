@@ -8,7 +8,7 @@ import 'dashboard_mobile.dart';
 import 'dashboard_tablet.dart';
 import 'page/home_admin.dart';
 import 'page/profile.dart';
-import 'page/test.dart';
+import 'page/history.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -18,7 +18,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int mainPage = 2 ;
+  int mainPage = 3 ;
   int status = 0 ;
   Widget getPage(bool isMobile) {
     if(mainPage == 6) {
@@ -30,7 +30,7 @@ class _DashboardState extends State<Dashboard> {
     else if (mainPage == 4) {
       return Profile() ;
     }else if(mainPage ==3){
-      return Test();
+      return History();
     }
     return Container() ;
   }
