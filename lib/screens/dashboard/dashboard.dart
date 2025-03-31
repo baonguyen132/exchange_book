@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/model/MenuModal.dart';
+import 'package:project_admin/screens/dashboard/page/home.dart';
 import 'package:project_admin/screens/dashboard/page/product.dart';
 
 import '../../util/responsive.dart';
@@ -31,6 +32,8 @@ class _DashboardState extends State<Dashboard> {
       return Profile() ;
     }else if(mainPage ==3){
       return History();
+    }else if(mainPage ==1){
+      return Home();
     }
     return Container() ;
   }

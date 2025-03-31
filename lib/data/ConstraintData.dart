@@ -1,6 +1,6 @@
 var mainLightDarkMode = true ;
 
-final location = "https://059a-2405-4802-60be-8cd0-c59-93f4-bf64-b997.ngrok-free.app" ;
+final location = "https://steady-sharply-ibex.ngrok-free.app" ;
 // final location = "http://localhost:5000/" ;
 
 
