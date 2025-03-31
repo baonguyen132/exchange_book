@@ -220,15 +220,20 @@ class _PostButton extends StatelessWidget {
         color: Colors.white,
         child: InkWell(
           onTap: onTap,
+          borderRadius: BorderRadius.circular(8.0), // Bo góc khi nhấn
+          splashColor: Colors.blue.withOpacity(0.3), // Hiệu ứng khi nhấn
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            height: 25.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            height: 45.0, // Tăng chiều cao để dễ nhấn hơn
+            alignment: Alignment.center,
+            child: Wrap(
+              spacing: 4.0,
+              alignment: WrapAlignment.center,
               children: [
-                icon,
+                if (icon is IconData) Icon(icon as IconData?, size: 20.0), // Đảm bảo `icon` hợp lệ
+                if (icon is Widget) icon, // Nếu là widget thì hiển thị trực tiếp
                 const SizedBox(width: 4.0),
-                Text(label),
+                Text(label, style: TextStyle(fontSize: 14.0)), // Tăng readability
               ],
             ),
           ),
@@ -236,4 +241,5 @@ class _PostButton extends StatelessWidget {
       ),
     );
   }
+
 }

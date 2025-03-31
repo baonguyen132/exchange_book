@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 
-class WigetTextfieldCustome extends StatefulWidget {
+class WidgetTextfieldArea extends StatefulWidget {
   TextEditingController controller ;
   TextInputType textInputType ;
   String hint ;
   IconData iconData ;
 
-  
-  Function (String value)? onChange ;
-
-
-  WigetTextfieldCustome({
-    super.key, 
-    required this.controller, 
-    required this.textInputType, 
-    required this.hint, 
+  WidgetTextfieldArea({
+    super.key,
+    required this.controller,
+    required this.textInputType,
+    required this.hint,
     required this.iconData,
-    this.onChange
+
   });
 
   @override
-  State<WigetTextfieldCustome> createState() => _WigetTextfieldCustomeState();
+  State<WidgetTextfieldArea> createState() => _WidgetTextfieldAreaState();
 }
 
-class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
+class _WidgetTextfieldAreaState extends State<WidgetTextfieldArea> {
   final FocusNode _focusNode = FocusNode() ;
   bool _isFocus = false ;
 
@@ -36,6 +32,7 @@ class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
       });
     },);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +63,6 @@ class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
               )
           )
       ),
-      onChanged: (value) {
-        if(widget.onChange!=null) {
-          widget.onChange!(value) ;
-        }
-      },
     );
   }
 }

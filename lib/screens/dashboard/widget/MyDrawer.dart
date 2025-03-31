@@ -33,7 +33,10 @@ class _MydrawerState extends State<Mydrawer> {
   Future<void> initLoadData() async {
     UserModel? loadedUser = await UserModel.loadUserData(); // Chờ dữ liệu trước
     setState(() {
-      user = loadedUser!;
+      if(loadedUser != null) {
+        user = loadedUser;
+      }
+
     });
   }
 
