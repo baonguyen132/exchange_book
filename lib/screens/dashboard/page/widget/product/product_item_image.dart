@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductItemImage extends StatefulWidget {
   double width ;
   double height ;
-  BorderRadius borderRadius ;
-  ProductItemImage({super.key , required this.width , required this.height , required this.borderRadius});
+  ProductItemImage({super.key , required this.width , required this.height});
 
   @override
   State<ProductItemImage> createState() => _ProductItemImageState();
@@ -17,12 +17,36 @@ class _ProductItemImageState extends State<ProductItemImage> {
       height: widget.height,
       width: widget.width,
       decoration: BoxDecoration(
-        borderRadius: widget.borderRadius,
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
-          image: NetworkImage(
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-hhlczgZCexRKviMmym1IW_Xngpb6ec3BWQ&s"),
+          image: NetworkImage("https://nld.mediacdn.vn/2020/9/7/anh-1-15994611977581569666831.gif"),
           fit: BoxFit.cover,
-        ),
+        )
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+              top: 20,
+              right: 20,
+              child: GestureDetector(
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      color: Colors.white
+                    ),
+                    child: Icon(
+                      CupertinoIcons.heart_fill,
+                      size: 30,
+                      
+                    ),
+                  ),
+                ),
+              )
+          )
+        ],
       ),
     );
   }

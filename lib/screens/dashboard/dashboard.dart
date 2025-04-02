@@ -20,7 +20,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int mainPage = 1 ;
+  int mainPage = 2 ;
   int status = 0 ;
   Widget getPage(bool isMobile) {
     if(mainPage == 6) {

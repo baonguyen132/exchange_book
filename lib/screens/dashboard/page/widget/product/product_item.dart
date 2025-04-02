@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/product_item_button.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/product_item_image.dart';
@@ -14,60 +15,40 @@ class ProductItem extends StatefulWidget {
 class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).size.width > 1000 ?
-    Container(
-      height: 240,
-      width: 360,
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all(
-              color: Colors.blue,
-              width: 3
-          )
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ProductItemImage(
-              width: 150,
-              height: MediaQuery.of(context).size.height,
-              borderRadius: const  BorderRadius.only(
-                topLeft: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-              )
-          ),
-          ProductItemInfor(),
-
-        ],
-      ),
-
-    )
-
-    :
-
-    Container(
-      height: 480,
-      width: 330,
+    return Container(
+      width: 300,
       margin: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all(
-              color: Colors.blue,
-              width: 3
-          )
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              offset: Offset(0, 3), // Bóng dịch xuống một chút
+              blurRadius: 10, // Làm mềm bóng hơn
+              spreadRadius: 2, // Giảm độ lan để giữ rõ viền bo
+            )
+          ],
+        color: Colors.white
       ),
       child: Column(
         children: [
           ProductItemImage(
             width: MediaQuery.of(context).size.width,
-            height: 300,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-            ),
+            height: 250,
           ),
-          ProductItemInfor()
+          SizedBox(height: 20,),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                  child: ProductItemInfor()
+              ),
+              ProductItemButton(hanlde: () {
+
+              },)
+            ],
+          )
         ],
       ),
     );

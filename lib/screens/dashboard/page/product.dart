@@ -17,22 +17,9 @@ class _ProductState extends State<Product> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          height: 80,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.mainCard,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2), // Màu bóng
-                blurRadius: 6, // Độ mờ bóng
-                spreadRadius: 2, // Độ lan của bóng
-                offset: Offset(0, 4), // Dịch bóng xuống dưới
-              ),
-            ],
-          ),
-        ),
-        Container(
-          child: Wrap(
-            alignment: MediaQuery.of(context).size.width > 500 ? WrapAlignment.spaceAround : WrapAlignment.center,
+          height: 500,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
             children: [
               ProductItem(),
               ProductItem(),
