@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/product_item_button.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/product_item_text.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:project_admin/screens/dashboard/widget/card/card_item_text.dart';
 
 class ProductItemInfor extends StatefulWidget {
   const ProductItemInfor({super.key});
@@ -21,11 +19,11 @@ class _ProductItemInforState extends State<ProductItemInfor> {
 
         crossAxisAlignment: CrossAxisAlignment.start, // Căn trái
         children: [
-          ProductItemText(text: "Tiếng việt tập 1", fontWeight: FontWeight.bold),
+          CardItemText(text: "Tiếng việt tập 1", fontWeight: FontWeight.bold),
           SizedBox(height: 10),
-          ProductItemText(text: "mô tả, mô tả, mô tả, mô tả, mô tả, mô tả, mô tả,", fontWeight: FontWeight.normal),
+          CardItemText(text: "mô tả, mô tả, mô tả, mô tả, mô tả, mô tả, mô tả,", fontWeight: FontWeight.normal),
           SizedBox(height: 10),
-          ProductItemText(text: "10.000vnd", fontWeight: FontWeight.normal),
+          CardItemText(text: "10.000vnd", fontWeight: FontWeight.normal),
         ],
       ),
     );

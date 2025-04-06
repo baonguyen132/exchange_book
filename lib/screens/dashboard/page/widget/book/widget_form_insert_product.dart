@@ -148,9 +148,13 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
           SizedBox(height: 20,),
           WidgetButtonCustom(
               handle: () {
-                TypeBookModal.insertBook(
+                TypeBookModal.updateDatabaseTypeBook(
                   TypeBookModal(name_book: name_book.text, type_book: type_book.text, description: description.text ,image: path),
-                      () {},
+                  location+"/insertBook",
+                  () {
+
+                  },
+
                 );
                 setState(() {
                   name_book.text = "" ;

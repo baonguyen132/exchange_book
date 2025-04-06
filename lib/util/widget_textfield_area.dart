@@ -40,6 +40,10 @@ class _WidgetTextfieldAreaState extends State<WidgetTextfieldArea> {
       focusNode:  _focusNode,
       controller: widget.controller,
       keyboardType: widget.textInputType,
+      minLines: 1,            // chiều cao tối thiểu (có thể điều chỉnh)
+      maxLines: null,         // cho phép tự động giãn
+      expands: false,
+
       style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500

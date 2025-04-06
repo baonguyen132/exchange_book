@@ -30,18 +30,32 @@ class TypeBookModal {
 
 
 
-  static Future<void> insertBook(TypeBookModal user, Function () handle) async {
-
+  static Future<void> updateDatabaseTypeBook(TypeBookModal user , String path , Function () handle ) async {
     final response = await http.post(
-      Uri.parse(location+"/insertBook"),
+      Uri.parse(path),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(user.toJson()), // Chuyển đổi model thành JSON
     );
-
     if (response.statusCode == 200) {
       handle() ;
     } else {
       print("Lỗi: ${response.body}");
     }
+  }
+
+  static Future<List<TypeBookModal>> exportBook(Function () handle) async {
+    List<TypeBookModal> list = [] ;
+    
+    final respone = await http.post(
+      Uri.parse(location+"/exportBook"),
+      headers: {"Content-Type": "application/json"},
+    ) ;
+
+    List<dynamic> data = jsonDecode(respone.body) ;
+    for(var item in data) {
+      list.add(TypeBookModal(id: item[0].toString() , name_book: item[1], type_book: item[2], description:item[4], image: item[3]));
+    }
+    return list ;
+
   }
 }

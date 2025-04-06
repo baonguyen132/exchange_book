@@ -4,6 +4,7 @@ import 'package:project_admin/screens/dashboard/page/book.dart';
 import 'package:project_admin/screens/dashboard/page/home.dart';
 import 'package:project_admin/screens/dashboard/page/product.dart';
 
+import '../../model/TypeBookModal.dart';
 import '../../util/responsive.dart';
 import 'dashboard_desktop.dart';
 import 'dashboard_mobile.dart';
@@ -20,8 +21,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int mainPage = 2 ;
-  int status = 0 ;
+  int mainPage = 7 ;
+  int status = 1 ;
+
   Widget getPage(bool isMobile) {
     if(mainPage == 6) {
       return HomeAdmin(isMobile: isMobile,) ;
@@ -68,7 +70,7 @@ class _DashboardState extends State<Dashboard> {
           hanlde: (item) {
             handle(item);
           },
-          child: getPage(false),
+          child:  getPage(false),
         ),
         mobile: DashboardMobile(
           status: status,

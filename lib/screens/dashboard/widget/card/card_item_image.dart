@@ -1,29 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ProductItemImage extends StatefulWidget {
+class CardItemImage extends StatefulWidget {
   double width ;
   double height ;
-  ProductItemImage({super.key , required this.width , required this.height});
+  double borderRadius ;
+
+  String link ;
+
+  bool heart ;
+  CardItemImage({super.key , required this.width , required this.height, required this.borderRadius , required this.heart , required this.link});
 
   @override
-  State<ProductItemImage> createState() => _ProductItemImageState();
+  State<CardItemImage> createState() => _CardItemImageState();
 }
 
-class _ProductItemImageState extends State<ProductItemImage> {
+class _CardItemImageState extends State<CardItemImage> {
   @override
   Widget build(BuildContext context) {
     return Container(
       height: widget.height,
       width: widget.width,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(30)),
+        borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius)),
         image: DecorationImage(
-          image: NetworkImage("https://nld.mediacdn.vn/2020/9/7/anh-1-15994611977581569666831.gif"),
+          image: NetworkImage(widget.link),
           fit: BoxFit.cover,
         )
       ),
-      child: Stack(
+      child: widget.heart ? Stack(
         children: [
           Positioned(
               top: 20,
@@ -47,7 +52,7 @@ class _ProductItemImageState extends State<ProductItemImage> {
               )
           )
         ],
-      ),
+      ):Container(),
     );
   }
 }

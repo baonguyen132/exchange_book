@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
     final List<Post> posts = [
       Post(
         user: currentUser,
-        caption: 'Hello tui là Phương đâyyy',
+        caption: 'Hello tui là bé Phương đâyyy',
         timeAgo: '5m',
         imageUrl: null,
         likes: 120,

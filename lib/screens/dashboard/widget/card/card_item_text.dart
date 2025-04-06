@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/theme/theme.dart';
 
-class ProductItemText extends StatefulWidget {
+class CardItemText extends StatefulWidget {
   String text ;
   FontWeight fontWeight ;
 
-  ProductItemText({super.key , required this.text , required this.fontWeight});
+  CardItemText({super.key , required this.text , required this.fontWeight});
 
   @override
-  State<ProductItemText> createState() => _ProductItemTextState();
+  State<CardItemText> createState() => _CardItemTextState();
 }
 
-class _ProductItemTextState extends State<ProductItemText> {
+class _CardItemTextState extends State<CardItemText> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
