@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const cardBackgroundColor = Color(0xFF21222D) ;
 const secondaryColor = Color(0xffffffff) ;
 const selection = Color(0xff88b2ac) ;
-Color? shadowColor = Colors.grey[500] ;
+Color? shadowColor = Colors.grey[800] ;
 
 
 const primaryColor = Colors.blueAccent;

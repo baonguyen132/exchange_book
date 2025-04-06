@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/product_item_button.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/product_item_infor.dart';
+import 'package:project_admin/theme/theme.dart';
 
 import '../../../widget/card/card_item_image.dart';
 
@@ -24,13 +25,13 @@ class _BestItemState extends State<BestItem> {
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.shade300,
+              color: Theme.of(context).shadowColor,
               offset: Offset(0, 3), // Bóng dịch xuống một chút
               blurRadius: 10, // Làm mềm bóng hơn
               spreadRadius: 2, // Giảm độ lan để giữ rõ viền bo
             )
           ],
-          color: Colors.white
+          color: Theme.of(context).colorScheme.mainCard
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

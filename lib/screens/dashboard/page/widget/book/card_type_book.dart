@@ -4,6 +4,7 @@ import 'package:project_admin/data/ConstraintData.dart';
 import 'package:project_admin/model/TypeBookModal.dart';
 import 'package:project_admin/screens/dashboard/page/widget/book/card_type_book_button.dart';
 import 'package:project_admin/screens/dashboard/page/widget/book/card_type_book_infor.dart';
+import 'package:project_admin/screens/dashboard/page/widget/book/card_type_mobile.dart';
 
 import '../../../widget/card/card_item.dart';
 
@@ -21,8 +22,18 @@ class CardTypeBook extends StatefulWidget {
 class _CardTypeBookState extends State<CardTypeBook> {
   @override
   Widget build(BuildContext context) {
-    return CardItem(
-        width: MediaQuery.of(context).size.width < 500 ? MediaQuery.of(context).size.width : 350,
+    return MediaQuery.of(context).size.width < 500 ?
+    CardTypeMobile(
+        typeBookModal: widget.typeBookModal,
+        delete: (typeBookModal) {
+          widget.delete(widget.typeBookModal);
+        },
+        edit: (typeBookModal) {
+           widget.edit(widget.typeBookModal) ;
+        },)
+        :
+    CardItem(
+        width:  350,
         heart: false,
         link: location+widget.typeBookModal.image,
         body: Row(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/data/ConstraintData.dart';
 import 'package:project_admin/screens/dashboard/page/widget/book/card_type_book.dart';
+import 'package:project_admin/screens/dashboard/widget/card/card_item_text.dart';
+import 'package:project_admin/theme/theme.dart';
 
 import '../../../../../model/TypeBookModal.dart';
 import '../../../../../util/widget_textfield_area.dart';
@@ -8,8 +10,11 @@ import '../../../../../util/wiget_textfield_custome.dart';
 
 
 class WidgetListProduct extends StatefulWidget {
+  Function (TypeBookModal typeBookModal) update ;
+  Function (TypeBookModal typeBookModal) delete ;
+
   List<TypeBookModal> list ;
-  WidgetListProduct({super.key , required this.list});
+  WidgetListProduct({super.key , required this.list , required this.update , required this.delete});
 
   @override
   State<WidgetListProduct> createState() => _WidgetListProductState();
@@ -33,11 +38,24 @@ class _WidgetListProductState extends State<WidgetListProduct> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Row(
+          title: Wrap(
+            alignment: WrapAlignment.center,
             children: [
-              Icon(Icons.edit, color: Theme.of(context).primaryColor),
-              SizedBox(width: 8),
-              Text("Chỉnh sửa thông tin sách"),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Chỉnh sửa thông tin", // Phần có màu mặc định
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.maintext, // Đổi màu tùy theo theme nếu cần
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           content: SingleChildScrollView(
@@ -106,6 +124,7 @@ class _WidgetListProductState extends State<WidgetListProduct> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 25),
       child: SingleChildScrollView(
         child: Wrap(
           alignment: WrapAlignment.spaceAround,
@@ -113,33 +132,11 @@ class _WidgetListProductState extends State<WidgetListProduct> {
             typeBookModal: widget.list[index],
             edit: (typeBookModal) {
               showEditProductDialog(context, typeBookModal, (typeBookModal) {
-                TypeBookModal.updateDatabaseTypeBook(
-                  typeBookModal,
-                  location+"/updateBook" ,
-                  () {},
-                );
-                setState(() {
-                  for(int i = 0 ; i < widget.list.length ; i++) {
-                    if(widget.list[i].id == typeBookModal.id) {
-                      widget.list[i] = typeBookModal ;
-                    }
-                  }
-                });
+                widget.update(typeBookModal) ;
               },);
             },
             delete: (typeBookModal) {
-              TypeBookModal.updateDatabaseTypeBook(
-                typeBookModal,
-                location+"/deleteBook" ,
-                    () {},
-              );
-              setState(() {
-                for(int i = 0 ; i < widget.list.length ; i++) {
-                  if(widget.list[i].id == typeBookModal.id) {
-                    widget.list.removeAt(i) ;
-                  }
-                }
-              });
+              widget.delete(typeBookModal);
             },
           ),),
         ),

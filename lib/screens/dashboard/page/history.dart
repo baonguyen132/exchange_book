@@ -12,6 +12,8 @@ class _HistoryState extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      
+    );
   }
 }

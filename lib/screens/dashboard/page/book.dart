@@ -3,6 +3,8 @@ import 'package:project_admin/model/TypeBookModal.dart';
 import 'package:project_admin/screens/dashboard/page/widget/book/widget_form_insert_product.dart';
 import 'package:project_admin/screens/dashboard/page/widget/book/widget_list_product.dart';
 
+import '../../../data/ConstraintData.dart';
+
 class Book extends StatefulWidget {
 
   Book({super.key});
@@ -16,7 +18,10 @@ class _BookState extends State<Book> {
   bool frame = true ;
 
   void loadData() async {
-    list = await TypeBookModal.exportBook(() {},);
+    final result = await TypeBookModal.exportBook(() {},) ;
+    setState(() {
+      list = result ;
+    });
   }
 
   @override
@@ -24,14 +29,57 @@ class _BookState extends State<Book> {
     // TODO: implement initState
     super.initState();
     loadData() ;
+
   }
 
   Widget getFrame() {
     if(frame) {
-      return WidgetListProduct(list: list,);
+      return WidgetListProduct(
+        list: list,
+        update: (typeBookModal) {
+          TypeBookModal.updateDatabaseTypeBook(
+            typeBookModal,
+            location+"/updateBook" ,
+                () {},
+          );
+          setState(() {
+            for(int i = 0 ; i < list.length ; i++) {
+              if(list[i].id == typeBookModal.id) {
+                list[i] = typeBookModal ;
+              }
+            }
+          });
+        },
+        delete: (typeBookModal) {
+          TypeBookModal.updateDatabaseTypeBook(
+            typeBookModal,
+            location+"/deleteBook" ,
+                () {},
+          );
+          setState(() {
+            for(int i = 0 ; i < list.length ; i++) {
+              if(list[i].id == typeBookModal.id) {
+                list.removeAt(i) ;
+              }
+            }
+          });
+        },
+      );
     }
     else {
-      return WidgetFormInsertProduct();
+      return WidgetFormInsertProduct(
+        insert: (typeBookModal) {
+          list.add(typeBookModal) ;
+          TypeBookModal.updateDatabaseTypeBook(
+            typeBookModal,
+            "$location/insertBook",
+                () {
+
+                },
+
+          );
+        },
+      );
     }
   }
 

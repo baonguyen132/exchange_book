@@ -16,6 +16,7 @@ class CardItemImage extends StatefulWidget {
 }
 
 class _CardItemImageState extends State<CardItemImage> {
+  bool clickheart = false ;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,6 +35,11 @@ class _CardItemImageState extends State<CardItemImage> {
               top: 20,
               right: 20,
               child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    clickheart =!clickheart ;
+                  });
+                },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(
@@ -44,6 +50,7 @@ class _CardItemImageState extends State<CardItemImage> {
                     ),
                     child: Icon(
                       CupertinoIcons.heart_fill,
+                      color: clickheart ? Colors.red : Colors.black,
                       size: 30,
                       
                     ),

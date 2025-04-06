@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/home_admin.dart';
-import 'package:project_admin/screens/dashboard/page/profile.dart';
-
-
-import '../../data/ConstraintData.dart';
+import 'package:project_admin/screens/dashboard/widget/bottom_nav_bar.dart';
 import '../../model/MenuModal.dart';
-import 'widget/MyDrawer.dart';
-
 class DashboardTablet extends StatefulWidget {
   int status ;
   int mainPage ;
@@ -22,19 +16,15 @@ class _DashboardTabletState extends State<DashboardTablet> {
 
 @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-      ),
-      drawer: Mydrawer(
-        status: widget.status,
-        selection: widget.mainPage,
-        handle: (item) {
-          Navigator.pop(context) ;
-          widget.hanlde(item) ;
-        },
-      ),
-      body: widget.child
-    );
+  return Scaffold(
+    body: widget.child,
+    bottomNavigationBar: BottomNavBar(
+      selection: widget.mainPage,
+      status: widget.status,
+      handle: (item) {
+        widget.hanlde(item) ;
+      },
+    ),
+  );
   }
 }

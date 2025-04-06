@@ -15,7 +15,9 @@ import 'package:http/http.dart' as http;
 import '../../../../../util/wiget_textfield_custome.dart';
 
 class WidgetFormInsertProduct extends StatefulWidget {
-  const WidgetFormInsertProduct({super.key});
+  Function (TypeBookModal typeBookModal ) insert ;
+  WidgetFormInsertProduct({super.key , required this.insert});
+
   @override
   State<WidgetFormInsertProduct> createState() => _WidgetFormInsertProductState();
 }
@@ -112,7 +114,7 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
                     onTap: () {
                       _pickImage(ImageSource.gallery) ;
                     },
-                    child: MouseRegion(
+                    child:const  MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -148,14 +150,7 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
           SizedBox(height: 20,),
           WidgetButtonCustom(
               handle: () {
-                TypeBookModal.updateDatabaseTypeBook(
-                  TypeBookModal(name_book: name_book.text, type_book: type_book.text, description: description.text ,image: path),
-                  location+"/insertBook",
-                  () {
-
-                  },
-
-                );
+                widget.insert(TypeBookModal(name_book: name_book.text, type_book: type_book.text, description: description.text ,image: path));
                 setState(() {
                   name_book.text = "" ;
                   type_book.text = "" ;

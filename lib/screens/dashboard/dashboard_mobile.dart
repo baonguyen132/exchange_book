@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/screens/dashboard/page/home_admin.dart';
 import 'package:project_admin/screens/dashboard/page/profile.dart';
+import 'package:project_admin/screens/dashboard/widget/bottom_nav_bar.dart';
 
 import '../../data/ConstraintData.dart';
 import '../../model/MenuModal.dart';
@@ -24,18 +25,14 @@ class _DashboardMobileState extends State<DashboardMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
-        ),
-        drawer: Mydrawer(
-          selection: widget.mainPage,
-          status: widget.status,
-          handle: (item) {
-            Navigator.pop(context) ;
-            widget.hanlde(item) ;
-          },
-        ),
-        body: widget.child
+      body: widget.child,
+      bottomNavigationBar: BottomNavBar(
+        selection: widget.mainPage,
+        status: widget.status,
+        handle: (item) {
+          widget.hanlde(item) ;
+        },
+      ),
     );
   }
 }

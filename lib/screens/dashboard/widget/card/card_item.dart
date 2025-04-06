@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_admin/theme/theme.dart';
 
 import 'card_item_image.dart';
 
@@ -25,13 +26,13 @@ class _CardItemState extends State<CardItem> {
           borderRadius: BorderRadius.all(Radius.circular(30)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.shade300,
+              color: Theme.of(context).shadowColor,
               offset: Offset(0, 3), // Bóng dịch xuống một chút
               blurRadius: 10, // Làm mềm bóng hơn
               spreadRadius: 2, // Giảm độ lan để giữ rõ viền bo
             )
           ],
-        color: Colors.white
+        color: Theme.of(context).colorScheme.mainCard
       ),
       child: Column(
         children: [
