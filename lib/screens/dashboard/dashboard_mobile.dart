@@ -20,17 +20,29 @@ class DashboardMobile extends StatefulWidget {
 }
 
 class _DashboardMobileState extends State<DashboardMobile> {
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Mydrawer(
+          selection: widget.mainPage,
+          handle: (item) {
+            Navigator.pop(context) ;
+            widget.hanlde(item) ;
+          },
+          status: widget.status
+      ),
       body: widget.child,
       bottomNavigationBar: BottomNavBar(
         selection: widget.mainPage,
         status: widget.status,
         handle: (item) {
           widget.hanlde(item) ;
+        },
+        openDraw: () {
+          _scaffoldKey.currentState?.openDrawer() ;
         },
       ),
     );

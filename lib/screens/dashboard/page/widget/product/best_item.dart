@@ -18,7 +18,7 @@ class _BestItemState extends State<BestItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: min(MediaQuery.of(context).size.width, 500),
+      width: min(MediaQuery.of(context).size.width, 550),
       margin: EdgeInsets.symmetric(horizontal: 20 , vertical:10),
       padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
       decoration: BoxDecoration(

@@ -39,7 +39,7 @@ class _BookState extends State<Book> {
         update: (typeBookModal) {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
-            location+"/updateBook" ,
+            location+"/updateTypeBook" ,
                 () {},
           );
           setState(() {
@@ -53,7 +53,7 @@ class _BookState extends State<Book> {
         delete: (typeBookModal) {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
-            location+"/deleteBook" ,
+            location+"/deleteTypeBook" ,
                 () {},
           );
           setState(() {
@@ -72,7 +72,7 @@ class _BookState extends State<Book> {
           list.add(typeBookModal) ;
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
-            "$location/insertBook",
+            "$location/insertTypeBook",
                 () {
 
                 },

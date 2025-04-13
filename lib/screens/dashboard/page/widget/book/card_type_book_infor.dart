@@ -27,8 +27,12 @@ class _CardTypeBookInforState extends State<CardTypeBookInfor> {
           SizedBox(height: 10),
           CardItemText(text: widget.typeBookModal.type_book, fontWeight: FontWeight.bold),
           SizedBox(height: 10),
+          CardItemText(text: widget.typeBookModal.price, fontWeight: FontWeight.normal),
+          SizedBox(height: 10,),
           CardItemText(text: widget.typeBookModal.description, fontWeight: FontWeight.normal),
-          SizedBox(height: 20,)
+          SizedBox(height: 20,),
+
+
         ],
       ),
     );

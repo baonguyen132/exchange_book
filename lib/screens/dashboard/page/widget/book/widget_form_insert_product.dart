@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mime/mime.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:project_admin/model/TypeBookModal.dart';
 import 'package:project_admin/screens/dashboard/page/widget/history/widget_button_custom.dart';
 import 'package:project_admin/util/widget_textfield_area.dart';
@@ -32,52 +30,21 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
 
   TextEditingController name_book = TextEditingController() ;
   TextEditingController type_book = TextEditingController();
+  TextEditingController price = TextEditingController() ;
+
   TextEditingController description = TextEditingController();
 
-  static Future<List<String>?> uploadImage(File _image) async {
-    try {
-      var uri = Uri.parse("$location/upload_image_book"); // Đổi IP nếu cần
-      var request = http.MultipartRequest('POST', uri);
 
-      var mimeType = lookupMimeType(_image.path) ?? 'image/jpeg';
-
-      request.files.add(await http.MultipartFile.fromPath(
-        'image',
-        _image.path,
-        contentType: MediaType.parse(mimeType),
-      ));
-
-      var response = await request.send();
-      var responseBody = await response.stream.bytesToString();
-
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(responseBody);
-
-        List<String> data = [];
-        data.add(jsonResponse["file_path"]) ;
-        data.add(jsonResponse["label"]) ;
-        data.add(jsonResponse["number"]) ;
-
-        return data;
-      } else {
-        print("Upload thất bại! Mã lỗi: ${response.statusCode}");
-        return null;
-      }
-    } catch (e) {
-      print("Lỗi khi upload ảnh: $e");
-      return null;
-    }
-  }
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null)  {
       path = "" ;
       _image = File(pickedFile.path);
-      List<String> data = (await uploadImage(_image!))! ;
-      path = data[0];
+      List<String> data = (await TypeBookModal.uploadImageScan(_image!))! ;
       setState(() {
-        name_book.text = data[1] ;
+        path = data[0];
+        name_book.text = "${data[1]} ${data[2]}" ;
         type_book.text = "Sách lớp ${data[2]}"  ;
         icon = Icons.check ;
         color = Colors.green ;
@@ -94,6 +61,9 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
           WigetTextfieldCustome(controller: name_book, textInputType: TextInputType.text, hint: "Nhập tên sách", iconData: Icons.drive_file_rename_outline),
           SizedBox(height: 20,),
           WigetTextfieldCustome(controller: type_book, textInputType: TextInputType.text, hint: "Nhập loại sách", iconData: Icons.book),
+          SizedBox(height: 20,),
+
+          WigetTextfieldCustome(controller: price, textInputType: TextInputType.text, hint: "Nhập giá sách", iconData: Icons.price_change_outlined),
           SizedBox(height: 20,),
 
           Container(
@@ -137,7 +107,7 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
                 ),
                 Expanded(
                     child: Center(
-                      child: Text("Chưa có ảnh"),
+                      child: Text(path != "" ? "Hình ảnh đã upload" : "Chưa có ảnh"),
                     )
                 )
               ],
@@ -150,10 +120,11 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
           SizedBox(height: 20,),
           WidgetButtonCustom(
               handle: () {
-                widget.insert(TypeBookModal(name_book: name_book.text, type_book: type_book.text, description: description.text ,image: path));
+                widget.insert(TypeBookModal(name_book: name_book.text, type_book: type_book.text, price: price.text , description: description.text ,image: path));
                 setState(() {
                   name_book.text = "" ;
                   type_book.text = "" ;
+                  price.text = "" ;
                   description.text = "" ;
                   path = "" ;
                 });

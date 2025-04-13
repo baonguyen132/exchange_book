@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:project_admin/theme/theme.dart';
 
@@ -10,12 +11,13 @@ class BottomNavBar extends StatefulWidget {
   int status;
 
   final Function(MenuModal item) handle;
-
+  final Function() openDraw ;
   BottomNavBar({
     super.key,
     required this.selection,
     required this.status,
     required this.handle,
+    required this.openDraw
   });
 
   @override
@@ -39,47 +41,51 @@ class _BottomNavBarState extends State<BottomNavBar> {
     });
   }
 
-  List<BottomNavigationBarItem> _buildMenuItems() {
-    // Dựa vào status và trạng thái user, ta sẽ quyết định số lượng item cho navigation bar
+  List<Widget> _buildMenuItems() {
     if (widget.status == 0) {
-      menuIndexes = [0, 1]; // 2 item cơ bản
-      if (user != null) {
-        menuIndexes.addAll([2, 3]); // Thêm 2 item nếu có user
-        if (user?.status == "5") {
-          menuIndexes.add(4); // Thêm item đặc biệt nếu user có quyền admin
-        }
-      }
+      menuIndexes = [0, 1];
     } else {
-      menuIndexes = [5, 6, 7]; // 3 item cho status khác 0
+      menuIndexes = [5, 6];
     }
 
-    return menuIndexes.map((index) {
-      return BottomNavigationBarItem(
-        icon: Icon(listmenu[index].icon),
-        label: listmenu[index].title,
+    List<Widget> list =  menuIndexes.map((index) {
+      return Icon(
+        listmenu[index].icon,
+        size: 30,
+        color: listmenu[index].id == widget.selection
+            ? Colors.white
+            : Theme.of(context).colorScheme.maintext,
       );
     }).toList();
+    list.add(Icon(Icons.menu , color: Theme.of(context).colorScheme.maintext));
+    return list ;
   }
 
   @override
   Widget build(BuildContext context) {
-    // Xử lý trường hợp nếu widget.selection không hợp lệ
     int validSelectionIndex = menuIndexes.indexWhere((i) => listmenu[i].id == widget.selection);
-    // Nếu widget.selection không hợp lệ, chọn index mặc định là 0
     validSelectionIndex = (validSelectionIndex != -1) ? validSelectionIndex : 0;
 
-    return BottomNavigationBar(
-      currentIndex: validSelectionIndex,
-      onTap: (index) {
-        setState(() {
-          widget.selection = listmenu[menuIndexes[index]].id;
-          widget.handle(listmenu[menuIndexes[index]]);
-        });
-      },
+    return CurvedNavigationBar(
+      index: validSelectionIndex,
+      backgroundColor: Colors.transparent, // nền phía sau (phần body)
+      color: Theme.of(context).colorScheme.mainColor , // màu thanh nav
+      buttonBackgroundColor: Theme.of(context).colorScheme.mainColor, // màu nút được chọn
+      animationDuration: Duration(milliseconds: 300),
+      height: 60,
       items: _buildMenuItems(),
-      backgroundColor: Theme.of(context).colorScheme.mainCard,  // Đặt màu nền
-      selectedItemColor: Theme.of(context).colorScheme.mainColor,  // Màu khi chọn item
-      unselectedItemColor: Theme.of(context).colorScheme.maintext,  // Màu khi không chọn item
+      onTap: (index) {
+        if(index == 2) {
+          widget.openDraw() ;
+        }
+        else {
+          setState(() {
+            widget.selection = listmenu[menuIndexes[index]].id;
+            widget.handle(listmenu[menuIndexes[index]]);
+          });
+
+        }
+      },
     );
   }
 }

@@ -32,6 +32,7 @@ class _WidgetListProductState extends State<WidgetListProduct> {
     TextEditingController(text: typeBookModal.type_book);
     final TextEditingController descriptionController =
     TextEditingController(text: typeBookModal.description);
+    final TextEditingController priceController = TextEditingController(text: typeBookModal.price);
 
     showDialog(
       context: context,
@@ -76,6 +77,13 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                   iconData: Icons.book,
                 ),
                 SizedBox(height: 16),
+                WigetTextfieldCustome(
+                    controller: priceController,
+                    textInputType: TextInputType.number,
+                    hint: "Nhập giá sách",
+                    iconData: Icons.price_change_outlined
+                ),
+                SizedBox(height: 16,),
                 WidgetTextfieldArea(
                   controller: descriptionController,
                   textInputType: TextInputType.multiline,
@@ -104,6 +112,7 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                     name_book: nameBookController.text,
                     type_book: typeBookController.text,
                     description: descriptionController.text,
+                    price: priceController.text,
                     image: typeBookModal.image,
                   ),
                 );
@@ -124,7 +133,7 @@ class _WidgetListProductState extends State<WidgetListProduct> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 25),
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: SingleChildScrollView(
         child: Wrap(
           alignment: WrapAlignment.spaceAround,

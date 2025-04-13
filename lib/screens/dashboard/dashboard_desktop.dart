@@ -35,7 +35,7 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                   handle: (item) {
                     widget.hanlde(item) ;
                   },
-
+                  isDesktop: true,
                 )
               ),
               Expanded(

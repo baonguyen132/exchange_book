@@ -11,10 +11,11 @@ class Mydrawer extends StatefulWidget {
 
   int selection ;
   int status ;
+  bool isDesktop ;
 
   final Function (MenuModal item) handle ;
 
-  Mydrawer({super.key , required this.selection , required this.handle , required this.status});
+  Mydrawer({super.key , required this.selection , required this.handle , required this.status , this.isDesktop = false});
 
   @override
   State<Mydrawer> createState() => _MydrawerState();
@@ -108,8 +109,10 @@ class _MydrawerState extends State<Mydrawer> {
                     widget.status == 0
                         ? Column(
                       children: [
-                        _buildMenuItem(0),
-                        _buildMenuItem(1),
+                        if(widget.isDesktop) ...[
+                          _buildMenuItem(0),
+                          _buildMenuItem(1)
+                        ],
                         if (user != null) ...[
                           _buildMenuItem(2),
                           _buildMenuItem(3),
@@ -119,8 +122,10 @@ class _MydrawerState extends State<Mydrawer> {
                     )
                         : Column(
                       children: [
-                        _buildMenuItem(5),
-                        _buildMenuItem(6),
+                        if(widget.isDesktop) ...[
+                          _buildMenuItem(5),
+                          _buildMenuItem(6),
+                        ],
                         _buildMenuItem(7),
                       ],
                     ),
@@ -165,9 +170,7 @@ class _MydrawerState extends State<Mydrawer> {
                                           fontSize: 16,
                                           color: Theme.of(context).colorScheme.maintext
                                       ),
-
                                     )
-
                                   ],
                                 ),
                               ),

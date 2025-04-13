@@ -13,16 +13,20 @@ class DashboardTablet extends StatefulWidget {
 }
 
 class _DashboardTabletState extends State<DashboardTablet> {
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 @override
   Widget build(BuildContext context) {
   return Scaffold(
+    key: _scaffoldKey,
     body: widget.child,
     bottomNavigationBar: BottomNavBar(
       selection: widget.mainPage,
       status: widget.status,
       handle: (item) {
         widget.hanlde(item) ;
+      },
+      openDraw: () {
+        _scaffoldKey.currentState?.openDrawer() ;
       },
     ),
   );

@@ -20,9 +20,7 @@ class _WidgetButtonCustomState extends State<WidgetButtonCustom> {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(
-          margin: EdgeInsets.all(5),
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          width: 200,
+          padding: EdgeInsets.symmetric(horizontal: 25),
           decoration: BoxDecoration(
               color: Colors.blue,
               borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -35,7 +33,7 @@ class _WidgetButtonCustomState extends State<WidgetButtonCustom> {
                 )
               ]
           ),
-          height: 50,
+          height: 53,
           alignment: Alignment.center,
           child: Text(
             widget.text,
