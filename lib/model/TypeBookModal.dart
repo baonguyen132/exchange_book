@@ -37,20 +37,20 @@ class TypeBookModal {
 
 
 
-  static Future<void> updateDatabaseTypeBook(TypeBookModal typeBookModal , String path , Function () handle ) async {
+  static Future<void> updateDatabaseTypeBook(TypeBookModal typeBookModal , String path , Function () handleSuccessful , Function () handleFail ) async {
     final response = await http.post(
       Uri.parse(path),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(typeBookModal.toJson()), // Chuyển đổi model thành JSON
     );
     if (response.statusCode == 200) {
-      handle() ;
+      handleSuccessful() ;
     } else {
-      print("Lỗi: ${response.body}");
+      handleFail();
     }
   }
 
-  static Future<List<TypeBookModal>> exportBook(Function () handle) async {
+  static Future<List<TypeBookModal>> exportTypeBook(Function () handle) async {
     List<TypeBookModal> list = [] ;
     
     final respone = await http.post(

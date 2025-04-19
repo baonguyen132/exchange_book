@@ -245,6 +245,19 @@ class UserModel {
     }
   }
 
+  static Future<UserModel?> exportUser(String id, Function () handle) async {
+    final respone = await http.post(
+      Uri.parse(location+"/loadUser"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "id_user": id,
+      }),
+    ) ;
+
+    List<dynamic> data = jsonDecode(respone.body) ;
+    return UserModel.fromJson(data) ;
+  }
+
 
 
 

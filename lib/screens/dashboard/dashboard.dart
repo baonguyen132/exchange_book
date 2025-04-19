@@ -5,6 +5,7 @@ import 'package:project_admin/screens/dashboard/page/home.dart';
 import 'package:project_admin/screens/dashboard/page/product.dart';
 
 import '../../model/TypeBookModal.dart';
+import '../../model/UserModal.dart';
 import '../../util/responsive.dart';
 import 'dashboard_desktop.dart';
 import 'dashboard_mobile.dart';
@@ -21,8 +22,25 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int mainPage = 3 ;
+  int mainPage = 1 ;
   int status = 0 ;
+  UserModel? user ;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+
+  }
+
+
+  loadData() async {
+    UserModel? data = await UserModel.loadUserData() ;
+    setState(() {
+      user = data ;
+    });
+  }
 
   Widget getPage(bool isMobile) {
     if(mainPage == 6) {
@@ -34,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
     else if (mainPage == 4) {
       return Profile() ;
     }else if(mainPage ==3){
-      return History();
+      return user != null ? History(user: user!,) : Container();
     }else if(mainPage ==1){
       return Home();
     }

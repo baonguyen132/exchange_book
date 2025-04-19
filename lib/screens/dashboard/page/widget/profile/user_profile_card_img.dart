@@ -50,7 +50,6 @@ class _UserProfileCardImgState extends State<UserProfileCardImg> {
     if (newPath != null && newPath.isNotEmpty && newPath != path) {
       setState(() {
         path = newPath.replaceAll("\\", "/"); // Chuẩn hóa đường dẫn
-        print("$location/$path") ;
       });
     }
   }

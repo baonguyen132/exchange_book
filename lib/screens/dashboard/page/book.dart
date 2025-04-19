@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_admin/model/TypeBookModal.dart';
 import 'package:project_admin/screens/dashboard/page/widget/book/widget_form_insert_product.dart';
 import 'package:project_admin/screens/dashboard/page/widget/book/widget_list_product.dart';
@@ -18,7 +19,7 @@ class _BookState extends State<Book> {
   bool frame = true ;
 
   void loadData() async {
-    final result = await TypeBookModal.exportBook(() {},) ;
+    final result = await TypeBookModal.exportTypeBook(() {},) ;
     setState(() {
       list = result ;
     });
@@ -40,43 +41,105 @@ class _BookState extends State<Book> {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
             location+"/updateTypeBook" ,
-                () {},
+            () {
+              setState(() {
+                for(int i = 0 ; i < list.length ; i++) {
+                  if(list[i].id == typeBookModal.id) {
+                    list[i] = typeBookModal ;
+                  }
+                }
+              });
+              Fluttertoast.showToast(
+                msg: "Cập nhật thành công",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+
+            },
+            () {
+              Fluttertoast.showToast(
+                msg: "Cập nhật bị lỗi",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            },
+
           );
-          setState(() {
-            for(int i = 0 ; i < list.length ; i++) {
-              if(list[i].id == typeBookModal.id) {
-                list[i] = typeBookModal ;
-              }
-            }
-          });
+
         },
         delete: (typeBookModal) {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
             location+"/deleteTypeBook" ,
-                () {},
+            () {
+              setState(() {
+                for(int i = 0 ; i < list.length ; i++) {
+                  if(list[i].id == typeBookModal.id) {
+                    list.removeAt(i) ;
+                  }
+                }
+              });
+              Fluttertoast.showToast(
+                msg: "Xoá thành công",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+
+            },
+            () {
+              Fluttertoast.showToast(
+                msg: "Không thể xoá được",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            },
           );
-          setState(() {
-            for(int i = 0 ; i < list.length ; i++) {
-              if(list[i].id == typeBookModal.id) {
-                list.removeAt(i) ;
-              }
-            }
-          });
+
         },
       );
     }
     else {
       return WidgetFormInsertProduct(
         insert: (typeBookModal) {
-          list.add(typeBookModal) ;
+
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
             "$location/insertTypeBook",
-                () {
-
-                },
-
+            () {
+              setState(() {
+                list.add(typeBookModal) ;
+              });
+              Fluttertoast.showToast(
+                msg: "Thêm thành công",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            },
+            () {
+              Fluttertoast.showToast(
+                msg: "Thêm không thành công",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            },
           );
         },
       );

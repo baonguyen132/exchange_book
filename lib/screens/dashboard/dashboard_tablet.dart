@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_admin/screens/dashboard/widget/MyDrawer.dart';
 import 'package:project_admin/screens/dashboard/widget/bottom_nav_bar.dart';
 import '../../model/MenuModal.dart';
 class DashboardTablet extends StatefulWidget {
@@ -18,6 +19,14 @@ class _DashboardTabletState extends State<DashboardTablet> {
   Widget build(BuildContext context) {
   return Scaffold(
     key: _scaffoldKey,
+    drawer: Mydrawer(
+        selection: widget.mainPage,
+        handle: (item) {
+          Navigator.pop(context) ;
+          widget.hanlde(item) ;
+        },
+        status: widget.status
+    ),
     body: widget.child,
     bottomNavigationBar: BottomNavBar(
       selection: widget.mainPage,

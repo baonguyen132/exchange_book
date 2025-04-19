@@ -15,6 +15,7 @@ class BookModal {
   String price;
   String description  ;
   String status ;
+  String image ;
   String id_user;
   String id_type_book ;
 
@@ -24,6 +25,7 @@ class BookModal {
     required this.price,
     required this.description,
     required this.status,
+    required this.image,
     required this.id_user,
     required this.id_type_book,
   });
@@ -35,26 +37,40 @@ class BookModal {
       "price": price,
       "description": description,
       "status": status,
+      "image": image,
       "id_user": id_user,
       "id_type_book": id_type_book,
     };
   }
 
-  static Future<void> updateDatabaseBook(BookModal bookModal , String path , Function () handle ) async {
+  static Future<void> updateDatabaseBook(BookModal bookModal , String path , Function () handleSuccessful , Function () handleFail ) async {
     final response = await http.post(
       Uri.parse(path),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(bookModal.toJson()), // Chuyển đổi model thành JSON
     );
     if (response.statusCode == 200) {
-      handle() ;
+      handleSuccessful() ;
     } else {
-      print("Lỗi: ${response.body}");
+      handleFail() ;
     }
   }
 
+  static Future<List<dynamic>> exportMyBook(String id, Function () handle) async {
+    final respone = await http.post(
+      Uri.parse(location+"/exportMyBook"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "id_user": id,
+      }),
+    ) ;
 
-  static Future<TypeBookModal?> uploadImageScan(File _image) async {
+    List<dynamic> data = jsonDecode(respone.body) ;
+    return data ;
+  }
+
+
+  static Future<dynamic> uploadImageScan(File _image) async {
     try {
 
       var uri = Uri.parse("$location/upload_image_book"); // Đổi IP nếu cần
@@ -72,12 +88,8 @@ class BookModal {
       var responseBody = await response.stream.bytesToString();
 
       if (response.statusCode == 200) {
-        var jsonResponse = json.decode(responseBody);
-        var data = jsonResponse["data"];
 
-        TypeBookModal typeBookModal = TypeBookModal(id: data[0].toString() ,name_book: data[1], type_book: data[2], price: data[3].toString(), description: data[5], image: data[4]) ;
-
-        return typeBookModal;
+        return json.decode(responseBody);
 
       } else {
         print("Upload thất bại! Mã lỗi: ${response.statusCode}");

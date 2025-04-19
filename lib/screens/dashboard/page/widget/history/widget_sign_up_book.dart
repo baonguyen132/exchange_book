@@ -7,19 +7,19 @@ import 'package:project_admin/data/ConstraintData.dart';
 import 'package:project_admin/model/BookModal.dart';
 import 'package:project_admin/model/TypeBookModal.dart';
 import 'package:project_admin/model/UserModal.dart';
+import 'package:project_admin/screens/dashboard/page/widget/history/card_book.dart';
 import 'package:project_admin/screens/dashboard/page/widget/history/widget_button_custom.dart';
 import 'package:project_admin/screens/dashboard/page/widget/history/widget_text.dart';
-import 'package:project_admin/screens/dashboard/widget/card/card_item.dart';
-import 'package:project_admin/theme/theme.dart';
+
 
 import '../../../../../util/widget_textfield_area.dart';
 import '../../../../../util/wiget_textfield_custome.dart';
-import '../../../widget/card/card_item_image.dart';
 
 class WidgetSignUpBook extends StatefulWidget {
   UserModel user ;
+  Function (BookModal bookmodal) insert;
 
-  WidgetSignUpBook({super.key , required this.user});
+  WidgetSignUpBook({super.key , required this.user , required this.insert});
 
   @override
   State<WidgetSignUpBook> createState() => _WidgetSignUpBookState();
@@ -27,8 +27,10 @@ class WidgetSignUpBook extends StatefulWidget {
 
 class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
   final ImagePicker _picker = ImagePicker();
-  TypeBookModal? typeBookModal  ;
+  TypeBookModal? typeBookModal = null  ;
+  String path = "" ;
   File? _image;
+  String error = "" ;
 
   TextEditingController date_purchase = TextEditingController() ;
   TextEditingController price = TextEditingController();
@@ -39,11 +41,14 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null)  {
-      typeBookModal = null ;
       _image = File(pickedFile.path);
-      TypeBookModal data = (await BookModal.uploadImageScan(_image!))! ;
+      var  jsonResponse = (await BookModal.uploadImageScan(_image!))! ;
+
+      var data = jsonResponse["data"];
+
       setState(() {
-        typeBookModal = data ;
+        typeBookModal = TypeBookModal(id: data[0].toString() ,name_book: data[1], type_book: data[2], price: data[3].toString(), description: data[5], image: data[4]) ;
+        path = jsonResponse["path"];
       });
     }
   }
@@ -51,44 +56,21 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
   Widget loadData() {
     return Column(
       children: [
-        Container(
-          width: min(MediaQuery.of(context).size.width, 400),
-          padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.2),
-                  offset: Offset(0, 3), // Bóng dịch xuống một chút
-                  blurRadius: 10, // Làm mềm bóng hơn
-                  spreadRadius: 2, // Giảm độ lan để giữ rõ viền bo
-                )
+        CardBook(
+            width: min(MediaQuery.of(context).size.width, 400),
+            link: typeBookModal!.image,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                WidgetText(icon: Icons.book, title: "Tên sách", content: typeBookModal!.name_book),
+                WidgetText(icon: Icons.book, title: "Loại: ", content: typeBookModal!.type_book),
+                WidgetText(icon: Icons.book, title: "Mô tả: ", content: "\n${typeBookModal?.description}"),
+                WidgetText(icon: Icons.book, title: "Giá gốc: ", content: "\n${typeBookModal?.price}"),
               ],
-              color: Theme.of(context).colorScheme.mainCard
-          ),
-          child: Row(
-            children: [
-              CardItemImage(
-                width: 100,
-                height: 100,
-                borderRadius: 10,
-                heart: false,
-                link: "${location}/${typeBookModal?.image}",
-              ),
-              SizedBox(width: 20,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  WidgetText(icon: Icons.book, tilte: "Tên sách", content: typeBookModal!.name_book),
-                  WidgetText(icon: Icons.book, tilte: "Loại: ", content: typeBookModal!.type_book),
-                  WidgetText(icon: Icons.book, tilte: "Mô tả: ", content: "\n${typeBookModal?.description}"),
-                ],
-              )
-            ],
-          ),
+            ),
         ),
-        SizedBox(height: 20,)
+        const SizedBox(height: 20,),
       ],
     );
   }
@@ -148,7 +130,20 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
             ),
           ),
           SizedBox(height: 20,),
-          WigetTextfieldCustome(controller: date_purchase, textInputType: TextInputType.datetime, hint: "Nhập ngày mua sách", iconData: Icons.date_range_outlined),
+          WigetTextfieldCustome(
+              controller: date_purchase,
+              textInputType: TextInputType.datetime,
+              hint: "DDMMYYYY",
+              iconData: Icons.edit_calendar,
+              onChange: (value) {
+                if (value.length == 8) {
+                  String formatted = formatIDToDate(value);
+                  setState(() {
+                    date_purchase.text = formatted;
+                  });
+                }
+            },
+          ),
           SizedBox(height: 20,),
           WigetTextfieldCustome(controller: price, textInputType: TextInputType.number, hint: "giá", iconData: Icons.price_change_sharp),
           SizedBox(height: 20,),
@@ -163,13 +158,33 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
                 final typeBookModal = this.typeBookModal;
 
                 if(typeBookModal != null) {
-                  BookModal.updateDatabaseBook(BookModal(date_purchase: date_purchase.text , price: price.text, description: description.text, status: "1", id_user: widget.user.id.toString(), id_type_book: typeBookModal.id.toString()), "$location/insertBook", () {
-
-                  },);
+                  if(double.parse(price.text) < double.parse(typeBookModal.price) * 0.5) {
+                    widget.insert(BookModal(date_purchase: date_purchase.text , price: price.text, description: description.text, status: "1",image: path, id_user: widget.user.id.toString(), id_type_book: typeBookModal.id.toString()));
+                    setState(() {
+                      date_purchase.text = "" ;
+                      price.text = "" ;
+                      this.typeBookModal = null ;
+                      description.text = "" ;
+                      path = "" ;
+                      error="";
+                    });
+                  }
+                  else {
+                    setState(() {
+                      error = "Giá phải nhỏ hơn 50% giá gốc" ;
+                    });
+                  }
                 }
 
               },
               text: "Thêm sản phẩm"
+          ),
+          SizedBox(height: 20,),
+          Text(
+            error,
+            style: TextStyle(color: Colors.red),
+            maxLines: 2, // hoặc nhiều hơn tùy ý
+            overflow: TextOverflow.ellipsis,
           )
         ],
       ),
