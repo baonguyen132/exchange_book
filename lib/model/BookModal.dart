@@ -15,6 +15,7 @@ class BookModal {
   String price;
   String description  ;
   String status ;
+  String quantity ;
   String image ;
   String id_user;
   String id_type_book ;
@@ -26,6 +27,7 @@ class BookModal {
     required this.description,
     required this.status,
     required this.image,
+    required this.quantity,
     required this.id_user,
     required this.id_type_book,
   });
@@ -37,6 +39,7 @@ class BookModal {
       "price": price,
       "description": description,
       "status": status,
+      "quantity": quantity,
       "image": image,
       "id_user": id_user,
       "id_type_book": id_type_book,
@@ -56,7 +59,7 @@ class BookModal {
     }
   }
 
-  static Future<List<dynamic>> exportMyBook(String id, Function () handle) async {
+  static Future<List<dynamic>> exporUserBook(String id, Function () handle) async {
     final respone = await http.post(
       Uri.parse(location+"/exportMyBook"),
       headers: {"Content-Type": "application/json"},
@@ -67,6 +70,19 @@ class BookModal {
 
     List<dynamic> data = jsonDecode(respone.body) ;
     return data ;
+  }
+
+  static Future<List<dynamic>> exportBook() async {
+    final response = await http.get(
+      Uri.parse("$location/exportBook"),
+      headers: {"Content-Type": "application/json"},
+    ) ;
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load books: ${response.statusCode}");
+    }
   }
 
 

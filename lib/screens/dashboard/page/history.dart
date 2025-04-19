@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/widget_card_detail.dart';
+import 'package:project_admin/screens/dashboard/page/card_detail.dart';
+import 'package:project_admin/screens/dashboard/page/widget/history/detail/widget_button_card_detail_of_history.dart';
+import 'package:project_admin/screens/dashboard/page/widget/history/detail/widget_item_person_change.dart';
 import 'package:project_admin/screens/dashboard/page/widget/history/widget_list_book.dart';
 import 'package:project_admin/screens/dashboard/page/widget/history/widget_sign_up_book.dart';
 
@@ -32,7 +34,7 @@ class _HistoryState extends State<History> {
   void loadData(int choose) async {
     List<dynamic> data ;
     if(choose == 1) {
-      data = await BookModal.exportMyBook(widget.user.id.toString(), () {
+      data = await BookModal.exporUserBook(widget.user.id.toString(), () {
 
       },);
     }
@@ -80,11 +82,13 @@ class _HistoryState extends State<History> {
       );
     }
     else if(state == 2) {
-      return WidgetCardDetail(
+      return CardDetail(
         item: item!,
-        editItem: (bookModal) {
-          BookModal.updateDatabaseBook(bookModal, "$location/updateBook",
-                () {
+        wigetHasListButton: WidgetButtonCardDetailOfHistory(
+            item: item!,
+            editItem: (bookModal) {
+              BookModal.updateDatabaseBook(bookModal, "$location/updateBook",
+                    () {
                   setState(() {
                     state = 0;
                     loadData(1);
@@ -97,8 +101,8 @@ class _HistoryState extends State<History> {
                     textColor: Colors.white,
                     fontSize: 16.0,
                   );
-                  },
-                () {
+                },
+                    () {
                   Fluttertoast.showToast(
                     msg: "Cập nhật không thành công",
                     toastLength: Toast.LENGTH_SHORT,
@@ -108,36 +112,52 @@ class _HistoryState extends State<History> {
                     fontSize: 16.0,
                   );
                 },
-          );
-        },
-        deleteItem: (bookModal) {
-          BookModal.updateDatabaseBook(bookModal, "$location/deleteBook",
+              );
+            },
+          deleteItem: (bookModal) {
+            BookModal.updateDatabaseBook(bookModal, "$location/deleteBook",
                   () {
-                    setState(() {
-                      state = 0;
-                      loadData(1);
-                    });
-                    Fluttertoast.showToast(
-                      msg: "Xoá thành công",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.black54,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  },
+                setState(() {
+                  state = 0;
+                  loadData(1);
+                });
+                Fluttertoast.showToast(
+                  msg: "Xoá thành công",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.black54,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              },
                   () {
-                    Fluttertoast.showToast(
-                      msg: "Không thể xoá được",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.black54,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  },
-          );
-        },
+                Fluttertoast.showToast(
+                  msg: "Không thể xoá được",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.black54,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              },
+            );
+          },
+        ),
+        titleRight: "Danh sách người muốn đổi",
+        list: LayoutBuilder(builder: (context, constraints) => Column(
+          children: [
+            for(int i = 0 ; i < 5 ; i++)
+              WidgetItemPersonChange(
+                width: constraints.maxWidth,
+                change: () {
+
+                },
+                nochange: () {
+
+                },
+              ),
+          ],
+        ),)
       ) ;
     }
     else {

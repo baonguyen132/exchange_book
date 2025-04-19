@@ -35,6 +35,8 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
   TextEditingController date_purchase = TextEditingController() ;
   TextEditingController price = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController quantity = TextEditingController();
+
 
 
 
@@ -147,7 +149,8 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
           SizedBox(height: 20,),
           WigetTextfieldCustome(controller: price, textInputType: TextInputType.number, hint: "giá", iconData: Icons.price_change_sharp),
           SizedBox(height: 20,),
-
+          WigetTextfieldCustome(controller: quantity, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.confirmation_number_rounded),
+          SizedBox(height: 20,),
           WidgetTextfieldArea(controller: description, textInputType: TextInputType.multiline, hint: "Nhập mô tả", iconData: Icons.format_indent_decrease) ,
           SizedBox(height: 20,),
 
@@ -159,7 +162,17 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
 
                 if(typeBookModal != null) {
                   if(double.parse(price.text) < double.parse(typeBookModal.price) * 0.5) {
-                    widget.insert(BookModal(date_purchase: date_purchase.text , price: price.text, description: description.text, status: "1",image: path, id_user: widget.user.id.toString(), id_type_book: typeBookModal.id.toString()));
+                    widget.insert(
+                        BookModal(
+                            date_purchase: date_purchase.text ,
+                            price: price.text,
+                            description: description.text,
+                            status: "1",
+                            quantity: quantity.text,
+                            image: path,
+                            id_user: widget.user.id.toString(),
+                            id_type_book: typeBookModal.id.toString()
+                        ));
                     setState(() {
                       date_purchase.text = "" ;
                       price.text = "" ;

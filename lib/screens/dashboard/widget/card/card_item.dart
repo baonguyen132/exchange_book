@@ -38,7 +38,7 @@ class _CardItemState extends State<CardItem> {
         children: [
           CardItemImage(
             width: MediaQuery.of(context).size.width,
-            height: 300,borderRadius: 30,
+            height: 250,borderRadius: 30,
             heart: widget.heart,
             link: widget.link,
           ),

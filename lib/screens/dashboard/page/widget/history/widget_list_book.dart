@@ -85,11 +85,13 @@ class _WidgetListBookState extends State<WidgetListBook> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(e[1]),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 15,),
                             WidgetText(icon: Icons.book, title: "Loại: ", content: e[2]),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 15,),
                             WidgetText(icon: Icons.book, title: "Ngày mua: ", content: e[3]),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 15,),
+                            WidgetText(icon: Icons.book, title: "Còn lại: ", content: e[10].toString()),
+                            SizedBox(height: 15,),
                             WidgetText(icon: Icons.book, title: "Giá: ", content: e[4].toString()),
 
                           ],
