@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/widget_text.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/widget_text.dart';
 import 'package:project_admin/theme/theme.dart';
 
 import '../../../../../data/ConstraintData.dart';

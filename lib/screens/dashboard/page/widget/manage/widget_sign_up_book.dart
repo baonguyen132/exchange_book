@@ -7,9 +7,9 @@ import 'package:project_admin/data/ConstraintData.dart';
 import 'package:project_admin/model/BookModal.dart';
 import 'package:project_admin/model/TypeBookModal.dart';
 import 'package:project_admin/model/UserModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/card_book.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/widget_button_custom.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/widget_text.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/card_book.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/widget_button_custom.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/widget_text.dart';
 
 
 import '../../../../../util/widget_textfield_area.dart';

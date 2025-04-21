@@ -45,6 +45,19 @@ class BookModal {
       "id_type_book": id_type_book,
     };
   }
+  factory BookModal.fromJson(Map<String, dynamic> json) {
+    return BookModal(
+      id: json['id'],
+      date_purchase: json['date_purchase'],
+      price: json['price'],
+      description: json['description'],
+      status: json['status'],
+      quantity: json['quantity'],
+      image: json['image'],
+      id_user: json['id_user'],
+      id_type_book: json['id_type_book'],
+    );
+  }
 
   static Future<void> updateDatabaseBook(BookModal bookModal , String path , Function () handleSuccessful , Function () handleFail ) async {
     final response = await http.post(

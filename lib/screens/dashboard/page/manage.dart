@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_admin/screens/dashboard/page/card_detail.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/detail/widget_button_card_detail_of_history.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/detail/widget_item_person_change.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/widget_list_book.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/widget_sign_up_book.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/detail/widget_button_card_detail_of_history.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/detail/widget_item_person_change.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/widget_list_book.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/widget_sign_up_book.dart';
 
 import '../../../data/ConstraintData.dart';
 import '../../../model/BookModal.dart';
 import '../../../model/UserModal.dart';
 
-class History extends StatefulWidget {
+class Manage extends StatefulWidget {
   UserModel user ;
-  History({super.key , required this.user});
+  Manage({super.key , required this.user});
 
   @override
-  State<History> createState() => _HistoryState();
+  State<Manage> createState() => _ManageState();
 }
 
-class _HistoryState extends State<History> {
+class _ManageState extends State<Manage> {
 
   List<dynamic>? list ;
   int state = 0 ;

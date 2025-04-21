@@ -1,0 +1,59 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+class CartModal {
+  String? id ;
+  String status;
+  String address;
+  int total  ;
+  int id_user ;
+  int id_seller ;
+
+  CartModal({
+    this.id,
+    required this.status,
+    required this.address,
+    required this.total,
+    required this.id_user,
+    required this.id_seller
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "status": status,
+      "address": address,
+      "total": total,
+      "id_user": id_user,
+    };
+  }
+
+  static Future<void> uploadCart(
+      Map<String, String> data,
+      String address,
+      String total,
+      String path,
+      String id_user ,
+      Function() handleSuccessful,
+      Function() handleFail,
+      ) async {
+    final response = await http.post(
+      Uri.parse(path),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({  // ← sửa chỗ này
+        "data": data,
+        "address": address,
+        "total": total,
+        "id_user": id_user
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      handleSuccessful();
+    } else {
+      handleFail();
+    }
+  }
+
+}

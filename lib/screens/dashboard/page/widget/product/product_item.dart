@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_admin/data/ConstraintData.dart';
+import 'package:project_admin/model/BookModal.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/product_item_button.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/product_item_infor.dart';
 import 'package:project_admin/screens/dashboard/widget/card/card_item.dart';
@@ -7,7 +8,8 @@ import 'package:project_admin/screens/dashboard/widget/card/card_item.dart';
 class ProductItem extends StatefulWidget {
   List<dynamic> item ;
   Function (List<dynamic> item) openItem ;
-  ProductItem({super.key, required this.item , required this.openItem});
+  Function (BookModal bookModal, String name_book) order ;
+  ProductItem({super.key, required this.item , required this.openItem, required this.order});
 
   @override
   State<ProductItem> createState() => _ProductItemState();
@@ -34,7 +36,20 @@ class _ProductItemState extends State<ProductItem> {
                     child: ProductItemInfor(item:  widget.item,)
                 ),
                 ProductItemButton(handle: () {
-
+                  widget.order(
+                      BookModal(
+                          id: widget.item[0].toString(),
+                          date_purchase: widget.item[3],
+                          price: widget.item[4].toString(),
+                          description: widget.item[5],
+                          status: widget.item[9].toString(),
+                          image: widget.item[6],
+                          quantity: widget.item[10].toString(),
+                          id_user: widget.item[7].toString(),
+                          id_type_book: widget.item[8].toString()
+                      ),
+                      widget.item[1]
+                  );
                 },)
               ],
             )

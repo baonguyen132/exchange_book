@@ -4,7 +4,6 @@ import 'package:project_admin/screens/dashboard/page/book.dart';
 import 'package:project_admin/screens/dashboard/page/home.dart';
 import 'package:project_admin/screens/dashboard/page/product.dart';
 
-import '../../model/TypeBookModal.dart';
 import '../../model/UserModal.dart';
 import '../../util/responsive.dart';
 import 'dashboard_desktop.dart';
@@ -12,7 +11,7 @@ import 'dashboard_mobile.dart';
 import 'dashboard_tablet.dart';
 import 'page/home_admin.dart';
 import 'page/profile.dart';
-import 'page/history.dart';
+import 'page/manage.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -52,7 +51,7 @@ class _DashboardState extends State<Dashboard> {
     else if (mainPage == 4) {
       return Profile() ;
     }else if(mainPage ==3){
-      return user != null ? History(user: user!,) : Container();
+      return user != null ? Manage(user: user!,) : Container();
     }else if(mainPage ==1){
       return Home();
     }

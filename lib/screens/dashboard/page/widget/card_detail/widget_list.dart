@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/history/detail/widget_item_person_change.dart';
 import 'package:project_admin/theme/theme.dart';
 
 class WidgetList extends StatefulWidget {
