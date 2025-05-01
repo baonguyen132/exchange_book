@@ -99,7 +99,15 @@ class _LoginDesktopState extends State<LoginDesktop> {
                       child: SingleChildScrollView(
                         child: Container(
                             padding: EdgeInsets.all(50),
-                            child: WidgetFormLogin(emailController: widget.emailController, passwordController: widget.passwordController, isSaveFinger: widget.isSaveFinger, changeSaveFinger: widget.changeSaveFinger , isDesktop: true,)
+                            child: WidgetFormLogin(
+                              emailController: widget.emailController,
+                              passwordController: widget.passwordController,
+                              isSaveFinger: widget.isSaveFinger,
+                              changeSaveFinger: () {
+                                widget.changeSaveFinger();
+                              },
+                              isDesktop: true,
+                            )
                         ),
                       )
                     )

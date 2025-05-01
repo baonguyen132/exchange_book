@@ -144,6 +144,14 @@ class UserModel {
     preferences.setString("username", username);
     preferences.setString("password", password) ;
   }
+  static Future<List<String>> loadAccount() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> data = [] ;
+    data.add(preferences.getString("username")??"");
+    data.add(preferences.getString("password")??"");
+    return  data; // Trả về chuỗi rỗng nếu null
+  }
+
   static Future<void> saveUserData(UserModel userData) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String jsonString = jsonEncode(userData.toJson()); // Chuyển đối tượng thành JSON

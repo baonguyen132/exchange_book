@@ -1,19 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_admin/model/BookModal.dart';
 import 'package:project_admin/screens/dashboard/page/widget/manage/card_book.dart';
+import 'package:project_admin/screens/dashboard/page/widget/manage/list_cart/widget_list_change.dart';
 import 'package:project_admin/screens/dashboard/page/widget/manage/widget_button_custom.dart';
 import 'package:project_admin/screens/dashboard/page/widget/manage/widget_text.dart';
 
+import '../../../../../model/CartModal.dart';
 import '../../../../../model/UserModal.dart';
 
 class WidgetListBook extends StatefulWidget {
-  List<dynamic> list ;
-  Function (int choose) handleChoose ;
+  UserModel user ;
   Function (List<dynamic> data) handle ;
 
-  WidgetListBook({super.key, required this.list , required this.handle , required this.handleChoose});
+  WidgetListBook({super.key, required this.user ,required this.handle});
 
 
   @override
@@ -22,60 +24,60 @@ class WidgetListBook extends StatefulWidget {
 
 class _WidgetListBookState extends State<WidgetListBook> {
 
+  List<dynamic>? list ;
+  int state = 1 ;
+
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                constraints: BoxConstraints(maxWidth: 200),
-                child: WidgetButtonCustom(
-                  handle: () {widget.handleChoose(1);},
-                  text: "Sách",
-                ),
-              ),
-            ),
-            SizedBox(width: 20),
-            Expanded(
-              child: Container(
-                constraints: BoxConstraints(maxWidth: 200),
-                child: WidgetButtonCustom(
-                  handle: () {
-                    setState(() {widget.handleChoose(2);});
-                  },
-                  text: "Sách đổi",
-                ),
-              ),
-            ),
-          ],
-        ),
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData(state) ;
+  }
 
-        SizedBox(height: 20,),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            double maxWidth = constraints.maxWidth;
-            double itemWidth = 370;
-            double spacing = 20;
+  void loadData(int choose) async {
+    List<dynamic> data ;
+    if(choose == 1) {
+      data = await BookModal.exporUserBook(widget.user.id.toString());
+    }
+    else if(choose == 2) {
+      data = await CartModal.exportCartPurchase(widget.user.id.toString());
+    }
+    else {
+      data = await CartModal.exportCartSeller(widget.user.id.toString());
+    }
+    setState(() {
+      list = data ;
+    });
+  }
 
-            // Tính xem tối đa hiển thị được mấy item trên 1 hàng
-            int crossAxisCount = ((maxWidth + spacing) / (itemWidth + spacing)).floor();
 
-            // Nếu không đủ để 1 hàng thì fallback còn 1
-            crossAxisCount = crossAxisCount == 0 ? 1 : crossAxisCount;
 
-            // Tính lại width cho đều
-            double adjustedWidth = (maxWidth - ((crossAxisCount - 1) * spacing)) / crossAxisCount;
+  Widget getListCart() {
+    if(list == null ) return Container() ;
+    if(state == 1) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          double maxWidth = constraints.maxWidth;
+          double itemWidth = 370;
+          double spacing = 20;
 
-            return Wrap(
-              spacing: spacing,
-              runSpacing: 20,
-              children: (widget.list.isNotEmpty)
-                  ? widget.list.map((e) =>
-                  GestureDetector(
-                    onTap: () {widget.handle(e) ;},
-                    child: MouseRegion(
+          // Tính xem tối đa hiển thị được mấy item trên 1 hàng
+          int crossAxisCount = ((maxWidth + spacing) / (itemWidth + spacing)).floor();
+
+          // Nếu không đủ để 1 hàng thì fallback còn 1
+          crossAxisCount = crossAxisCount == 0 ? 1 : crossAxisCount;
+
+          // Tính lại width cho đều
+          double adjustedWidth = (maxWidth - ((crossAxisCount - 1) * spacing)) / crossAxisCount;
+
+          return Wrap(
+            spacing: spacing,
+            runSpacing: 20,
+            children: (list!.isNotEmpty)
+                ? list!.map((e) =>
+                GestureDetector(
+                  onTap: () {widget.handle(e) ;},
+                  child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: CardBook(
                         width: adjustedWidth,
@@ -97,12 +99,126 @@ class _WidgetListBookState extends State<WidgetListBook> {
                           ],
                         ),
                       )),
-                    ),
-                  ).toList()
-                  : [],
+                ),
+            ).toList()
+                : [],
+          );
+        },
+      );
+    }
+    else if(state == 2) {
+
+      return WidgetListManage(
+        list: list!,
+        trangthaibutton: 1,
+        textButton: "Đã nhận",
+        handleClick: (id_cart) {
+          CartModal.updateStateCart(id_cart, "Đã nhận", () {
+            Fluttertoast.showToast(
+              msg: "Cập nhật trạng thái thành công",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.black54,
+              textColor: Colors.white,
+              fontSize: 16.0,
             );
-          },
-        )
+          }, () {
+            Fluttertoast.showToast(
+              msg: "Lỗi",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.black54,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+          },);
+          setState(() {
+            loadData(state) ;
+          });
+        },
+      ) ;
+    }
+    else  {
+      return WidgetListManage(
+        list: list!,
+        trangthaibutton: 2,
+        textButton: "Đã chuyển",
+        handleClick: (id_cart) {
+          CartModal.updateStateCart(id_cart, "Đã chuyển", () {
+            Fluttertoast.showToast(
+              msg: "Cập nhật trạng thái thành công",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.black54,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+          }, () {
+            Fluttertoast.showToast(
+              msg: "Lỗi",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.black54,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+          },);
+          setState(() {
+            loadData(state) ;
+          });
+        },
+      ) ;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 200),
+                child: WidgetButtonCustom(
+                  handle: () {setState(() {
+                    state = 1 ;
+                    list = null ;
+                    loadData(state);
+                  });},
+                  text: "Sách",
+                ),
+              ),
+            ),
+            SizedBox(width: 20),
+            Expanded(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 200),
+                child: WidgetButtonCustom(
+                  handle: () {
+                    setState(() { state = 2 ; list = null ; loadData(state);});
+                  },
+                  text: "Đơn đổi",
+                ),
+              ),
+            ),
+            SizedBox(width: 20),
+            Expanded(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 200),
+                child: WidgetButtonCustom(
+                  handle: () {
+                    setState(() {state = 3; list = null ; loadData(state);});
+                  },
+                  text: "Danh sách hàng",
+                ),
+              ),
+            ),
+          ],
+        ),
+
+        SizedBox(height: 20,),
+        getListCart() ,
 
       ],
     );

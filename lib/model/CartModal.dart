@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../data/ConstraintData.dart';
+
 class CartModal {
   String? id ;
   String status;
@@ -55,5 +57,65 @@ class CartModal {
       handleFail();
     }
   }
+
+  static Future<List<dynamic>> exportCartPurchase(String id_user) async {
+    final response = await http.post(
+      Uri.parse("$location/export_cart_purchase"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"id_user": id_user})
+    ) ;
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load books: ${response.statusCode}");
+    }
+  }
+
+  static Future<List<dynamic>> exportCartSeller(String id_user) async {
+    final response = await http.post(
+        Uri.parse("$location/export_cart_seller"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"id_user": id_user})
+    ) ;
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load books: ${response.statusCode}");
+    }
+  }
+
+  static Future<List<dynamic>> exportItemCart(String id_cart) async {
+    final response = await http.post(
+        Uri.parse("$location/export_item_cart"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"id_cart": id_cart})
+    ) ;
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load books: ${response.statusCode}");
+    }
+  }
+
+
+  static Future<void> updateStateCart(String id_cart, String state , Function () handleSuccessful , Function () handleFail ) async {
+    final response = await http.post(
+      Uri.parse(location+"/update_state_cart"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "id_user": id_cart,
+        "state": state
+      }),
+    ) ;
+    if (response.statusCode == 200) {
+      handleSuccessful() ;
+    } else {
+      handleFail() ;
+    }
+  }
+
 
 }

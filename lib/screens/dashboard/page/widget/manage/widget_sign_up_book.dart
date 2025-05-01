@@ -44,7 +44,7 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null)  {
       _image = File(pickedFile.path);
-      var  jsonResponse = (await BookModal.uploadImageScan(_image!))! ;
+      var  jsonResponse = (await BookModal.uploadImageScan(_image!, "/upload_image_book"))! ;
 
       var data = jsonResponse["data"];
 

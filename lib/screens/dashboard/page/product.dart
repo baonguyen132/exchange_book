@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project_admin/model/BookModal.dart';
 import 'package:project_admin/model/DetailCartModal.dart';
 import 'package:project_admin/model/UserModal.dart';
@@ -11,6 +13,8 @@ import 'package:project_admin/screens/dashboard/page/widget/product/best_item.da
 import 'package:project_admin/screens/dashboard/page/widget/product/detail/widget_item_product.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/product_item.dart';
 import 'package:project_admin/screens/dashboard/page/widget/product/detail/widget_button_card_detail_of_product.dart';
+import 'package:project_admin/screens/dashboard/page/widget/product/product_item_button.dart';
+import 'package:project_admin/theme/theme.dart';
 
 import '../../../model/CartModal.dart';
 
@@ -22,10 +26,15 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> {
+  List<dynamic>? list_product_best ;
   List<dynamic>? list_product ;
   int state = 0;
   late List<dynamic> data ;
   UserModel? userModel ;
+
+  final ImagePicker _picker = ImagePicker();
+  File? _image;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -37,9 +46,21 @@ class _ProductState extends State<Product> {
     List<dynamic> data = await BookModal.exportBook() ;
     UserModel? userdata = await UserModel.loadUserData() ;
     setState(() {
+      list_product_best = data ;
       list_product = data ;
       userModel = userdata ;
     });
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null)  {
+      _image = File(pickedFile.path);
+      List<dynamic> data = (await BookModal.uploadImageScan(_image!,"/scan_books"))! ;
+      setState(() {
+        list_product = data ;
+      });
+    }
   }
 
   Widget getWidget() {
@@ -47,15 +68,26 @@ class _ProductState extends State<Product> {
       return ListView(
         children: [
           Container(
+            margin: EdgeInsets.only(top: 20, left: 20 , right: 20 , bottom: 10),
+            child: Text(
+              "Danh sách sản phẩm",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.maintext,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+          Container(
             width: MediaQuery.of(context).size.width,
             height: 450,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                if(list_product != null)
-                  for(int i = 0 ; i < min(list_product!.length, 10) ; i++)
+                if(list_product_best != null)
+                  for(int i = 0 ; i < min(list_product_best!.length, 10) ; i++)
                     ProductItem(
-                      item: list_product![i],
+                      item: list_product_best![i],
                       openItem: (item) {
                         setState(() {
                           state = 1 ;
@@ -78,6 +110,51 @@ class _ProductState extends State<Product> {
               ],
             ),
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 20, left: 20 , right: 20 , bottom: 10),
+                child: Text(
+                  "Danh sách sản phẩm",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.maintext,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _pickImage(ImageSource.gallery) ;
+                },
+                child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child:Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      width: 300,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+
+                      ),
+                      margin: EdgeInsets.only(top: 0, left: 20 , right: 20 , bottom: 20),
+                      child: Center(
+                        child: Text(
+                          "Tìm kiếm sách bằng ảnh",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      )
+                    ),
+                ),
+              ),
+
+            ],
+          ),
+
           Container(
             width: MediaQuery.of(context).size.width,
             child: Wrap(

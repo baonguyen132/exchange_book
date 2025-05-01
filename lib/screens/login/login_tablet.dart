@@ -31,7 +31,14 @@ class _LoginTabletState extends State<LoginTablet> {
                   color: Colors.white.withAlpha(150),
                   borderRadius: const BorderRadius.all(Radius.circular(10))
               ),
-              child: WidgetFormLogin(emailController: widget.emailController, passwordController: widget.passwordController, isSaveFinger: widget.isSaveFinger, changeSaveFinger: widget.changeSaveFinger)
+              child: WidgetFormLogin(
+                  emailController: widget.emailController,
+                  passwordController: widget.passwordController,
+                  isSaveFinger: widget.isSaveFinger,
+                  changeSaveFinger: () {
+                    widget.changeSaveFinger();
+                  },
+              )
             ),
           ),
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_admin/model/UserModal.dart';
 import 'package:project_admin/screens/login/widget/widget_button_login.dart';
 import 'package:project_admin/screens/login/widget/widget_finger.dart';
 import 'package:project_admin/screens/login/widget/wiget_navigator_to_sign_up.dart';
+import 'package:project_admin/util/authentication.dart';
 import 'package:project_admin/util/wiget_textfield_custome.dart';
 
 import '../../../util/widget_textfield_password_custome.dart';
@@ -87,13 +89,56 @@ class _WidgetFormLoginState extends State<WidgetFormLogin> {
               children: [
                 Expanded(child:WidgetButtonLogin(handle: () async {
                   UserModel? user = await UserModel.login(widget.emailController.text, widget.passwordController.text);
-                  UserModel.saveAccount(widget.emailController.text, widget.passwordController.text) ;
-                  UserModel.saveUserData(user!) ;
 
-                  Navigator.pushReplacementNamed(context, "/dashboard");
+                  if(widget.isSaveFinger) {
+                    UserModel.saveAccount(widget.emailController.text, widget.passwordController.text) ;
+                    Fluttertoast.showToast(
+                      msg: "Đã lưu vân tay",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.black54,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
+                    );
+                  }
+                  if(user != null) {
+                    UserModel.saveUserData(user) ;
+                    Navigator.pushReplacementNamed(context, "/dashboard");
+                  }
+                  else {
+                    Fluttertoast.showToast(
+                      msg: "Lỗi đăng nhập",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.black54,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
+                    );
+                  }
+
                 },)),
                 !widget.isDesktop ? const SizedBox(width: 20,) : Container() ,
-                !widget.isDesktop ? WidgetFinger(handle: () {},) : Container()
+                !widget.isDesktop ? WidgetFinger(handle: () async {
+                  // List<String> data = await UserModel.loadAccount() ;
+                  //
+                  // bool auth = await Authentication.authenticateUser();
+                  // print(auth) ;
+                  // if(auth) {
+                  //   UserModel? user = await UserModel.login(data[0], data[1]);
+                  //   UserModel.saveUserData(user!) ;
+                  //   Navigator.pushReplacementNamed(context, "/dashboard");
+                  // }
+                  // else {
+                  //   Fluttertoast.showToast(
+                  //     msg: "Vân tay không hợp lệ",
+                  //     toastLength: Toast.LENGTH_SHORT,
+                  //     gravity: ToastGravity.BOTTOM,
+                  //     backgroundColor: Colors.black54,
+                  //     textColor: Colors.white,
+                  //     fontSize: 16.0,
+                  //   );
+                  // }
+                },) : Container()
               ],
             )
           ],

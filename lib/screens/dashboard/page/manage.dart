@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project_admin/model/CartModal.dart';
 import 'package:project_admin/screens/dashboard/page/card_detail.dart';
 import 'package:project_admin/screens/dashboard/page/widget/manage/detail/widget_button_card_detail_of_history.dart';
 import 'package:project_admin/screens/dashboard/page/widget/manage/detail/widget_item_person_change.dart';
@@ -20,49 +21,23 @@ class Manage extends StatefulWidget {
 
 class _ManageState extends State<Manage> {
 
-  List<dynamic>? list ;
+
   int state = 0 ;
   List<dynamic>? item ;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    loadData(1) ;
-  }
-
-  void loadData(int choose) async {
-    List<dynamic> data ;
-    if(choose == 1) {
-      data = await BookModal.exporUserBook(widget.user.id.toString(), () {
-
-      },);
-    }
-    else {
-      data = [] ;
-    }
-    setState(() {
-      list = data ;
-    });
-  }
 
   Widget getWidget() {
     if(state == 0) {
 
-      return list != null ? WidgetListBook(
-        list: list!,
+      return WidgetListBook(
+        user: widget.user,
         handle: (data) {
           setState(() {
             state = 2 ;
             item = data ;
           });
         },
-        handleChoose: (choose) {
-          setState(() {
-            loadData(choose) ;
-          });
-        },
-      ): Container();
+      );
     }
     else if(state == 1) {
       return WidgetSignUpBook(
@@ -91,7 +66,6 @@ class _ManageState extends State<Manage> {
                     () {
                   setState(() {
                     state = 0;
-                    loadData(1);
                   });
                   Fluttertoast.showToast(
                     msg: "Cập nhật thành công",
@@ -119,7 +93,6 @@ class _ManageState extends State<Manage> {
                   () {
                 setState(() {
                   state = 0;
-                  loadData(1);
                 });
                 Fluttertoast.showToast(
                   msg: "Xoá thành công",

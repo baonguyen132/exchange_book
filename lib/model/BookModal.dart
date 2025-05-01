@@ -72,7 +72,7 @@ class BookModal {
     }
   }
 
-  static Future<List<dynamic>> exporUserBook(String id, Function () handle) async {
+  static Future<List<dynamic>> exporUserBook(String id) async {
     final respone = await http.post(
       Uri.parse(location+"/exportMyBook"),
       headers: {"Content-Type": "application/json"},
@@ -98,11 +98,42 @@ class BookModal {
     }
   }
 
-
-  static Future<dynamic> uploadImageScan(File _image) async {
+  static Future<dynamic> scanBook(File _image) async {
     try {
 
-      var uri = Uri.parse("$location/upload_image_book"); // Đổi IP nếu cần
+      var uri = Uri.parse("$location/scan_book");
+      var request = http.MultipartRequest('POST', uri);
+
+      var mimeType = lookupMimeType(_image.path) ?? 'image/jpeg';
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        _image.path,
+        contentType: MediaType.parse(mimeType),
+      ));
+
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+
+        return json.decode(responseBody);
+
+      } else {
+        print("Upload thất bại! Mã lỗi: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Lỗi khi upload ảnh: $e");
+      return null;
+    }
+  }
+
+
+  static Future<dynamic> uploadImageScan(File _image, String path) async {
+    try {
+
+      var uri = Uri.parse(location+path); // Đổi IP nếu cần
       var request = http.MultipartRequest('POST', uri);
 
       var mimeType = lookupMimeType(_image.path) ?? 'image/jpeg';

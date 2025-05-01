@@ -1,3 +1,5 @@
+import 'package:project_admin/data/ConstraintData.dart';
+
 import '../widgets/circle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +17,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // After
     final User currentUser = User(
-      name: 'Thanh Phương',
+      name: 'Bảo Nguyên',
       imageUrl: 'https://th.bing.com/th/id/OIP.W6og9wi7EZmkxVmgQhltugHaHa?rs=1&pid=ImgDetMain',
     );
     final List<Story> stories = [
@@ -44,21 +46,21 @@ class HomeScreen extends StatelessWidget {
     final List<Post> posts = [
       Post(
         user: currentUser,
-        caption: 'Hello tui là bé Phương đâyyy',
+        caption: 'Tôi đang muốn bán loại sách này, giá ưu đãi \n, Liên hệ 098765421',
         timeAgo: '5m',
-        imageUrl: null,
+        imageUrl: location+"/public/image_book_client/20250416_102442.jpg",
         likes: 120,
         comments: 10,
         shares: 5,
       ),
       Post(
         user: User(
-          name: 'Bảo Nguyên',
+          name: 'Thanh Phương',
           imageUrl: 'https://th.bing.com/th/id/OIP.W6og9wi7EZmkxVmgQhltugHaHa?rs=1&pid=ImgDetMain',
         ),
         caption: '안녕하세요!',
         timeAgo: '2h',
-        imageUrl: 'https://th.bing.com/th/id/OIP.W6og9wi7EZmkxVmgQhltugHaHa?rs=1&pid=ImgDetMain',
+        imageUrl: location+"/public/image_book_client/20250416_102252.jpg",
         likes: 250,
         comments: 20,
         shares: 8,
