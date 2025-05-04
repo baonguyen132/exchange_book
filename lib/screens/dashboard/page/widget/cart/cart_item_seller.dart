@@ -63,18 +63,7 @@ class _CartItemSellerState extends State<CartItemSeller> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Tên: ${widget.idseller}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.maintext,
-                  ),
-                ),
-              ),
+
               SizedBox(height: 10),
               for (var item in widget.exportListRaw.entries)
                 CartItem(

@@ -9,7 +9,7 @@ import '../widget_button_custom.dart';
 class WidgetListItemManage extends StatefulWidget {
   List<dynamic> item ;
   String textButton ;
-  Function (String id_cart) handleClick ;
+  Function (String id_cart, int total) handleClick ;
   int trangthaibutton ;
   WidgetListItemManage({super.key, required this.item, required this.textButton, required this.handleClick, required this.trangthaibutton});
 
@@ -20,6 +20,9 @@ class WidgetListItemManage extends StatefulWidget {
 class _WidgetListItemManageState extends State<WidgetListItemManage> {
 
   List<dynamic>? listItem ;
+  bool click = false ;
+  String trangthai = "";
+
 
   @override
   void initState() {
@@ -30,13 +33,13 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
   void loadData() async {
     List<dynamic> data = await CartModal.exportItemCart(widget.item[0].toString());
     setState(() {
+      trangthai = widget.item[1] ;
       listItem = data ;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Container(
@@ -77,7 +80,7 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    "Trạng thái: ${widget.item[1]}",
+                    "Trạng thái: $trangthai",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -110,10 +113,21 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                   )
               ),
               SizedBox(height: 20),
-              if((widget.trangthaibutton == 2 && widget.item[1] == "Đã xác nhận") || widget.trangthaibutton == 1 && widget.item[1] == "Đã chuyển")
+              if((widget.trangthaibutton == 2 && widget.item[1] == "Đã xác nhận" && !click) || (widget.trangthaibutton == 1 && widget.item[1] == "Đã chuyển" && !click))
                 GestureDetector(
                   onTap: () {
-                    widget.handleClick(widget.item[0].toString()) ;
+                    if(!click) {
+                      widget.handleClick(widget.item[0].toString(), widget.item[3]) ;
+                      setState(() {
+                        click = !click ;
+                        if(widget.item[1] == "Đã xác nhận") {
+                          trangthai = "Đã chuyển";
+                        }
+                        else if (widget.item[1] == "Đã chuyển") {
+                          trangthai = "Đã nhận";
+                        }
+                      });
+                    }
                   },
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,

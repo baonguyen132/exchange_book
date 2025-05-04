@@ -47,7 +47,7 @@ dependencies:
   cached_network_image: ^3.4.1
   curved_navigation_bar:
   fluttertoast: ^8.2.2
-  local_auth: ^2.1.7
+  intl: ^0.18.1
 
 
 dev_dependencies:

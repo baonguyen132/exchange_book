@@ -52,9 +52,17 @@ class _IntroduceProfileState extends State<IntroduceProfile> {
           Expanded(
               child: Container(
                 height: 0,
-                child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) => IntroduceProfileItem(index: index)
+                child: ListView(
+                  children: [
+                    IntroduceProfileItem(
+                      text: "Facebook",
+                      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s",
+                    ),
+                    IntroduceProfileItem(
+                      text: "Github",
+                      imageUrl: "https://th.bing.com/th/id/OIP.nK06T8IQhsz5cs8NpOF-dwHaHa?rs=1&pid=ImgDetMain",
+                    ),
+                  ],
                 ),
               )
           ),

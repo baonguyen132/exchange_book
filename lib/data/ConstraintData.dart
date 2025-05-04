@@ -1,7 +1,7 @@
 var mainLightDarkMode = true ;
 
-final location = "https://steady-sharply-ibex.ngrok-free.app" ;
-// final location = "http://localhost:5000" ;
+// final location = "https://steady-sharply-ibex.ngrok-free.app" ;
+final location = "http://localhost:5000" ;
 
 // Hàm chuyển số CCCD thành ngày tháng năm
 String formatIDToDate(String idNumber) {

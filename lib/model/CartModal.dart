@@ -101,13 +101,15 @@ class CartModal {
   }
 
 
-  static Future<void> updateStateCart(String id_cart, String state , Function () handleSuccessful , Function () handleFail ) async {
+  static Future<void> updateStateCart(String id_user, String id_cart ,String state , String total, Function () handleSuccessful , Function () handleFail ) async {
     final response = await http.post(
       Uri.parse(location+"/update_state_cart"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "id_user": id_cart,
-        "state": state
+        "id_user": id_user,
+        "id_cart": id_cart,
+        "state": state,
+        "total": total
       }),
     ) ;
     if (response.statusCode == 200) {

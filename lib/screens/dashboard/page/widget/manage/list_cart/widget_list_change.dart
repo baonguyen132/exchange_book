@@ -5,7 +5,7 @@ import 'package:project_admin/theme/theme.dart';
 class WidgetListManage extends StatefulWidget {
   List<dynamic> list ;
   String textButton ;
-  Function (String id_cart) handleClick ;
+  Function (String id_cart, int total) handleClick ;
   int trangthaibutton ;
   WidgetListManage({super.key, required this.list ,  required this.textButton, required this.handleClick, required this.trangthaibutton});
 
@@ -45,8 +45,8 @@ class _WidgetListManageState extends State<WidgetListManage> {
                   item: widget.list[i],
                   textButton: widget.textButton,
                   trangthaibutton: widget.trangthaibutton,
-                  handleClick: (id_cart) {
-                    widget.handleClick(id_cart) ;
+                  handleClick: (id_cart, total) {
+                    widget.handleClick(id_cart, total) ;
                   },
                 )
 

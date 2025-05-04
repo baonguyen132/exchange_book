@@ -85,10 +85,13 @@ class BookModal {
     return data ;
   }
 
-  static Future<List<dynamic>> exportBook() async {
-    final response = await http.get(
+  static Future<List<dynamic>> exportBook(String id) async {
+    final response = await http.post(
       Uri.parse("$location/exportBook"),
       headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "id_user": id,
+      }),
     ) ;
 
     if (response.statusCode == 200) {

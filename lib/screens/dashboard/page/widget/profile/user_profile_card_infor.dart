@@ -11,20 +11,16 @@ class UserProfileCardInfor extends StatefulWidget {
 }
 
 class _UserProfileCardInforState extends State<UserProfileCardInfor> {
-  int calculateAge(DateTime birthDate) {
-    DateTime today = DateTime.now();
-    int age = today.year - birthDate.year;
 
-    // Kiểm tra nếu chưa đến sinh nhật năm nay thì trừ đi 1 tuổi
-    if (today.month < birthDate.month ||
-        (today.month == birthDate.month && today.day < birthDate.day)) {
-      age--;
-    }
-    return age;
-  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,32 +34,19 @@ class _UserProfileCardInforState extends State<UserProfileCardInfor> {
           ),
         ),
         SizedBox(height: 20,) ,
-        Container(
-          width: 400,
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              Text(
-                "Tuổi: ${calculateAge(DateTime.parse(widget.user.dob))}",
-                style: TextStyle(
-                    fontSize: 22,
-                    color: Theme.of(context).colorScheme.maintext,
-                    decoration: TextDecoration.none,
-                    fontWeight: FontWeight.normal
-                ),
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          children: [
+            Text(
+              "Point: ${widget.user.point}",
+              style: TextStyle(
+                fontSize: 22,
+                color: Theme.of(context).colorScheme.maintext,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.normal,
               ),
-              Text(
-                "Ngày sinh: ${widget.user.dob}",
-                style: TextStyle(
-                    fontSize: 22,
-                    color: Theme.of(context).colorScheme.maintext,
-                    decoration: TextDecoration.none,
-                    fontWeight: FontWeight.normal
-                ),
-              ),
-
-            ],
-          ),
+            ),
+          ],
         ),
         SizedBox(height: 20,) ,
         Wrap(
@@ -100,7 +83,7 @@ class _UserProfileCardInforState extends State<UserProfileCardInfor> {
           alignment: WrapAlignment.spaceBetween,
           children: [
             Text(
-              "Giới tích: ${widget.user.gender}",
+              "Giới tính: ${widget.user.gender}",
               style: TextStyle(
                 fontSize: 22,
                 color: Theme.of(context).colorScheme.maintext,

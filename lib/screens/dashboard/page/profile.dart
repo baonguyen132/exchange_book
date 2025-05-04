@@ -6,6 +6,7 @@ import 'package:project_admin/screens/dashboard/page/widget/profile/product_prof
 import 'package:project_admin/screens/dashboard/page/widget/profile/user_profile_card.dart';
 import 'package:project_admin/theme/theme.dart';
 
+import '../../../model/BookModal.dart';
 import '../../../model/UserModal.dart';
 
 class Profile extends StatefulWidget {
@@ -16,7 +17,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  UserModel user = UserModel(id: '', name: '', email: '', password: '', cccd: '', dob: '', gender: '', address: '', token: '');
+  List<dynamic>? list ;
+  UserModel user = UserModel(id: '', name: '', email: '', password: '', cccd: '', dob: '', gender: '', address: '',point: '' ,token: '');
   @override
   void initState() {
     // TODO: implement initState
@@ -26,8 +28,10 @@ class _ProfileState extends State<Profile> {
 
   Future<void> initLoadData() async {
     UserModel? loadedUser = await UserModel.loadUserData(); // Chờ dữ liệu trước
+    List<dynamic> data = await BookModal.exporUserBook(loadedUser!.id.toString());
     setState(() {
-      user = loadedUser!;
+      user = loadedUser;
+      list=data ;
     });
   }
 
@@ -41,7 +45,7 @@ class _ProfileState extends State<Profile> {
             SizedBox(height: 30,),
             IntroduceProfile(height: 400, weight: MediaQuery.of(context).size.width , margin: 0,),
             SizedBox(height: 30,),
-            ProductProfile()
+            list != null ?  ProductProfile(list: list!,) : Container()
           ],
         ),
       ) ;
@@ -55,7 +59,7 @@ class _ProfileState extends State<Profile> {
             SizedBox(height: 10,),
             IntroduceProfile(height: 400, weight: MediaQuery.of(context).size.width , margin: 0,),
             SizedBox(height: 10,),
-            ProductProfile()
+            list != null ?  ProductProfile(list: list!,) : Container()
           ],
         ),
       );
@@ -71,7 +75,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     UserProfileCard(userModel: user,),
                     SizedBox(height: 10,),
-                    ProductProfile()
+                    list != null ?  ProductProfile(list: list!,) : Container()
                   ],
                 ),
               )

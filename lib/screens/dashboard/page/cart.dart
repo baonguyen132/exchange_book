@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_admin/model/CartModal.dart';
 import 'package:project_admin/model/DetailCartModal.dart';
+import 'package:project_admin/model/UserModal.dart';
 import 'package:project_admin/screens/dashboard/page/card_detail.dart';
 import 'package:project_admin/screens/dashboard/page/widget/cart/cart_item_seller.dart';
 import 'package:project_admin/theme/theme.dart';
@@ -13,7 +14,7 @@ import 'package:project_admin/util/wiget_textfield_custome.dart';
 import '../../../data/ConstraintData.dart';
 
 class Cart extends StatefulWidget {
-  Function (Map<String, String> data,String address, String total, String path) handleInsert ;
+  Function (Map<String, String> data,String address, String totalText, int totalSeller ,String path) handleInsert ;
   Cart({super.key , required this.handleInsert});
 
   @override
@@ -23,6 +24,7 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   Map<String , String>? listSeller ;
   TextEditingController address = TextEditingController() ;
+  UserModel? user ;
 
   Map<String, int> total = {};
   int totalSeller = 0 ;
@@ -37,8 +39,10 @@ class _CartState extends State<Cart> {
   }
   void loadData() async {
     Map<String , String>? data = await DetailCartModal.loadData() ;
+    UserModel? userdata = await UserModel.loadUserData() ;
     setState(() {
       listSeller = data ;
+      user = userdata ;
       totalSeller = 0;
       totalText = "" ;
     });
@@ -90,12 +94,12 @@ class _CartState extends State<Cart> {
           ),
           const SizedBox(height: 8),
           Text(
-            "Tên: Nguyễn Văn A",
+            "Tên: ${user!.name}",
             style: TextStyle(fontSize: 15, color: Colors.black87),
           ),
           const SizedBox(height: 4),
           Text(
-            "Số điện thoại: 0987654321",
+            "Email: ${user!.email}",
             style: TextStyle(fontSize: 15, color: Colors.black87),
           ),
           const SizedBox(height: 12),
@@ -140,6 +144,7 @@ class _CartState extends State<Cart> {
                 listSeller!,
                 address.text,
                 totalText,
+                totalSeller,
                 "$location/insert_cart",
               );
 

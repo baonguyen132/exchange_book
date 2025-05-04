@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
         ),
         caption: '안녕하세요!',
         timeAgo: '2h',
-        imageUrl: location+"/public/image_book_client/20250416_102252.jpg",
+        imageUrl: location+"/public/image_book_client/20250416_102309.jpg",
         likes: 250,
         comments: 20,
         shares: 8,

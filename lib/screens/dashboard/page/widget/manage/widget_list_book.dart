@@ -31,6 +31,7 @@ class _WidgetListBookState extends State<WidgetListBook> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     loadData(state) ;
   }
 
@@ -107,13 +108,14 @@ class _WidgetListBookState extends State<WidgetListBook> {
       );
     }
     else if(state == 2) {
-
       return WidgetListManage(
+
         list: list!,
         trangthaibutton: 1,
         textButton: "Đã nhận",
-        handleClick: (id_cart) {
-          CartModal.updateStateCart(id_cart, "Đã nhận", () {
+        handleClick: (id_cart, total) {
+
+          CartModal.updateStateCart(widget.user.id!, id_cart, "Đã nhận", total.toString(), () {
             Fluttertoast.showToast(
               msg: "Cập nhật trạng thái thành công",
               toastLength: Toast.LENGTH_SHORT,
@@ -132,19 +134,17 @@ class _WidgetListBookState extends State<WidgetListBook> {
               fontSize: 16.0,
             );
           },);
-          setState(() {
-            loadData(state) ;
-          });
         },
       ) ;
     }
     else  {
+
       return WidgetListManage(
         list: list!,
         trangthaibutton: 2,
         textButton: "Đã chuyển",
-        handleClick: (id_cart) {
-          CartModal.updateStateCart(id_cart, "Đã chuyển", () {
+        handleClick: (id_cart, total) async {
+          CartModal.updateStateCart(widget.user.id!, id_cart, "Đã chuyển", total.toString(), () {
             Fluttertoast.showToast(
               msg: "Cập nhật trạng thái thành công",
               toastLength: Toast.LENGTH_SHORT,
@@ -163,9 +163,10 @@ class _WidgetListBookState extends State<WidgetListBook> {
               fontSize: 16.0,
             );
           },);
-          setState(() {
-            loadData(state) ;
-          });
+          UserModel? userModel = await UserModel.loadUserData() ;
+          userModel?.point = "${int.parse(userModel.point) + total}";
+          UserModel.saveUserData(userModel!);
+
         },
       ) ;
     }

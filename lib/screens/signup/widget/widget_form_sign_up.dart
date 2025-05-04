@@ -127,6 +127,7 @@ class _WidgetFormSignUpState extends State<WidgetFormSignUp> {
               dob: widget.dobController.text,
               gender: widget.gender,
               address: widget.addressController.text,
+              point: '50000',
             );
             UserModel.registerUser(newUser ,() {
               Navigator.pop(context);

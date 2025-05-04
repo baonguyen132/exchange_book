@@ -43,8 +43,8 @@ class _ProductState extends State<Product> {
   }
 
   void loadData() async {
-    List<dynamic> data = await BookModal.exportBook() ;
     UserModel? userdata = await UserModel.loadUserData() ;
+    List<dynamic> data = await BookModal.exportBook(userdata!.id.toString()) ;
     setState(() {
       list_product_best = data ;
       list_product = data ;
@@ -210,10 +210,11 @@ class _ProductState extends State<Product> {
       ) ;
     }
     else {
-      return Cart(handleInsert: (data, address, total, path) {
+      return Cart(handleInsert: (data, address, totalText, total, path) {
+        UserModel? userModel = this.userModel;
         if(userModel != null) {
           CartModal.uploadCart(
-            data,address,total,path,userModel!.id.toString(),() {
+            data,address,totalText,path,userModel.id.toString(),() {
             Fluttertoast.showToast(
               msg: "Thêm giỏ hàng thành công",
               toastLength: Toast.LENGTH_SHORT,
@@ -221,8 +222,8 @@ class _ProductState extends State<Product> {
               backgroundColor: Colors.black54,
               textColor: Colors.white,
               fontSize: 16.0,
-            );
-          }, () {
+            );},
+            () {
             Fluttertoast.showToast(
               msg: "Lỗi khi thêm giỏ hàng",
               toastLength: Toast.LENGTH_SHORT,
@@ -231,8 +232,11 @@ class _ProductState extends State<Product> {
               textColor: Colors.white,
               fontSize: 16.0,
             );},
-
           );
+
+          userModel.point = "${int.parse(userModel.point) - total}";
+          UserModel.saveUserData(userModel);
+
           DetailCartModal.removeDetailCartData() ;
           setState(() {
             state = 0 ;

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/product_profile_item.dart';
+import 'package:project_admin/screens/dashboard/widget/card/card_item.dart';
 import 'package:project_admin/theme/theme.dart';
 
+import '../../../../../data/ConstraintData.dart';
+
 class ProductProfile extends StatefulWidget {
-  const ProductProfile({super.key});
+  List<dynamic> list ;
+  ProductProfile({super.key, required this.list});
 
   @override
   State<ProductProfile> createState() => _ProductProfileState();
@@ -29,30 +32,113 @@ class _ProductProfileState extends State<ProductProfile> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            child: Text(
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: const Text(
               "Project one",
               style: TextStyle(
-                  fontSize: 22, // Điều chỉnh kích thước chữ
-                  color: Colors.blue, // Màu chữ
-                  decoration: TextDecoration.none,
-                  fontWeight: FontWeight.w600
+                fontSize: 22,
+                color: Colors.blue,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            padding: EdgeInsets.all(20),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
             height: 500,
-            padding: EdgeInsets.only(right: 20 , left: 20 , bottom: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0).copyWith(bottom: 20),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (context, index) =>  ProductProfileItem(),
+              itemCount: widget.list.length,
+              itemBuilder: (context, index) => CardItem(
+                width: 300,
+                heart: true,
+                link: "$location/${widget.list[index][6]}",
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: "📖 Sách: ",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue, // hoặc tùy thuộc vào theme
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.list[index][1],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.maintext,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: "Còn lại: ",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${widget.list[index][10]}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.maintext,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: "💰 Giá: ",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${widget.list[index][4]} VND",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.maintext,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          )
+          ),
         ],
-      ),
+      )
     );
   }
 }

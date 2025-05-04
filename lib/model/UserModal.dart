@@ -20,6 +20,7 @@ class UserModel {
   String address;
   String token;
   String? status ;
+  String point ;
 
   UserModel({
     this.id ,
@@ -30,6 +31,7 @@ class UserModel {
     required this.dob,
     required this.gender,
     required this.address,
+    required this.point,
     this.status ,
     this.token = "some_token",
   });
@@ -45,8 +47,10 @@ class UserModel {
       dob: (json[6]),
       gender: json[7].toString() ,
       address: json[9].toString() ,
+      point: json[10].toString(),
       token: json[10].toString() ,
-      status: json[4].toString()
+      status: json[4].toString(),
+
     );
   }
   factory UserModel.fromJsons(Map<String, dynamic> json) {
@@ -59,8 +63,9 @@ class UserModel {
       dob: json["dob"].toString(),
       gender: json["gender"].toString(),
       address: json["address"].toString(),
+      point: json["point"].toString(),
       token: json["token"].toString(),
-        status: json["status"].toString()
+      status: json["status"].toString()
     );
   }
   // Chuyển từ Object thành JSON
@@ -74,6 +79,7 @@ class UserModel {
       "dob": dob,
       "gender": gender,
       "address": address,
+      "point": point,
       "status": status ,
       "token": token,
     };
