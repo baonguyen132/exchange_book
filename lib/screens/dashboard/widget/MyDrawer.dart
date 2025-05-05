@@ -127,6 +127,7 @@ class _MydrawerState extends State<Mydrawer> {
                           _buildMenuItem(6),
                         ],
                         _buildMenuItem(7),
+                        _buildMenuItem(8),
                       ],
                     ),
                   ],

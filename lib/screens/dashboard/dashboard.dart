@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_admin/model/MenuModal.dart';
 import 'package:project_admin/screens/dashboard/page/book.dart';
 import 'package:project_admin/screens/dashboard/page/home.dart';
+import 'package:project_admin/screens/dashboard/page/manage_user.dart';
 import 'package:project_admin/screens/dashboard/page/product.dart';
 
 import '../../model/UserModal.dart';
@@ -57,6 +58,9 @@ class _DashboardState extends State<Dashboard> {
     }
     else if(mainPage == 7) {
       return Book();
+    }
+    else if(mainPage == 8) {
+      return ManageUser();
     }
     return Container() ;
   }

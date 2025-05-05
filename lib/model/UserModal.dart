@@ -125,6 +125,22 @@ class UserModel {
     }
   }
 
+
+  static Future<List<dynamic>> loadDataUser() async {
+    final response = await http.get(
+      Uri.parse(location+"/loadDataUser"),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load books: ${response.statusCode}");
+    }
+  }
+
+
+
   static Future<void> sendCodeOtp(email,number) async {
     Map<String, dynamic> requestBody = {
       "email": email,
