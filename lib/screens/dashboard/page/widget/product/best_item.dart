@@ -6,12 +6,15 @@ import 'package:project_admin/screens/dashboard/page/widget/product/product_item
 import 'package:project_admin/theme/theme.dart';
 
 import '../../../../../data/ConstraintData.dart';
+import '../../../../../model/BookModal.dart';
 import '../../../widget/card/card_item_image.dart';
 
 class BestItem extends StatefulWidget {
   List<dynamic> item ;
   Function (List<dynamic> item) openItem ;
-  BestItem({super.key , required this.item, required this.openItem});
+  Function (BookModal bookModal, String name_book) order ;
+
+  BestItem({super.key , required this.item, required this.openItem, required this.order});
 
   @override
   State<BestItem> createState() => _BestItemState();
@@ -61,7 +64,20 @@ class _BestItemState extends State<BestItem> {
                           child: ProductItemInfor(item: widget.item,)
                       ),
                       ProductItemButton(handle: () {
-
+                        widget.order(
+                            BookModal(
+                                id: widget.item[0].toString(),
+                                date_purchase: widget.item[3],
+                                price: widget.item[4].toString(),
+                                description: widget.item[5],
+                                status: widget.item[9].toString(),
+                                image: widget.item[6],
+                                quantity: widget.item[10].toString(),
+                                id_user: widget.item[7].toString(),
+                                id_type_book: widget.item[8].toString()
+                            ),
+                            widget.item[1]
+                        );
                       },)
                     ],
                   )

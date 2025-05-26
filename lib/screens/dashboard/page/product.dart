@@ -19,7 +19,8 @@ import 'package:project_admin/theme/theme.dart';
 import '../../../model/CartModal.dart';
 
 class Product extends StatefulWidget {
-  const Product({super.key});
+  UserModel userdata ;
+  Product({super.key, required this.userdata});
 
   @override
   State<Product> createState() => _ProductState();
@@ -30,7 +31,7 @@ class _ProductState extends State<Product> {
   List<dynamic>? list_product ;
   int state = 0;
   late List<dynamic> data ;
-  UserModel? userModel ;
+
 
   final ImagePicker _picker = ImagePicker();
   File? _image;
@@ -43,12 +44,11 @@ class _ProductState extends State<Product> {
   }
 
   void loadData() async {
-    UserModel? userdata = await UserModel.loadUserData() ;
-    List<dynamic> data = await BookModal.exportBook(userdata!.id.toString()) ;
+
+    List<dynamic> data = await BookModal.exportBook(widget.userdata.id.toString()) ;
     setState(() {
       list_product_best = data ;
       list_product = data ;
-      userModel = userdata ;
     });
   }
 
@@ -56,7 +56,7 @@ class _ProductState extends State<Product> {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null)  {
       _image = File(pickedFile.path);
-      List<dynamic> data = (await BookModal.uploadImageScan(_image!,"/scan_books"))! ;
+      List<dynamic> data = (await BookModal.uploadImageScan(_image!,"/scan_books", widget.userdata.id!))! ;
       setState(() {
         list_product = data ;
       });
@@ -169,7 +169,19 @@ class _ProductState extends State<Product> {
                           state = 1 ;
                           data = item ;
                         });
-                      },)
+                      },
+                      order: (bookModal, name_book) {
+                        DetailCartModal.saveDetail(
+                          bookModal.id.toString(),
+                          bookModal.id_user.toString(),
+                          DetailCartModal(
+                              bookModal: bookModal,
+                              quantity: 1,
+                              name_book: name_book
+                          ),
+                        );
+                      },
+                    )
 
               ],
             ),
@@ -211,48 +223,36 @@ class _ProductState extends State<Product> {
     }
     else {
       return Cart(handleInsert: (data, address, totalText, total, path) {
-        UserModel? userModel = this.userModel;
-        if(userModel != null) {
-          CartModal.uploadCart(
-            data,address,totalText,path,userModel.id.toString(),() {
-            Fluttertoast.showToast(
-              msg: "Thêm giỏ hàng thành công",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.black54,
-              textColor: Colors.white,
-              fontSize: 16.0,
-            );},
-            () {
-            Fluttertoast.showToast(
-              msg: "Lỗi khi thêm giỏ hàng",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.black54,
-              textColor: Colors.white,
-              fontSize: 16.0,
-            );},
-          );
 
-          userModel.point = "${int.parse(userModel.point) - total}";
-          UserModel.saveUserData(userModel);
-
-          DetailCartModal.removeDetailCartData() ;
-          setState(() {
-            state = 0 ;
-          });
-        }
-        else {
+        CartModal.uploadCart(
+          data,address,totalText,path,widget.userdata.id.toString(),() {
           Fluttertoast.showToast(
-            msg: "Bạn cần đăng nhập",
+            msg: "Thêm giỏ hàng thành công",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             backgroundColor: Colors.black54,
             textColor: Colors.white,
             fontSize: 16.0,
-          );
-        }
-      },);
+          );},
+          () {
+          Fluttertoast.showToast(
+            msg: "Lỗi khi thêm giỏ hàng",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.black54,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );},
+        );
+
+        widget.userdata.point = "${int.parse(widget.userdata.point) - total}";
+        UserModel.saveUserData(widget.userdata);
+
+        DetailCartModal.removeDetailCartData() ;
+        setState(() {
+          state = 0 ;
+        });
+            },);
     }
   }
 

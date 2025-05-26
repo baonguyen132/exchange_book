@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../../model/UserModal.dart';
+
 class HomeAdmin extends StatefulWidget {
   final bool isMobile;
-  const HomeAdmin({super.key, this.isMobile = false});
+  UserModel user ;
+  HomeAdmin({super.key, this.isMobile = false, required this.user});
 
   @override
   State<HomeAdmin> createState() => _HomeAdminState();
 }
 
 class _HomeAdminState extends State<HomeAdmin> {
+
+
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 800;
@@ -36,7 +41,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                 child: _buildLeftPanel(isMobile: isMobile),
               ),
             ),
-            Expanded(flex: 2, child: _buildRightPanel()),
+            Expanded(flex: 2, child: _buildRightPanel(widget.user)),
           ],
         ),
       ),
@@ -73,7 +78,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                       PageRouteBuilder(
                         pageBuilder: (_, __, ___) => Scaffold(
                           appBar: AppBar(title: const Text("Profile")),
-                          body: _buildRightPanel(),
+                          body: _buildRightPanel(widget.user),
                         ),
                         transitionsBuilder: (_, animation, __, child) {
                           const begin = Offset(1.0, 0.0);
@@ -100,18 +105,18 @@ class _HomeAdminState extends State<HomeAdmin> {
         ),
         const SizedBox(height: 16),
         isMobile
-            ? Column(
+            ? const Column(
           children: [
             Row(
-              children: const [
+              children: [
                 Expanded(child: SummaryCard(icon: Icons.person, label: "User", value: "105")),
                 SizedBox(width: 8),
                 Expanded(child: SummaryCard(icon: Icons.book_outlined, label: "Books", value: "86")),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Row(
-              children: const [
+              children: [
                 Expanded(child: SummaryCard(icon: Icons.post_add, label: "Posts", value: "25")),
                 SizedBox(width: 8),
                 Expanded(child: SummaryCard(icon: Icons.feedback_outlined, label: "Feedback", value: "10")),
@@ -119,9 +124,9 @@ class _HomeAdminState extends State<HomeAdmin> {
             ),
           ],
         )
-            : Row(
+            : const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             SummaryCard(icon: Icons.person, label: "User", value: "105"),
             SummaryCard(icon: Icons.book_outlined, label: "Books", value: "86"),
             SummaryCard(icon: Icons.post_add, label: "Posts", value: "25"),
@@ -177,36 +182,36 @@ class _HomeAdminState extends State<HomeAdmin> {
     );
   }
 
-  Widget _buildRightPanel() {
+  Widget _buildRightPanel(UserModel user) {
     return Container(
       color: const Color(0xFFEFEFEF),
       padding: const EdgeInsets.all(16),
       child: Column(
-        children: const [
-          CircleAvatar(
+        children: [
+          const CircleAvatar(
             radius: 40,
             backgroundImage: NetworkImage("https://i.pinimg.com/736x/8b/2a/4d/8b2a4d1dc4ddb8d49626d497768d661b.jpg"),
           ),
-          SizedBox(height: 8),
-          Text("Hồ Bảo Nguyên", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          Text("Edit profile", style: TextStyle(color: Colors.grey, fontSize: 12)),
-          SizedBox(height: 16),
+          const SizedBox(height: 8),
+          Text( user.name , style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Text("Edit profile", style: TextStyle(color: Colors.grey, fontSize: 12)),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              HealthInfo(title: "Email", value: "nguyenhb.22it@vku.udn.vn"),
-              HealthInfo(title: "Address", value: "Da Nang"),
+              HealthInfo(title: "Email", value: user.email),
+              HealthInfo(title: "Address", value: user.address.split(",").last),
             ],
           ),
-          SizedBox(height: 24),
-          Align(
+          const SizedBox(height: 24),
+          const Align(
             alignment: Alignment.centerLeft,
             child: Text("Scheduled", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
-          SizedBox(height: 12),
-          ScheduleCard(title: "Check Posts", time: "Today, 9AM - 10AM"),
-          ScheduleCard(title: "Update UI", time: "Tomorrow, 5PM - 6PM"),
-          ScheduleCard(title: "View Books", time: "Wednesday, 9AM - 10AM"),
+          const SizedBox(height: 12),
+          const ScheduleCard(title: "Check Posts", time: "Today, 9AM - 10AM"),
+          const ScheduleCard(title: "Update UI", time: "Tomorrow, 5PM - 6PM"),
+          const ScheduleCard(title: "View Books", time: "Wednesday, 9AM - 10AM"),
         ],
       ),
     );

@@ -44,10 +44,13 @@ class _DashboardState extends State<Dashboard> {
 
   Widget getPage(bool isMobile) {
     if(mainPage == 6) {
-      return HomeAdmin(isMobile: isMobile,) ;
+      return user != null ? HomeAdmin(isMobile: isMobile,user: user!,)  : Container();
     }
     else if(mainPage == 2) {
-      return Product() ;
+      if(user == null) {
+        return Product(userdata: UserModel(id: "0" , name: "", email: "", password: "", cccd: "", dob: "", gender: "", address: "", point: ""));
+      }
+      return Product(userdata: user!,) ;
     }
     else if (mainPage == 4) {
       return Profile() ;

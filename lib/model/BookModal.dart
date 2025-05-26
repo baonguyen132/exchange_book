@@ -133,7 +133,7 @@ class BookModal {
   }
 
 
-  static Future<dynamic> uploadImageScan(File _image, String path) async {
+  static Future<dynamic> uploadImageScan(File _image, String path, String id) async {
     try {
 
       var uri = Uri.parse(location+path); // Đổi IP nếu cần
@@ -146,7 +146,9 @@ class BookModal {
         _image.path,
         contentType: MediaType.parse(mimeType),
       ));
-
+      if(id != "") {
+        request.fields['id'] = id;
+      }
       var response = await request.send();
       var responseBody = await response.stream.bytesToString();
 

@@ -31,7 +31,7 @@ class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPassword
       controller: widget.controller,
       focusNode: _focusNode,
       keyboardType: TextInputType.visiblePassword,
-      obscureText: !_isVisibility,
+      obscureText: !,
       style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500
