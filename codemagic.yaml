@@ -1,0 +1,21 @@
+workflows:
+  build-android-ios:
+    name: Build Android and iOS (Release)
+    environment:
+      flutter: stable
+      xcode: latest
+    scripts:
+      # Build Android APK (release)
+      - flutter build apk --release
+      # Build iOS IPA (release, for real device)
+      - flutter build ios --release --no-codesign
+      - cd build/ios/iphoneos
+      - mkdir Payload
+      - cp -r Runner.app Payload/
+      - zip -r Runner.ipa Payload
+      - mv Runner.ipa ../../ipa/
+    artifacts:
+      # Android artifact
+      - build/app/outputs/flutter-apk/app-release.apk
+      # iOS artifact (IPA)
+      - build/ios/ipa/Runner.ipa
