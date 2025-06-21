@@ -1,3 +1,4 @@
+import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
@@ -7,56 +8,39 @@ import '../../../model/UserModal.dart';
 import 'dark_light_mode.dart';
 import 'side_menu_widget.dart';
 
-class Mydrawer extends StatefulWidget {
+class MyDrawer extends StatefulWidget {
 
-  int selection ;
-  int status ;
-  bool isDesktop ;
+  final DashboardState state ;
+  final bool isDesktop ;
 
   final Function (MenuModal item) handle ;
 
-  Mydrawer({super.key , required this.selection , required this.handle , required this.status , this.isDesktop = false});
+  const MyDrawer({
+    super.key ,
+    required this.state,
+    required this.handle ,
+    this.isDesktop = false,
+
+  });
 
   @override
-  State<Mydrawer> createState() => _MydrawerState();
+  State<MyDrawer> createState() => _MyDrawerState();
 }
 
-class _MydrawerState extends State<Mydrawer> {
-  UserModel? user ;
+class _MyDrawerState extends State<MyDrawer> {
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initLoadData() ;
-  }
-
-  Future<void> initLoadData() async {
-    UserModel? loadedUser = await UserModel.loadUserData(); // Chờ dữ liệu trước
-    setState(() {
-      if(loadedUser != null) {
-        user = loadedUser;
-      }
-
-    });
-  }
 
   Widget _buildMenuItem(int index) {
     return SideMenuWidget(
       item: listmenu.elementAt(index),
-      isSelected: widget.selection,
-      ontap: () {
-        setState(() {
-          widget.selection = listmenu.elementAt(index).id;
-          widget.handle(listmenu.elementAt(index));
-        });
-      },
+      isSelected: widget.state.indexScreen,
+      ontap: () {widget.handle(listmenu.elementAt(index));},
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    Color main_color = Theme.of(context).colorScheme.mainColor ;
+    Color mainColor = Theme.of(context).colorScheme.mainColor ;
 
 
     return Drawer(
@@ -75,48 +59,48 @@ class _MydrawerState extends State<Mydrawer> {
         children: [
           Column(
             children: [
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height*0.8,
                 child: ListView(
                   children: [
                     Container(
                       height: 100,
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       alignment: Alignment.centerLeft,
                       child: Row(
                         children: [
                           Icon(
                             Icons.favorite_outlined,
                             size: 30,
-                            color: main_color,
+                            color: mainColor,
 
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 15, bottom: 15 ,left: 15),
+                            padding: const EdgeInsets.only(top: 15, bottom: 15 ,left: 15),
                             child: Text(
                               "Project one",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
 
-                                color: main_color
+                                color: mainColor
                               ),
                             ),
                           )
                         ],
                       ),
                     ),
-                    widget.status == 0
+                    widget.state.status == 0
                         ? Column(
                       children: [
                         if(widget.isDesktop) ...[
                           _buildMenuItem(0),
                           _buildMenuItem(1)
                         ],
-                        if (user != null) ...[
+                        if (widget.state.user.id != "0") ...[
                           _buildMenuItem(2),
                           _buildMenuItem(3),
-                          if (user?.status == "5") _buildMenuItem(4),
+                          if (widget.state.user.status == "5") _buildMenuItem(4),
                         ],
                       ],
                     )
@@ -134,7 +118,7 @@ class _MydrawerState extends State<Mydrawer> {
                 ),
 
               ),
-              Container(
+              SizedBox(
                   height: MediaQuery.of(context).size.height*0.2,
                   child: Container(
                     alignment: Alignment.bottomCenter,
@@ -144,29 +128,25 @@ class _MydrawerState extends State<Mydrawer> {
                         children: [
                           const DarkLightMode() ,
                           Container(
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: MouseRegion(
                               cursor: SystemMouseCursors.click,
                               child: GestureDetector(
                                 onTap: () {
-                                  if(user == null) {
-                                  }
-                                  else {
-                                    UserModel.removeUserData() ;
-                                  }
+                                  if(widget.state.user.id != "0") {UserModel.removeUserData() ;}
                                   Navigator.pushReplacementNamed(context, "/login") ;
                                 },
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.all(13),
+                                      padding: const EdgeInsets.all(13),
                                       child: Icon(
-                                        user == null ? Icons.login :Icons.logout  ,
+                                        widget.state.user.id == "0"  ? Icons.login :Icons.logout  ,
                                         color: Theme.of(context).colorScheme.maintext,
                                       ),
                                     ),
                                     Text(
-                                      user == null ?  "Log in" : "Log out" ,
+                                      widget.state.user.id == "0" ?  "Log in" : "Log out" ,
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Theme.of(context).colorScheme.maintext
