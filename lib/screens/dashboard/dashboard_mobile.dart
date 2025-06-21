@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:exchange_book/screens/dashboard/page/home_admin.dart';
-import 'package:exchange_book/screens/dashboard/page/profile.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/home_admin.dart';
+import 'package:exchange_book/screens/dashboard/page/client/profile.dart';
 import 'package:exchange_book/screens/dashboard/widget/bottom_nav_bar.dart';
 
 import '../../data/ConstraintData.dart';

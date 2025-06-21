@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:exchange_book/model/MenuModal.dart';
-import 'package:exchange_book/screens/dashboard/page/book.dart';
-import 'package:exchange_book/screens/dashboard/page/home.dart';
-import 'package:exchange_book/screens/dashboard/page/manage_user.dart';
-import 'package:exchange_book/screens/dashboard/page/product.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/book.dart';
+import 'package:exchange_book/screens/dashboard/page/client/home.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/manage_user.dart';
+import 'package:exchange_book/screens/dashboard/page/client/product.dart';
 
 import '../../model/UserModal.dart';
 import '../../util/responsive.dart';
 import 'dashboard_desktop.dart';
 import 'dashboard_mobile.dart';
 import 'dashboard_tablet.dart';
-import 'page/home_admin.dart';
-import 'page/profile.dart';
-import 'page/manage.dart';
+import 'page/manager/home_admin.dart';
+import 'page/client/profile.dart';
+import 'page/client/manage.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -43,8 +43,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget getPage(bool isMobile) {
-    if(mainPage == 6) {
-      return user != null ? HomeAdmin(isMobile: isMobile,user: user!,)  : Container();
+    if(mainPage ==1){
+      return Home();
     }
     else if(mainPage == 2) {
       if(user == null) {
@@ -52,12 +52,14 @@ class _DashboardState extends State<Dashboard> {
       }
       return Product(userdata: user!,) ;
     }
+    else if(mainPage ==3){
+      return user != null ? Manage(user: user!,) : Container();
+    }
     else if (mainPage == 4) {
       return Profile() ;
-    }else if(mainPage ==3){
-      return user != null ? Manage(user: user!,) : Container();
-    }else if(mainPage ==1){
-      return Home();
+    }
+    else if(mainPage == 6) {
+      return user != null ? HomeAdmin(isMobile: isMobile,user: user!,)  : Container();
     }
     else if(mainPage == 7) {
       return Book();
