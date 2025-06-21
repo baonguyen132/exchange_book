@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/checkopt/check_otp_desktop.dart';
-import 'package:project_admin/screens/checkopt/check_otp_mobile.dart';
-import 'package:project_admin/screens/checkopt/check_otp_tablet.dart';
-import 'package:project_admin/util/responsive.dart';
+import 'package:exchange_book/screens/checkopt/check_otp_desktop.dart';
+import 'package:exchange_book/screens/checkopt/check_otp_mobile.dart';
+import 'package:exchange_book/screens/checkopt/check_otp_tablet.dart';
+import 'package:exchange_book/util/responsive.dart';
 
 import '../../model/UserModal.dart';
 

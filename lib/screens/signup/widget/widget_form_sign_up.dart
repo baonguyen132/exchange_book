@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/checkopt/check_otp.dart';
-import 'package:project_admin/screens/signup/widget/widget_button_sign_up.dart';
-import 'package:project_admin/screens/signup/widget/wiget_choose_gender.dart';
-import 'package:project_admin/screens/signup/widget/wiget_scan_qr_code.dart';
+import 'package:exchange_book/screens/checkopt/check_otp.dart';
+import 'package:exchange_book/screens/signup/widget/widget_button_sign_up.dart';
+import 'package:exchange_book/screens/signup/widget/wiget_choose_gender.dart';
+import 'package:exchange_book/screens/signup/widget/wiget_scan_qr_code.dart';
 
 import '../../../data/ConstraintData.dart';
 import '../../../model/UserModal.dart';

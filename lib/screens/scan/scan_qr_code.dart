@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/scan/scan_qr_code_desktop.dart';
-import 'package:project_admin/screens/scan/scan_qr_code_mobile.dart';
-import 'package:project_admin/screens/scan/scan_qr_code_tablet.dart';
-import 'package:project_admin/util/responsive.dart';
+import 'package:exchange_book/screens/scan/scan_qr_code_desktop.dart';
+import 'package:exchange_book/screens/scan/scan_qr_code_mobile.dart';
+import 'package:exchange_book/screens/scan/scan_qr_code_tablet.dart';
+import 'package:exchange_book/util/responsive.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class ScanQrCode extends StatefulWidget {

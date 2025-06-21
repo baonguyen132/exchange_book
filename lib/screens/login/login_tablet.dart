@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/login/widget/widget_form_login.dart';
+import 'package:exchange_book/screens/login/widget/widget_form_login.dart';
 class LoginTablet extends StatefulWidget {
   TextEditingController emailController  ;
   TextEditingController passwordController  ;

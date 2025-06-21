@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/scan/scan_qr_code.dart';
+import 'package:exchange_book/screens/scan/scan_qr_code.dart';
 
 class WigetScanQrCode extends StatefulWidget {
   Function (String data) hanldeScanQR ;
