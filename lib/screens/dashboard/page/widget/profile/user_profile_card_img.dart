@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:project_admin/model/UserModal.dart';
+import 'package:exchange_book/model/UserModal.dart';
 
 import '../../../../../data/ConstraintData.dart';
 

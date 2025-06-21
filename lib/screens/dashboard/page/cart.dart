@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_admin/model/CartModal.dart';
-import 'package:project_admin/model/DetailCartModal.dart';
-import 'package:project_admin/model/UserModal.dart';
-import 'package:project_admin/screens/dashboard/page/card_detail.dart';
-import 'package:project_admin/screens/dashboard/page/widget/cart/cart_item_seller.dart';
-import 'package:project_admin/theme/theme.dart';
-import 'package:project_admin/util/wiget_textfield_custome.dart';
+import 'package:exchange_book/model/CartModal.dart';
+import 'package:exchange_book/model/DetailCartModal.dart';
+import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/screens/dashboard/page/card_detail.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/cart/cart_item_seller.dart';
+import 'package:exchange_book/theme/theme.dart';
+import 'package:exchange_book/util/wiget_textfield_custome.dart';
 
 import '../../../data/ConstraintData.dart';
 

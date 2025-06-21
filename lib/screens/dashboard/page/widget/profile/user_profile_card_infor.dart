@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/UserModal.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 class UserProfileCardInfor extends StatefulWidget {
   UserModel user ;

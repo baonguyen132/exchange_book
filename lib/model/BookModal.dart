@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
-import 'package:project_admin/model/TypeBookModal.dart';
+import 'package:exchange_book/model/TypeBookModal.dart';
 
 import '../data/ConstraintData.dart';
 

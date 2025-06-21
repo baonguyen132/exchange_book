@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/UserModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/user_profile_card_img.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/user_profile_card_infor.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/profile/user_profile_card_img.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/profile/user_profile_card_infor.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 class UserProfileCard extends StatefulWidget {
   bool ismobile  ;

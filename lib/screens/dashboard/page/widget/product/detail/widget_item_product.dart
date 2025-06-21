@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../../data/ConstraintData.dart';
 import '../../../../widget/card/card_item_image.dart';

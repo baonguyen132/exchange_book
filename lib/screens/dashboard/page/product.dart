@@ -4,17 +4,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:project_admin/model/BookModal.dart';
-import 'package:project_admin/model/DetailCartModal.dart';
-import 'package:project_admin/model/UserModal.dart';
-import 'package:project_admin/screens/dashboard/page/card_detail.dart';
-import 'package:project_admin/screens/dashboard/page/cart.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/best_item.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/detail/widget_item_product.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/product_item.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/detail/widget_button_card_detail_of_product.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/product_item_button.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/model/BookModal.dart';
+import 'package:exchange_book/model/DetailCartModal.dart';
+import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/screens/dashboard/page/card_detail.dart';
+import 'package:exchange_book/screens/dashboard/page/cart.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/product/best_item.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/product/detail/widget_item_product.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/product/product_item.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/product/detail/widget_button_card_detail_of_product.dart';
+
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../model/CartModal.dart';
 

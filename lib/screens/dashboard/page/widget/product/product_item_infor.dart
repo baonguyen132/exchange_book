@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/widget/card/card_item_text.dart';
+import 'package:exchange_book/screens/dashboard/widget/card/card_item_text.dart';
 
 class ProductItemInfor extends StatefulWidget {
   List<dynamic> item ;

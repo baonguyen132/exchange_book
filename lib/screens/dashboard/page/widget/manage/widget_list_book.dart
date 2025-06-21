@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_admin/model/BookModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/card_book.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/list_cart/widget_list_change.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/widget_button_custom.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/widget_text.dart';
+import 'package:exchange_book/model/BookModal.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/card_book.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/list_cart/widget_list_change.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/widget_button_custom.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/widget_text.dart';
 
 import '../../../../../model/CartModal.dart';
 import '../../../../../model/UserModal.dart';

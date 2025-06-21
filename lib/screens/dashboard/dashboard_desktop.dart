@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/MenuModal.dart';
+import 'package:exchange_book/model/MenuModal.dart';
 
 import 'widget/MyDrawer.dart';
 

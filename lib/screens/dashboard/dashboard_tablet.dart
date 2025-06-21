@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/widget/MyDrawer.dart';
-import 'package:project_admin/screens/dashboard/widget/bottom_nav_bar.dart';
+import 'package:exchange_book/screens/dashboard/widget/MyDrawer.dart';
+import 'package:exchange_book/screens/dashboard/widget/bottom_nav_bar.dart';
 import '../../model/MenuModal.dart';
 class DashboardTablet extends StatefulWidget {
   int status ;

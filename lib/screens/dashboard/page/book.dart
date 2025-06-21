@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_admin/model/TypeBookModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/book/widget_form_insert_product.dart';
-import 'package:project_admin/screens/dashboard/page/widget/book/widget_list_product.dart';
+import 'package:exchange_book/model/TypeBookModal.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/book/widget_form_insert_product.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/book/widget_list_product.dart';
 
 import '../../../data/ConstraintData.dart';
 

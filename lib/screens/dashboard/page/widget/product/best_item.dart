@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/product_item_button.dart';
-import 'package:project_admin/screens/dashboard/page/widget/product/product_item_infor.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/product/product_item_button.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/product/product_item_infor.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../data/ConstraintData.dart';
 import '../../../../../model/BookModal.dart';

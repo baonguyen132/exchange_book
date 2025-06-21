@@ -1,4 +1,4 @@
-import 'package:project_admin/data/ConstraintData.dart';
+import 'package:exchange_book/data/ConstraintData.dart';
 
 import '../widgets/circle_button.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import '../widgets/create_post_container.dart';
 import '../models/models.dart';
 import '../widgets/stories.dart';
 import '../widgets/post_container.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 
 class HomeScreen extends StatelessWidget {

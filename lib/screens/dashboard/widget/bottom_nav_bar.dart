@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../data/SideMenuData.dart';
 import '../../../model/MenuModal.dart';

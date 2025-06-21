@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/introduce_profile.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/product_profile.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/user_profile_card.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/profile/introduce_profile.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/profile/product_profile.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/profile/user_profile_card.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../model/BookModal.dart';
 import '../../../model/UserModal.dart';

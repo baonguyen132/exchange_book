@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/list_cart/widget_list_item_manage.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/list_cart/widget_list_item_manage.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 class WidgetListManage extends StatefulWidget {
   List<dynamic> list ;

@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/BookModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/card_detail/widget_item_information_change.dart';
-import 'package:project_admin/screens/dashboard/page/widget/card_detail/widget_list.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/model/BookModal.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/card_detail/widget_item_information_change.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/card_detail/widget_list.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../data/ConstraintData.dart';
 

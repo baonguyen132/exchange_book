@@ -3,13 +3,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:project_admin/data/ConstraintData.dart';
-import 'package:project_admin/model/BookModal.dart';
-import 'package:project_admin/model/TypeBookModal.dart';
-import 'package:project_admin/model/UserModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/card_book.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/widget_button_custom.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/widget_text.dart';
+import 'package:exchange_book/data/ConstraintData.dart';
+import 'package:exchange_book/model/BookModal.dart';
+import 'package:exchange_book/model/TypeBookModal.dart';
+import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/card_book.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/widget_button_custom.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/widget_text.dart';
 
 
 import '../../../../../util/widget_textfield_area.dart';

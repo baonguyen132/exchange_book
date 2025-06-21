@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/signup/widget/widget_form.dart';
-import 'package:project_admin/screens/signup/widget/widget_form_sign_up.dart';
+import 'package:exchange_book/screens/signup/widget/widget_form.dart';
+import 'package:exchange_book/screens/signup/widget/widget_form_sign_up.dart';
 
 class SignUpDesktop extends StatefulWidget {
   TextEditingController emailController  ;

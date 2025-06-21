@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/signup/sign_up_desktop.dart';
-import 'package:project_admin/screens/signup/sign_up_mobile.dart';
-import 'package:project_admin/screens/signup/sign_up_tablet.dart';
-import 'package:project_admin/util/responsive.dart';
+import 'package:exchange_book/screens/signup/sign_up_desktop.dart';
+import 'package:exchange_book/screens/signup/sign_up_mobile.dart';
+import 'package:exchange_book/screens/signup/sign_up_tablet.dart';
+import 'package:exchange_book/util/responsive.dart';
 
 class SignUp extends StatefulWidget {
   TextEditingController emailController = TextEditingController() ;

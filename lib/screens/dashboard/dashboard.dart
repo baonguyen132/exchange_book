@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/MenuModal.dart';
-import 'package:project_admin/screens/dashboard/page/book.dart';
-import 'package:project_admin/screens/dashboard/page/home.dart';
-import 'package:project_admin/screens/dashboard/page/manage_user.dart';
-import 'package:project_admin/screens/dashboard/page/product.dart';
+import 'package:exchange_book/model/MenuModal.dart';
+import 'package:exchange_book/screens/dashboard/page/book.dart';
+import 'package:exchange_book/screens/dashboard/page/home.dart';
+import 'package:exchange_book/screens/dashboard/page/manage_user.dart';
+import 'package:exchange_book/screens/dashboard/page/product.dart';
 
 import '../../model/UserModal.dart';
 import '../../util/responsive.dart';

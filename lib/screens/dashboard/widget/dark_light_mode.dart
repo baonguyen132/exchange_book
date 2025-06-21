@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/ConstraintData.dart';

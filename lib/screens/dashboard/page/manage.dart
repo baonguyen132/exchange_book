@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_admin/model/CartModal.dart';
-import 'package:project_admin/screens/dashboard/page/card_detail.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/detail/widget_button_card_detail_of_history.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/detail/widget_item_person_change.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/widget_list_book.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/widget_sign_up_book.dart';
+import 'package:exchange_book/model/CartModal.dart';
+import 'package:exchange_book/screens/dashboard/page/card_detail.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/detail/widget_button_card_detail_of_history.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/detail/widget_item_person_change.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/widget_list_book.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/widget_sign_up_book.dart';
 
 import '../../../data/ConstraintData.dart';
 import '../../../model/BookModal.dart';

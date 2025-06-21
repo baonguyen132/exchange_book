@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 class WidgetButtonCardDetailOfProduct extends StatefulWidget {
   Function () change ;

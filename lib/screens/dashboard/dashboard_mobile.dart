@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/home_admin.dart';
-import 'package:project_admin/screens/dashboard/page/profile.dart';
-import 'package:project_admin/screens/dashboard/widget/bottom_nav_bar.dart';
+import 'package:exchange_book/screens/dashboard/page/home_admin.dart';
+import 'package:exchange_book/screens/dashboard/page/profile.dart';
+import 'package:exchange_book/screens/dashboard/widget/bottom_nav_bar.dart';
 
 import '../../data/ConstraintData.dart';
 import '../../model/MenuModal.dart';

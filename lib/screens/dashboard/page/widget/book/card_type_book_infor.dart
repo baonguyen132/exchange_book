@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/TypeBookModal.dart';
+import 'package:exchange_book/model/TypeBookModal.dart';
 
 import '../../../widget/card/card_item_text.dart';
 

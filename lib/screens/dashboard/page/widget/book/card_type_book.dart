@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_admin/data/ConstraintData.dart';
-import 'package:project_admin/model/TypeBookModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/book/card_type_book_button.dart';
-import 'package:project_admin/screens/dashboard/page/widget/book/card_type_book_infor.dart';
-import 'package:project_admin/screens/dashboard/page/widget/book/card_type_mobile.dart';
+import 'package:exchange_book/data/ConstraintData.dart';
+import 'package:exchange_book/model/TypeBookModal.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/book/card_type_book_button.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/book/card_type_book_infor.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/book/card_type_mobile.dart';
 
 import '../../../widget/card/card_item.dart';
 

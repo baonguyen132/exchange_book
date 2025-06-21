@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/checkopt/widget/form_check_otp.dart';
+import 'package:exchange_book/screens/checkopt/widget/form_check_otp.dart';
 
 class CheckOtpTablet extends StatefulWidget {
   int number ;

@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/introduce_profile_edit.dart';
-import 'package:project_admin/screens/dashboard/page/widget/profile/introduce_profile_item.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/profile/introduce_profile_edit.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/profile/introduce_profile_item.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 class IntroduceProfile extends StatefulWidget {
   double? height ;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/CartModal.dart';
-import 'package:project_admin/screens/dashboard/page/widget/manage/list_cart/widget_item_manage.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/model/CartModal.dart';
+import 'package:exchange_book/screens/dashboard/page/widget/manage/list_cart/widget_item_manage.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../../model/BookModal.dart';
 import '../widget_button_custom.dart';

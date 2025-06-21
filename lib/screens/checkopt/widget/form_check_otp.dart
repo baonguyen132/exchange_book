@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/checkopt/widget/widget_number.dart';
+import 'package:exchange_book/screens/checkopt/widget/widget_number.dart';
 
 class FormCheckOtp extends StatefulWidget {
   int number ;
