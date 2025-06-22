@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:project_admin/model/BookModal.dart';
+import 'package:exchange_book/model/BookModal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailCartModal {

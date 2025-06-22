@@ -1,14 +1,20 @@
+import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/widget/MyDrawer.dart';
-import 'package:project_admin/screens/dashboard/widget/bottom_nav_bar.dart';
+import 'package:exchange_book/screens/dashboard/widget/my_drawer.dart';
+import 'package:exchange_book/screens/dashboard/widget/bottom_nav_bar.dart';
 import '../../model/MenuModal.dart';
 class DashboardTablet extends StatefulWidget {
-  int status ;
-  int mainPage ;
-  Function (MenuModal item)  hanlde ;
-  Widget child ;
 
-  DashboardTablet({super.key , required this.status , required this.mainPage , required this.hanlde , required this.child});
+  final DashboardState state ;
+  final Function (MenuModal item)  hanlde ;
+  final Widget child ;
+
+  
+  const DashboardTablet({
+    super.key ,
+    required this.hanlde , 
+    required this.child, required this.state,
+  });
   @override
   State<DashboardTablet> createState() => _DashboardTabletState();
 }
@@ -19,18 +25,16 @@ class _DashboardTabletState extends State<DashboardTablet> {
   Widget build(BuildContext context) {
   return Scaffold(
     key: _scaffoldKey,
-    drawer: Mydrawer(
-        selection: widget.mainPage,
+    drawer: MyDrawer(
+      state: widget.state,
         handle: (item) {
           Navigator.pop(context) ;
           widget.hanlde(item) ;
         },
-        status: widget.status
     ),
     body: widget.child,
     bottomNavigationBar: BottomNavBar(
-      selection: widget.mainPage,
-      status: widget.status,
+      state: widget.state,
       handle: (item) {
         widget.hanlde(item) ;
       },

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class WidgetButtonSignUp extends StatefulWidget {
-  Function () handle ;
+  final Function () handle ;
 
-  WidgetButtonSignUp({super.key , required this.handle});
+  const WidgetButtonSignUp({super.key , required this.handle});
 
   @override
   State<WidgetButtonSignUp> createState() => _WidgetButtonSignUpState();
@@ -13,9 +13,7 @@ class _WidgetButtonSignUpState extends State<WidgetButtonSignUp> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.handle() ;
-      },
+      onTap: () {widget.handle() ;},
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(

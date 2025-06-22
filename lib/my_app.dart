@@ -1,8 +1,9 @@
+import 'package:exchange_book/screens/scan/scan_qr_code.dart';
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/dashboard/dashboard.dart';
-import 'package:project_admin/screens/login/login.dart';
-import 'package:project_admin/screens/signup/sign_up.dart';
-import 'package:project_admin/theme/theme_provider.dart';
+import 'package:exchange_book/screens/dashboard/dashboard.dart';
+import 'package:exchange_book/screens/login/login.dart';
+import 'package:exchange_book/screens/signup/sign_up.dart';
+import 'package:exchange_book/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
@@ -14,13 +15,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Container(
         color: Theme.of(context).colorScheme.background ,
-        child: Dashboard(),
+        child: const Dashboard(),
       ),
       theme: Provider.of<ThemeProvider>(context).themeData,
       routes: {
         "/login": (context) => Login(),
-        "/dashboard": (context) => Dashboard() ,
+        "/dashboard": (context) => const Dashboard() ,
         "/signup": (context) => SignUp() ,
+        "/scanQR": (context)=> const ScanQrCode()
       },
     );
   }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 class CardItemText extends StatefulWidget {
-  String text ;
-  FontWeight fontWeight ;
+  final String text ;
+  final FontWeight fontWeight ;
 
-  CardItemText({super.key , required this.text , required this.fontWeight});
+  const CardItemText({super.key , required this.text , required this.fontWeight});
 
   @override
   State<CardItemText> createState() => _CardItemTextState();

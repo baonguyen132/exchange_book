@@ -1,16 +1,23 @@
-
+import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:project_admin/model/MenuModal.dart';
+import 'package:exchange_book/model/MenuModal.dart';
 
-import 'widget/MyDrawer.dart';
+import 'widget/my_drawer.dart';
 
 class DashboardDesktop extends StatefulWidget {
 
-  int status ;
-  int mainPage ;
-  Function (MenuModal item)  hanlde ;
-  Widget child ;
-  DashboardDesktop({super.key , required this.status , required this.mainPage , required this.hanlde , required this.child});
+  final DashboardState state ;
+  final Function (MenuModal item)  hanlde ;
+  final Widget child ;
+
+
+  const DashboardDesktop({
+    super.key ,
+    required this.hanlde ,
+    required this.child,
+    required this.state,
+
+  });
 
   @override
   State<DashboardDesktop> createState() => _DashboardDesktopState();
@@ -29,12 +36,11 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
             children: [
               Expanded(
                 flex: 2,
-                child: Mydrawer(
-                  selection: widget.mainPage,
-                  status: widget.status,
+                child: MyDrawer(
                   handle: (item) {
                     widget.hanlde(item) ;
                   },
+                  state: widget.state,
                   isDesktop: true,
                 )
               ),

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/scan/widget/widget_build_result.dart';
+import 'package:exchange_book/screens/scan/widget/widget_build_result.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class FormScanQr extends StatefulWidget {
