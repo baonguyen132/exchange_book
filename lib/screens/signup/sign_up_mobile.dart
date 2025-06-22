@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:exchange_book/screens/signup/widget/widget_form.dart';
-import 'package:exchange_book/screens/signup/widget/widget_form_sign_up.dart';
-
-
+import 'package:exchange_book/screens/signup/widget/background_form.dart';
 
 class SignUpMobile extends StatefulWidget {
-  TextEditingController emailController  ;
-  TextEditingController fullnameController  ;
 
-  TextEditingController passwordController  ;
-  TextEditingController checkPasswordController  ;
+  final Widget form ;
+  final Function () backLogin;
 
-  TextEditingController dobController  ;
-  TextEditingController numberIdController  ;
-
-  TextEditingController addressController  ;
-
-  SignUpMobile({super.key ,  required this.emailController , required this.fullnameController , required this.passwordController , required this.checkPasswordController , required this.dobController , required this.numberIdController , required this.addressController});
+  const SignUpMobile({
+    super.key ,
+    required this.backLogin,
+    required this.form,
+  });
 
   @override
   State<SignUpMobile> createState() => _SignUpMobileState();
@@ -30,28 +24,21 @@ class _SignUpMobileState extends State<SignUpMobile> {
     return Scaffold(
       backgroundColor: Colors.blue,
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(vertical: 15),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: SafeArea(
+          child: Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.9,
               padding: const EdgeInsets.symmetric(vertical: 30 ,  horizontal: 20),
-              margin: EdgeInsets.symmetric(vertical: 15),
+              margin: const EdgeInsets.symmetric(vertical: 15),
               decoration: BoxDecoration(
                 color: Colors.white.withAlpha(150),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
-              child: WidgetForm(
-                  child: WidgetFormSignUp(
-                      emailController: widget.emailController,
-                      fullnameController: widget.fullnameController,
-                      passwordController: widget.passwordController,
-                      checkPasswordController: widget.checkPasswordController,
-                      dobController: widget.dobController,
-                      numberIdController: widget.numberIdController,
-                      addressController: widget.addressController
-                  )
+              child: BackgroundForm(
+                  handle: () { widget.backLogin(); },
+                  child: widget.form
               )
             ),
           ),
