@@ -1,41 +1,39 @@
 import 'package:flutter/material.dart';
 
-class WidgetForm extends StatefulWidget {
+class BackgroundForm extends StatefulWidget {
 
-  Widget child ;
-  WidgetForm({super.key, required this.child});
+  final Widget? child ;
+  final Function () handle ;
+  const BackgroundForm({super.key, this.child, required this.handle});
 
   @override
-  State<WidgetForm> createState() => _WidgetFormState();
+  State<BackgroundForm> createState() => _BackgroundFormState();
 }
 
-class _WidgetFormState extends State<WidgetForm> {
+class _BackgroundFormState extends State<BackgroundForm> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned(
             child: GestureDetector(
-              onTap: () {Navigator.pop(context) ;},
+              onTap: () {widget.handle();},
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: Container(
                   width: 45,
                   height: 45,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.all(Radius.circular(100))
                   ),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
+                  child: const Icon(Icons.arrow_back, color: Colors.white,),
                 ),
               ),
             ),
         ),
-        widget.child ,
-
+        if(widget.child != null)
+          widget.child! ,
       ],
     );
   }

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:exchange_book/screens/scan/scan_qr_code.dart';
 
-class WigetScanQrCode extends StatefulWidget {
-  Function (String data) hanldeScanQR ;
-  WigetScanQrCode({super.key , required this.hanldeScanQR});
+class WidgetScanQrCode extends StatefulWidget {
+  final Function (String data) handleScanQR ;
+  const WidgetScanQrCode({super.key , required this.handleScanQR});
 
   @override
-  State<WigetScanQrCode> createState() => _WigetScanQrCodeState();
+  State<WidgetScanQrCode> createState() => _WidgetScanQrCodeState();
 }
 
-class _WigetScanQrCodeState extends State<WigetScanQrCode> {
+class _WidgetScanQrCodeState extends State<WidgetScanQrCode> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 55,
       child: Row(
         children: [
@@ -41,7 +41,7 @@ class _WigetScanQrCodeState extends State<WigetScanQrCode> {
               child: Container(
                 height: 55,
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.all(13),
+                padding: const EdgeInsets.all(13),
                 child: const Text(
                   "Scan QR on CID",
                   style: TextStyle(
@@ -76,8 +76,8 @@ class _WigetScanQrCodeState extends State<WigetScanQrCode> {
             ),
             child: GestureDetector(
               onTap: () async {
-                String data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanQrCode(),));
-                widget.hanldeScanQR(data) ;
+                String data = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ScanQrCode(),));
+                widget.handleScanQR(data) ;
               },
               child: const MouseRegion(
                 cursor: SystemMouseCursors.click,

@@ -61,7 +61,7 @@ class _WidgetFormLoginState extends State<WidgetFormLogin> {
               iconData: Icons.mail,
             ),
             const SizedBox(height: 25,),
-            WidgetTextfieldPasswordCustome(controller: widget.passwordController,),
+            WidgetTextfieldPasswordCustome(controller: widget.passwordController, onChange: (value) {},),
             !widget.isDesktop ? const SizedBox(height: 25,) : Container(),
             !widget.isDesktop ?
             Row(
