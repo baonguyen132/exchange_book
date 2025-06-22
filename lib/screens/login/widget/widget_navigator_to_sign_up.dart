@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class WigetNavigatorToSignUp extends StatefulWidget {
-  const WigetNavigatorToSignUp({super.key});
+class WidgetNavigatorToSignUp extends StatefulWidget {
+  const WidgetNavigatorToSignUp({super.key});
 
   @override
-  State<WigetNavigatorToSignUp> createState() => _WigetNavigatorToSignUpState();
+  State<WidgetNavigatorToSignUp> createState() => _WidgetNavigatorToSignUpState();
 }
 
-class _WigetNavigatorToSignUpState extends State<WigetNavigatorToSignUp> {
+class _WidgetNavigatorToSignUpState extends State<WidgetNavigatorToSignUp> {
   @override
   Widget build(BuildContext context) {
     return Container(

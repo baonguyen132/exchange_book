@@ -20,7 +20,7 @@ class SignUpCubit extends Cubit<SignUpState> {
 
     gender: "Male",
 
-    scanQRCode: false,
+    scanQRCode: true,
 
   ));
 
@@ -31,7 +31,9 @@ class SignUpCubit extends Cubit<SignUpState> {
       fullName: arrayData[2],
       dob:  formatIDToDate(arrayData[3]),
       gender: arrayData[4] == "Nam" ? "Male" : "Female",
-      address:  arrayData[5]
+      address:  arrayData[5],
+
+      scanQRCode: false
     ));
   }
 
