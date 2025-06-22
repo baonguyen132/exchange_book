@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WidgetButtonLogin extends StatefulWidget {
-  Function () handle ;
-  WidgetButtonLogin({super.key , required this.handle});
+  final Function () handle ;
+  const WidgetButtonLogin({super.key , required this.handle});
 
   @override
   State<WidgetButtonLogin> createState() => _WidgetButtonLoginState();
@@ -11,7 +11,7 @@ class WidgetButtonLogin extends StatefulWidget {
 class _WidgetButtonLoginState extends State<WidgetButtonLogin> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       child: TextButton(
           style: const ButtonStyle(

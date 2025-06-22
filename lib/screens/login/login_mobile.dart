@@ -1,15 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:exchange_book/screens/login/widget/widget_form_login.dart';
-import 'package:exchange_book/util/wiget_textfield_custome.dart';
 class LoginMobile extends StatefulWidget {
-  TextEditingController emailController  ;
-  TextEditingController passwordController  ;
-  bool isSaveFinger ;
-  Function () changeSaveFinger ;
-
-  LoginMobile({super.key , required this.emailController , required this.passwordController , required this.isSaveFinger , required this.changeSaveFinger});
+  final Widget formLogin ;
+  const LoginMobile({super.key, required this.formLogin});
 
   @override
   State<LoginMobile> createState() => _LoginMobileState();
@@ -35,14 +27,7 @@ class _LoginMobileState extends State<LoginMobile> {
                   color: Colors.white.withAlpha(150),
                   borderRadius: const BorderRadius.all(Radius.circular(10))
               ),
-              child: WidgetFormLogin(
-                  emailController: widget.emailController,
-                  passwordController: widget.passwordController,
-                  isSaveFinger: widget.isSaveFinger,
-                  changeSaveFinger: () {
-                    widget.changeSaveFinger();
-                  },
-              )
+              child: widget.formLogin
             ),
           ),
         ),

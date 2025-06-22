@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 var mainLightDarkMode = true ;
 
 // const location = "https://steady-sharply-ibex.ngrok-free.app" ;
@@ -12,4 +15,15 @@ String formatIDToDate(String idNumber) {
   String year = idNumber.substring(4, 8);  // "2004"
 
   return "$year-$month-$day"; // Trả về định dạng YYYY-MM-DD
+}
+
+void toast(String content) {
+  Fluttertoast.showToast(
+    msg: content,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.black54,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
 }

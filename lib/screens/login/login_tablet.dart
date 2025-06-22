@@ -1,14 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:exchange_book/screens/login/widget/widget_form_login.dart';
 class LoginTablet extends StatefulWidget {
-  TextEditingController emailController  ;
-  TextEditingController passwordController  ;
-  bool isSaveFinger ;
-  Function () changeSaveFinger ;
-
-  LoginTablet({super.key, required this.emailController , required this.passwordController , required this.isSaveFinger , required this.changeSaveFinger});
+  final Widget formLogin ;
+  const LoginTablet({super.key, required this.formLogin});
 
   @override
   State<LoginTablet> createState() => _LoginTabletState();
@@ -31,14 +26,7 @@ class _LoginTabletState extends State<LoginTablet> {
                   color: Colors.white.withAlpha(150),
                   borderRadius: const BorderRadius.all(Radius.circular(10))
               ),
-              child: WidgetFormLogin(
-                  emailController: widget.emailController,
-                  passwordController: widget.passwordController,
-                  isSaveFinger: widget.isSaveFinger,
-                  changeSaveFinger: () {
-                    widget.changeSaveFinger();
-                  },
-              )
+              child: widget.formLogin
             ),
           ),
         ),
