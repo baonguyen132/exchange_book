@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_admin/theme/theme.dart';
+import 'package:exchange_book/theme/theme.dart';
 
 import '../../../model/MenuModal.dart';
 
@@ -20,10 +20,10 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
     Color mainColor = Theme.of(context).colorScheme.mainColor ;
 
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: widget.item.id == widget.isSelected ? mainColor : null,
-          borderRadius: BorderRadius.all(Radius.circular(8))
+          borderRadius: const BorderRadius.all(Radius.circular(8))
       ),
 
       child: InkWell(
@@ -31,7 +31,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.all(13),
+              padding: const EdgeInsets.all(13),
               child: Icon(
                 widget.item.icon,
                 color: widget.item.id == widget.isSelected ? textMenuChoosed : Theme.of(context).colorScheme.maintext,

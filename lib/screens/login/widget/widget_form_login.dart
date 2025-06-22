@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_admin/model/UserModal.dart';
-import 'package:project_admin/screens/login/widget/widget_button_login.dart';
-import 'package:project_admin/screens/login/widget/widget_finger.dart';
-import 'package:project_admin/screens/login/widget/wiget_navigator_to_sign_up.dart';
-import 'package:project_admin/util/authentication.dart';
-import 'package:project_admin/util/wiget_textfield_custome.dart';
+import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/screens/login/widget/widget_button_login.dart';
+import 'package:exchange_book/screens/login/widget/widget_finger.dart';
+import 'package:exchange_book/screens/login/widget/wiget_navigator_to_sign_up.dart';
+import 'package:exchange_book/util/wiget_textfield_custome.dart';
 
 import '../../../util/widget_textfield_password_custome.dart';
 
@@ -62,7 +61,7 @@ class _WidgetFormLoginState extends State<WidgetFormLogin> {
               iconData: Icons.mail,
             ),
             const SizedBox(height: 25,),
-            WidgetTextfieldPasswordCustome(controller: widget.passwordController,),
+            WidgetTextfieldPasswordCustome(controller: widget.passwordController, onChange: (value) {},),
             !widget.isDesktop ? const SizedBox(height: 25,) : Container(),
             !widget.isDesktop ?
             Row(

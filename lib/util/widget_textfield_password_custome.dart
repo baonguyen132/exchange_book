@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 
 class WidgetTextfieldPasswordCustome extends StatefulWidget {
   
-  TextEditingController controller ;
-  String? hint ;
-
-  WidgetTextfieldPasswordCustome({super.key,  this.hint = "Password", required this.controller});
+  final TextEditingController controller ;
+  final String? hint ;
+  final Function (String value)  onChange ;
+  const WidgetTextfieldPasswordCustome(
+      {
+        super.key,
+        this.hint = "Password",
+        required this.controller,
+        required this.onChange
+      }
+  );
 
   @override
   State<WidgetTextfieldPasswordCustome> createState() => _WidgetTextfieldPasswordCustomeState();
@@ -37,7 +44,7 @@ class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPassword
           fontWeight: FontWeight.w500
       ),
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(20),
           hintText: widget.hint,
           hintStyle: const TextStyle(letterSpacing: 1),
           border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -66,6 +73,7 @@ class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPassword
             ),
           )
       ),
+      onChanged: (value) => widget.onChange(value),
     );
   }
 }

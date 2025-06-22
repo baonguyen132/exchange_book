@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CardItemImage extends StatefulWidget {
-  double width ;
-  double height ;
-  double borderRadius ;
+  final double width ;
+  final double height ;
+  final double borderRadius ;
 
-  String link ;
+  final String link ;
 
-  bool heart ;
-  CardItemImage({super.key , required this.width , required this.height, required this.borderRadius , required this.heart , required this.link});
+  final bool heart ;
+  const CardItemImage({super.key , required this.width , required this.height, required this.borderRadius , required this.heart , required this.link});
 
   @override
   State<CardItemImage> createState() => _CardItemImageState();
 }
 
 class _CardItemImageState extends State<CardItemImage> {
-  bool clickheart = false ;
+  bool clickHeart = false ;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,20 +37,20 @@ class _CardItemImageState extends State<CardItemImage> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    clickheart =!clickheart ;
+                    clickHeart =!clickHeart ;
                   });
                 },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(100)),
                       color: Colors.white
                     ),
                     child: Icon(
                       CupertinoIcons.heart_fill,
-                      color: clickheart ? Colors.red : Colors.black,
+                      color: clickHeart ? Colors.red : Colors.black,
                       size: 30,
                       
                     ),

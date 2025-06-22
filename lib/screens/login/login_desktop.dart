@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_admin/screens/login/widget/widget_button_login.dart';
-import 'package:project_admin/screens/login/widget/widget_finger.dart';
-import 'package:project_admin/screens/login/widget/widget_form_login.dart';
-import 'package:project_admin/screens/login/widget/wiget_navigator_to_sign_up.dart';
+import 'package:exchange_book/screens/login/widget/widget_button_login.dart';
+import 'package:exchange_book/screens/login/widget/widget_finger.dart';
+import 'package:exchange_book/screens/login/widget/widget_form_login.dart';
+import 'package:exchange_book/screens/login/widget/wiget_navigator_to_sign_up.dart';
 
 import '../../util/widget_textfield_password_custome.dart';
 import '../../util/wiget_textfield_custome.dart';
