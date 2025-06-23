@@ -25,6 +25,8 @@ mixin _$SignUpState {
   String get address => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   bool get scanQRCode => throw _privateConstructorUsedError;
+  bool get isVisibility => throw _privateConstructorUsedError;
+  bool get isVisibilityCheckPassword => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -36,7 +38,9 @@ mixin _$SignUpState {
             String numberId,
             String address,
             String gender,
-            bool scanQRCode)
+            bool scanQRCode,
+            bool isVisibility,
+            bool isVisibilityCheckPassword)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -51,7 +55,9 @@ mixin _$SignUpState {
             String numberId,
             String address,
             String gender,
-            bool scanQRCode)?
+            bool scanQRCode,
+            bool isVisibility,
+            bool isVisibilityCheckPassword)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -66,7 +72,9 @@ mixin _$SignUpState {
             String numberId,
             String address,
             String gender,
-            bool scanQRCode)?
+            bool scanQRCode,
+            bool isVisibility,
+            bool isVisibilityCheckPassword)?
         initial,
     required TResult orElse(),
   }) =>
@@ -110,7 +118,9 @@ abstract class $SignUpStateCopyWith<$Res> {
       String numberId,
       String address,
       String gender,
-      bool scanQRCode});
+      bool scanQRCode,
+      bool isVisibility,
+      bool isVisibilityCheckPassword});
 }
 
 /// @nodoc
@@ -137,6 +147,8 @@ class _$SignUpStateCopyWithImpl<$Res, $Val extends SignUpState>
     Object? address = null,
     Object? gender = null,
     Object? scanQRCode = null,
+    Object? isVisibility = null,
+    Object? isVisibilityCheckPassword = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -175,6 +187,14 @@ class _$SignUpStateCopyWithImpl<$Res, $Val extends SignUpState>
           ? _value.scanQRCode
           : scanQRCode // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisibility: null == isVisibility
+          ? _value.isVisibility
+          : isVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVisibilityCheckPassword: null == isVisibilityCheckPassword
+          ? _value.isVisibilityCheckPassword
+          : isVisibilityCheckPassword // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -196,7 +216,9 @@ abstract class _$$InitialImplCopyWith<$Res>
       String numberId,
       String address,
       String gender,
-      bool scanQRCode});
+      bool scanQRCode,
+      bool isVisibility,
+      bool isVisibilityCheckPassword});
 }
 
 /// @nodoc
@@ -221,6 +243,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? address = null,
     Object? gender = null,
     Object? scanQRCode = null,
+    Object? isVisibility = null,
+    Object? isVisibilityCheckPassword = null,
   }) {
     return _then(_$InitialImpl(
       email: null == email
@@ -259,6 +283,14 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.scanQRCode
           : scanQRCode // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisibility: null == isVisibility
+          ? _value.isVisibility
+          : isVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVisibilityCheckPassword: null == isVisibilityCheckPassword
+          ? _value.isVisibilityCheckPassword
+          : isVisibilityCheckPassword // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -275,7 +307,9 @@ class _$InitialImpl implements _Initial {
       required this.numberId,
       required this.address,
       required this.gender,
-      required this.scanQRCode});
+      required this.scanQRCode,
+      required this.isVisibility,
+      required this.isVisibilityCheckPassword});
 
   @override
   final String email;
@@ -295,10 +329,14 @@ class _$InitialImpl implements _Initial {
   final String gender;
   @override
   final bool scanQRCode;
+  @override
+  final bool isVisibility;
+  @override
+  final bool isVisibilityCheckPassword;
 
   @override
   String toString() {
-    return 'SignUpState.initial(email: $email, fullName: $fullName, password: $password, checkPassword: $checkPassword, dob: $dob, numberId: $numberId, address: $address, gender: $gender, scanQRCode: $scanQRCode)';
+    return 'SignUpState.initial(email: $email, fullName: $fullName, password: $password, checkPassword: $checkPassword, dob: $dob, numberId: $numberId, address: $address, gender: $gender, scanQRCode: $scanQRCode, isVisibility: $isVisibility, isVisibilityCheckPassword: $isVisibilityCheckPassword)';
   }
 
   @override
@@ -319,12 +357,28 @@ class _$InitialImpl implements _Initial {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.scanQRCode, scanQRCode) ||
-                other.scanQRCode == scanQRCode));
+                other.scanQRCode == scanQRCode) &&
+            (identical(other.isVisibility, isVisibility) ||
+                other.isVisibility == isVisibility) &&
+            (identical(other.isVisibilityCheckPassword,
+                    isVisibilityCheckPassword) ||
+                other.isVisibilityCheckPassword == isVisibilityCheckPassword));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, email, fullName, password,
-      checkPassword, dob, numberId, address, gender, scanQRCode);
+  int get hashCode => Object.hash(
+      runtimeType,
+      email,
+      fullName,
+      password,
+      checkPassword,
+      dob,
+      numberId,
+      address,
+      gender,
+      scanQRCode,
+      isVisibility,
+      isVisibilityCheckPassword);
 
   /// Create a copy of SignUpState
   /// with the given fields replaced by the non-null parameter values.
@@ -346,11 +400,13 @@ class _$InitialImpl implements _Initial {
             String numberId,
             String address,
             String gender,
-            bool scanQRCode)
+            bool scanQRCode,
+            bool isVisibility,
+            bool isVisibilityCheckPassword)
         initial,
   }) {
     return initial(email, fullName, password, checkPassword, dob, numberId,
-        address, gender, scanQRCode);
+        address, gender, scanQRCode, isVisibility, isVisibilityCheckPassword);
   }
 
   @override
@@ -365,11 +421,23 @@ class _$InitialImpl implements _Initial {
             String numberId,
             String address,
             String gender,
-            bool scanQRCode)?
+            bool scanQRCode,
+            bool isVisibility,
+            bool isVisibilityCheckPassword)?
         initial,
   }) {
-    return initial?.call(email, fullName, password, checkPassword, dob,
-        numberId, address, gender, scanQRCode);
+    return initial?.call(
+        email,
+        fullName,
+        password,
+        checkPassword,
+        dob,
+        numberId,
+        address,
+        gender,
+        scanQRCode,
+        isVisibility,
+        isVisibilityCheckPassword);
   }
 
   @override
@@ -384,13 +452,15 @@ class _$InitialImpl implements _Initial {
             String numberId,
             String address,
             String gender,
-            bool scanQRCode)?
+            bool scanQRCode,
+            bool isVisibility,
+            bool isVisibilityCheckPassword)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
       return initial(email, fullName, password, checkPassword, dob, numberId,
-          address, gender, scanQRCode);
+          address, gender, scanQRCode, isVisibility, isVisibilityCheckPassword);
     }
     return orElse();
   }
@@ -434,7 +504,9 @@ abstract class _Initial implements SignUpState {
       required final String numberId,
       required final String address,
       required final String gender,
-      required final bool scanQRCode}) = _$InitialImpl;
+      required final bool scanQRCode,
+      required final bool isVisibility,
+      required final bool isVisibilityCheckPassword}) = _$InitialImpl;
 
   @override
   String get email;
@@ -454,6 +526,10 @@ abstract class _Initial implements SignUpState {
   String get gender;
   @override
   bool get scanQRCode;
+  @override
+  bool get isVisibility;
+  @override
+  bool get isVisibilityCheckPassword;
 
   /// Create a copy of SignUpState
   /// with the given fields replaced by the non-null parameter values.

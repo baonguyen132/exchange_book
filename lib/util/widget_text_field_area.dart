@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
 
-class WigetTextfieldCustome extends StatefulWidget {
-  TextEditingController controller ;
-  TextInputType textInputType ;
-  String hint ;
-  IconData iconData ;
+class WidgetTextFieldArea extends StatefulWidget {
+  final TextEditingController controller ;
+  final TextInputType textInputType ;
+  final String hint ;
+  final IconData iconData ;
 
-  
-  Function (String value)? onChange ;
-
-
-  WigetTextfieldCustome({
-    super.key, 
-    required this.controller, 
-    required this.textInputType, 
-    required this.hint, 
+  const WidgetTextFieldArea({
+    super.key,
+    required this.controller,
+    required this.textInputType,
+    required this.hint,
     required this.iconData,
-    this.onChange
   });
 
   @override
-  State<WigetTextfieldCustome> createState() => _WigetTextfieldCustomeState();
+  State<WidgetTextFieldArea> createState() => _WidgetTextFieldAreaState();
 }
 
-class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
+class _WidgetTextFieldAreaState extends State<WidgetTextFieldArea> {
   final FocusNode _focusNode = FocusNode() ;
   bool _isFocus = false ;
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     _focusNode.addListener(() {
       setState(() {
         _isFocus = _focusNode.hasFocus ;
@@ -37,18 +32,23 @@ class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
     },);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode:  _focusNode,
       controller: widget.controller,
       keyboardType: widget.textInputType,
+      minLines: 1,            // chiều cao tối thiểu (có thể điều chỉnh)
+      maxLines: null,         // cho phép tự động giãn
+      expands: false,
+
       style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500
       ),
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(20),
           hintText: widget.hint,
           hintStyle: const TextStyle(
             letterSpacing: 1,
@@ -66,11 +66,6 @@ class _WigetTextfieldCustomeState extends State<WigetTextfieldCustome> {
               )
           )
       ),
-      onChanged: (value) {
-        if(widget.onChange!=null) {
-          widget.onChange!(value) ;
-        }
-      },
     );
   }
 }

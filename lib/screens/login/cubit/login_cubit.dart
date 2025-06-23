@@ -12,7 +12,9 @@ class LoginCubit extends Cubit<LoginState> {
     email: "",
     password: "",
 
-    isSaveFinger: false
+    isSaveFinger: false,
+
+    isVisibility: false
 
   ));
 
@@ -32,6 +34,8 @@ class LoginCubit extends Cubit<LoginState> {
   void changePassword(String value) {
     emit(state.copyWith(password: value));
   }
-
+  void changeIsVisibility() {
+    emit(state.copyWith(isVisibility: !state.isVisibility));
+  }
 
 }

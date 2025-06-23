@@ -32,8 +32,7 @@ class _BackgroundFormState extends State<BackgroundForm> {
               ),
             ),
         ),
-        if(widget.child != null)
-          widget.child! ,
+        if(widget.child != null) widget.child! ,
       ],
     );
   }

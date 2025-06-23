@@ -26,15 +26,15 @@ class _SignUpState extends State<SignUp> {
           return Responsive(
             desktop: SignUpDesktop(
               backLogin: () => Navigator.pop(context),
-              form: const FormSignUp(),
+              form:  FormSignUp(),
             ),
             mobile: SignUpMobile(
               backLogin: () => Navigator.pop(context),
-              form: const FormSignUp(),
+              form:  FormSignUp(),
             ),
             tablet: SignUpTablet(
               backLogin: () => Navigator.pop(context),
-              form: const FormSignUp(),
+              form:  FormSignUp(),
             ),
           );
         },

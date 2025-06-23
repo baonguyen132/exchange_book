@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:exchange_book/model/TypeBookModal.dart';
-import 'package:exchange_book/util/widget_textfield_area.dart';
+import 'package:exchange_book/util/widget_text_field_area.dart';
 
-import '../../../../../../util/wiget_textfield_custome.dart';
+import '../../../../../../util/widget_text_field_custom.dart';
 import '../../../client/widget/manage/widget_button_custom.dart';
 
 
@@ -55,12 +55,12 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          WigetTextfieldCustome(controller: name_book, textInputType: TextInputType.text, hint: "Nhập tên sách", iconData: Icons.drive_file_rename_outline),
+          WidgetTextFieldCustom(controller: name_book, textInputType: TextInputType.text, hint: "Nhập tên sách", iconData: Icons.drive_file_rename_outline),
           SizedBox(height: 20,),
-          WigetTextfieldCustome(controller: type_book, textInputType: TextInputType.text, hint: "Nhập loại sách", iconData: Icons.book),
+          WidgetTextFieldCustom(controller: type_book, textInputType: TextInputType.text, hint: "Nhập loại sách", iconData: Icons.book),
           SizedBox(height: 20,),
 
-          WigetTextfieldCustome(controller: price, textInputType: TextInputType.text, hint: "Nhập giá sách", iconData: Icons.price_change_outlined),
+          WidgetTextFieldCustom(controller: price, textInputType: TextInputType.text, hint: "Nhập giá sách", iconData: Icons.price_change_outlined),
           SizedBox(height: 20,),
 
           Container(
@@ -113,7 +113,7 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
 
           SizedBox(height: 20,),
 
-          WidgetTextfieldArea(controller: description, textInputType: TextInputType.multiline, hint: "Nhập mô tả", iconData: Icons.format_indent_decrease) ,
+          WidgetTextFieldArea(controller: description, textInputType: TextInputType.multiline, hint: "Nhập mô tả", iconData: Icons.format_indent_decrease) ,
           SizedBox(height: 20,),
           WidgetButtonCustom(
               handle: () {

@@ -3,8 +3,8 @@ import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../../../data/ConstraintData.dart';
 import '../../../../../../../model/BookModal.dart';
-import '../../../../../../../util/widget_textfield_area.dart';
-import '../../../../../../../util/wiget_textfield_custome.dart';
+import '../../../../../../../util/widget_text_field_area.dart';
+import '../../../../../../../util/widget_text_field_custom.dart';
 
 
 class WidgetButtonCardDetailOfHistory extends StatefulWidget {
@@ -65,7 +65,7 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                WigetTextfieldCustome(
+                WidgetTextFieldCustom(
                   controller: date_purchaseController,
                   textInputType: TextInputType.datetime,
                   hint: "DDMMYYYY",
@@ -80,12 +80,12 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
                   },
                 ),
                 SizedBox(height: 16),
-                WigetTextfieldCustome(controller: priceController, textInputType: TextInputType.number, hint: "Giá", iconData: Icons.price_change_sharp),
+                WidgetTextFieldCustom(controller: priceController, textInputType: TextInputType.number, hint: "Giá", iconData: Icons.price_change_sharp),
                 SizedBox(height: 16),
-                WigetTextfieldCustome(controller: quantityController, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.price_change_sharp),
+                WidgetTextFieldCustom(controller: quantityController, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.price_change_sharp),
 
                 SizedBox(height: 16,),
-                WidgetTextfieldArea(
+                WidgetTextFieldArea(
                   controller: descriptionController,
                   textInputType: TextInputType.multiline,
                   hint: "Nhập mô tả",

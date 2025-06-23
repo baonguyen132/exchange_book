@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../../model/TypeBookModal.dart';
-import '../../../../../../util/widget_textfield_area.dart';
-import '../../../../../../util/wiget_textfield_custome.dart';
+import '../../../../../../util/widget_text_field_area.dart';
+import '../../../../../../util/widget_text_field_custom.dart';
 import 'card_type_book.dart';
 
 
@@ -62,28 +62,28 @@ class _WidgetListProductState extends State<WidgetListProduct> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                WigetTextfieldCustome(
+                WidgetTextFieldCustom(
                   controller: nameBookController,
                   textInputType: TextInputType.text,
                   hint: "Nhập tên sách",
                   iconData: Icons.drive_file_rename_outline,
                 ),
                 SizedBox(height: 16),
-                WigetTextfieldCustome(
+                WidgetTextFieldCustom(
                   controller: typeBookController,
                   textInputType: TextInputType.text,
                   hint: "Nhập loại sách",
                   iconData: Icons.book,
                 ),
                 SizedBox(height: 16),
-                WigetTextfieldCustome(
+                WidgetTextFieldCustom(
                     controller: priceController,
                     textInputType: TextInputType.number,
                     hint: "Nhập giá sách",
                     iconData: Icons.price_change_outlined
                 ),
                 SizedBox(height: 16,),
-                WidgetTextfieldArea(
+                WidgetTextFieldArea(
                   controller: descriptionController,
                   textInputType: TextInputType.multiline,
                   hint: "Nhập mô tả",

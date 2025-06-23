@@ -19,21 +19,26 @@ mixin _$LoginState {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   bool get isSaveFinger => throw _privateConstructorUsedError;
+  bool get isVisibility => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String password, bool isSaveFinger)
+    required TResult Function(
+            String email, String password, bool isSaveFinger, bool isVisibility)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String password, bool isSaveFinger)?
+    TResult? Function(String email, String password, bool isSaveFinger,
+            bool isVisibility)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String password, bool isSaveFinger)? initial,
+    TResult Function(String email, String password, bool isSaveFinger,
+            bool isVisibility)?
+        initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -67,7 +72,8 @@ abstract class $LoginStateCopyWith<$Res> {
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res, LoginState>;
   @useResult
-  $Res call({String email, String password, bool isSaveFinger});
+  $Res call(
+      {String email, String password, bool isSaveFinger, bool isVisibility});
 }
 
 /// @nodoc
@@ -88,6 +94,7 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
     Object? email = null,
     Object? password = null,
     Object? isSaveFinger = null,
+    Object? isVisibility = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -102,6 +109,10 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
           ? _value.isSaveFinger
           : isSaveFinger // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisibility: null == isVisibility
+          ? _value.isVisibility
+          : isVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -114,7 +125,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String password, bool isSaveFinger});
+  $Res call(
+      {String email, String password, bool isSaveFinger, bool isVisibility});
 }
 
 /// @nodoc
@@ -133,6 +145,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? email = null,
     Object? password = null,
     Object? isSaveFinger = null,
+    Object? isVisibility = null,
   }) {
     return _then(_$InitialImpl(
       email: null == email
@@ -147,6 +160,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.isSaveFinger
           : isSaveFinger // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisibility: null == isVisibility
+          ? _value.isVisibility
+          : isVisibility // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -157,7 +174,8 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required this.email,
       required this.password,
-      required this.isSaveFinger});
+      required this.isSaveFinger,
+      required this.isVisibility});
 
   @override
   final String email;
@@ -165,10 +183,12 @@ class _$InitialImpl implements _Initial {
   final String password;
   @override
   final bool isSaveFinger;
+  @override
+  final bool isVisibility;
 
   @override
   String toString() {
-    return 'LoginState.initial(email: $email, password: $password, isSaveFinger: $isSaveFinger)';
+    return 'LoginState.initial(email: $email, password: $password, isSaveFinger: $isSaveFinger, isVisibility: $isVisibility)';
   }
 
   @override
@@ -180,11 +200,14 @@ class _$InitialImpl implements _Initial {
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.isSaveFinger, isSaveFinger) ||
-                other.isSaveFinger == isSaveFinger));
+                other.isSaveFinger == isSaveFinger) &&
+            (identical(other.isVisibility, isVisibility) ||
+                other.isVisibility == isVisibility));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, email, password, isSaveFinger);
+  int get hashCode =>
+      Object.hash(runtimeType, email, password, isSaveFinger, isVisibility);
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -197,29 +220,33 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String password, bool isSaveFinger)
+    required TResult Function(
+            String email, String password, bool isSaveFinger, bool isVisibility)
         initial,
   }) {
-    return initial(email, password, isSaveFinger);
+    return initial(email, password, isSaveFinger, isVisibility);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String password, bool isSaveFinger)?
+    TResult? Function(String email, String password, bool isSaveFinger,
+            bool isVisibility)?
         initial,
   }) {
-    return initial?.call(email, password, isSaveFinger);
+    return initial?.call(email, password, isSaveFinger, isVisibility);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String password, bool isSaveFinger)? initial,
+    TResult Function(String email, String password, bool isSaveFinger,
+            bool isVisibility)?
+        initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(email, password, isSaveFinger);
+      return initial(email, password, isSaveFinger, isVisibility);
     }
     return orElse();
   }
@@ -257,7 +284,8 @@ abstract class _Initial implements LoginState {
   const factory _Initial(
       {required final String email,
       required final String password,
-      required final bool isSaveFinger}) = _$InitialImpl;
+      required final bool isSaveFinger,
+      required final bool isVisibility}) = _$InitialImpl;
 
   @override
   String get email;
@@ -265,6 +293,8 @@ abstract class _Initial implements LoginState {
   String get password;
   @override
   bool get isSaveFinger;
+  @override
+  bool get isVisibility;
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.

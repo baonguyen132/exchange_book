@@ -1,31 +1,38 @@
 import 'package:flutter/material.dart';
 
-class WidgetTextfieldPasswordCustome extends StatefulWidget {
+class WidgetTextFieldPasswordCustom extends StatefulWidget {
   
   final TextEditingController controller ;
   final String? hint ;
   final Function (String value)  onChange ;
-  const WidgetTextfieldPasswordCustome(
+
+  final bool isVisibility ;
+  final Function () changeVisibility ;
+
+  const WidgetTextFieldPasswordCustom(
       {
         super.key,
         this.hint = "Password",
         required this.controller,
-        required this.onChange
+        required this.onChange,
+
+        required this.isVisibility,
+        required this.changeVisibility
       }
   );
 
   @override
-  State<WidgetTextfieldPasswordCustome> createState() => _WidgetTextfieldPasswordCustomeState();
+  State<WidgetTextFieldPasswordCustom> createState() => _WidgetTextFieldPasswordCustomState();
 }
 
-class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPasswordCustome> {
+class _WidgetTextFieldPasswordCustomState extends State<WidgetTextFieldPasswordCustom> {
   final FocusNode _focusNode = FocusNode() ;
-  bool _isVisibility = false ;
+
   bool _isFocus = false ;
   
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     _focusNode.addListener(() {
       setState(() {
         _isFocus = _focusNode.hasFocus ;
@@ -38,7 +45,7 @@ class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPassword
       controller: widget.controller,
       focusNode: _focusNode,
       keyboardType: TextInputType.visiblePassword,
-      obscureText: !_isVisibility,
+      obscureText: !widget.isVisibility,
       style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500
@@ -55,19 +62,15 @@ class _WidgetTextfieldPasswordCustomeState extends State<WidgetTextfieldPassword
                   width: 2
               )
           ),
-          prefixIcon: Icon(!_isVisibility ? Icons.lock : Icons.lock_open),
+          prefixIcon: Icon(!widget.isVisibility ? Icons.lock : Icons.lock_open),
           prefixIconColor: _isFocus ? Colors.blue : Colors.black ,
 
           suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                _isVisibility = !_isVisibility ;
-              });
-            },
+            onTap: () {widget.changeVisibility();},
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Icon(
-                _isVisibility ? Icons.visibility : Icons.visibility_off ,
+                !widget.isVisibility ? Icons.visibility : Icons.visibility_off ,
                 color: _isFocus ? Colors.blue : Colors.black ,
               ),
             ),
