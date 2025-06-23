@@ -14,7 +14,10 @@ class SignUpState with _$SignUpState{
 
     required String gender ,
 
-    required bool scanQRCode
+    required bool scanQRCode,
+
+    required bool isVisibility ,
+    required bool isVisibilityCheckPassword ,
 
   }) = _Initial;
 }

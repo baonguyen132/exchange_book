@@ -5,15 +5,13 @@ import 'package:exchange_book/model/UserModal.dart';
 import 'package:exchange_book/screens/login/widget/widget_button_login.dart';
 import 'package:exchange_book/screens/login/widget/widget_finger.dart';
 import 'package:exchange_book/screens/login/widget/widget_navigator_to_sign_up.dart';
-import 'package:exchange_book/util/wiget_textfield_custome.dart';
+import 'package:exchange_book/util/widget_text_field_custom.dart';
 
 import '../../../data/ConstraintData.dart';
-import '../../../util/widget_textfield_password_custome.dart';
+import '../../../util/widget_text_field_password_custom.dart';
 
 class FormLogin extends StatefulWidget {
-
   bool isDesktop   ;
-
   FormLogin({super.key, this.isDesktop = false});
 
   @override
@@ -53,7 +51,7 @@ class _FormLoginState extends State<FormLogin> {
         ),
         Column(
           children: [
-            WigetTextfieldCustome(
+            WidgetTextFieldCustom(
               controller: emailController,
               textInputType: TextInputType.emailAddress,
               hint: "Email",
@@ -61,9 +59,12 @@ class _FormLoginState extends State<FormLogin> {
               onChange: (value) => context.read<LoginCubit>().changeEmail(value),
             ),
             const SizedBox(height: 25,),
-            WidgetTextfieldPasswordCustome(
+            WidgetTextFieldPasswordCustom(
               controller: passwordController,
               onChange: (value) => context.read<LoginCubit>().changePassword(value),
+
+              isVisibility: context.read<LoginCubit>().state.isVisibility,
+              changeVisibility:() => context.read<LoginCubit>().changeIsVisibility(),
             ),
 
             if(!widget.isDesktop)

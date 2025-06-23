@@ -10,8 +10,8 @@ import 'package:exchange_book/model/BookModal.dart';
 import 'package:exchange_book/model/TypeBookModal.dart';
 import 'package:exchange_book/model/UserModal.dart';
 
-import '../../../../../../util/widget_textfield_area.dart';
-import '../../../../../../util/wiget_textfield_custome.dart';
+import '../../../../../../util/widget_text_field_area.dart';
+import '../../../../../../util/widget_text_field_custom.dart';
 import 'card_book.dart';
 
 
@@ -133,7 +133,7 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
             ),
           ),
           SizedBox(height: 20,),
-          WigetTextfieldCustome(
+          WidgetTextFieldCustom(
               controller: date_purchase,
               textInputType: TextInputType.datetime,
               hint: "DDMMYYYY",
@@ -148,11 +148,11 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
             },
           ),
           SizedBox(height: 20,),
-          WigetTextfieldCustome(controller: price, textInputType: TextInputType.number, hint: "giá", iconData: Icons.price_change_sharp),
+          WidgetTextFieldCustom(controller: price, textInputType: TextInputType.number, hint: "giá", iconData: Icons.price_change_sharp),
           SizedBox(height: 20,),
-          WigetTextfieldCustome(controller: quantity, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.confirmation_number_rounded),
+          WidgetTextFieldCustom(controller: quantity, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.confirmation_number_rounded),
           SizedBox(height: 20,),
-          WidgetTextfieldArea(controller: description, textInputType: TextInputType.multiline, hint: "Nhập mô tả", iconData: Icons.format_indent_decrease) ,
+          WidgetTextFieldArea(controller: description, textInputType: TextInputType.multiline, hint: "Nhập mô tả", iconData: Icons.format_indent_decrease) ,
           SizedBox(height: 20,),
 
           typeBookModal != null ? loadData() : Container(),

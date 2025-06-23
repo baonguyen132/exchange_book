@@ -7,7 +7,9 @@ class LoginState with _$LoginState{
         required String email,
         required String password,
 
-        required bool isSaveFinger
+        required bool isSaveFinger ,
+
+        required bool isVisibility
 
       }) = _Initial;
 }

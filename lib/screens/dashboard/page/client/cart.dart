@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/model/DetailCartModal.dart';
 import 'package:exchange_book/model/UserModal.dart';
 import 'package:exchange_book/theme/theme.dart';
-import 'package:exchange_book/util/wiget_textfield_custome.dart';
+import 'package:exchange_book/util/widget_text_field_custom.dart';
 
 import '../../../../data/ConstraintData.dart';
 
@@ -126,7 +126,7 @@ class _CartState extends State<Cart> {
           const SizedBox(height: 16),
 
           // TextField địa chỉ
-          WigetTextfieldCustome(
+          WidgetTextFieldCustom(
             controller: address,
             textInputType: TextInputType.text,
             hint: "Nhập địa chỉ nhận",

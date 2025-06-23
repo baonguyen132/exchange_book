@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 
-class WidgetTextfieldArea extends StatefulWidget {
-  TextEditingController controller ;
-  TextInputType textInputType ;
-  String hint ;
-  IconData iconData ;
+class WidgetTextFieldCustom extends StatefulWidget {
+  final TextEditingController controller ;
+  final TextInputType textInputType ;
+  final String hint ;
+  final IconData iconData ;
 
-  WidgetTextfieldArea({
-    super.key,
-    required this.controller,
-    required this.textInputType,
-    required this.hint,
+  
+  Function (String value)? onChange ;
+
+
+  WidgetTextFieldCustom({
+    super.key, 
+    required this.controller, 
+    required this.textInputType, 
+    required this.hint, 
     required this.iconData,
-
+    this.onChange
   });
 
   @override
-  State<WidgetTextfieldArea> createState() => _WidgetTextfieldAreaState();
+  State<WidgetTextFieldCustom> createState() => _WidgetTextFieldCustomState();
 }
 
-class _WidgetTextfieldAreaState extends State<WidgetTextfieldArea> {
+class _WidgetTextFieldCustomState extends State<WidgetTextFieldCustom> {
   final FocusNode _focusNode = FocusNode() ;
   bool _isFocus = false ;
 
@@ -33,17 +37,12 @@ class _WidgetTextfieldAreaState extends State<WidgetTextfieldArea> {
     },);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode:  _focusNode,
       controller: widget.controller,
       keyboardType: widget.textInputType,
-      minLines: 1,            // chiều cao tối thiểu (có thể điều chỉnh)
-      maxLines: null,         // cho phép tự động giãn
-      expands: false,
-
       style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500
@@ -67,6 +66,11 @@ class _WidgetTextfieldAreaState extends State<WidgetTextfieldArea> {
               )
           )
       ),
+      onChanged: (value) {
+        if(widget.onChange!=null) {
+          widget.onChange!(value) ;
+        }
+      },
     );
   }
 }
