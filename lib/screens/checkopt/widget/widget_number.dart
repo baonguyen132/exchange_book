@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class WidgetNumber extends StatefulWidget {
-  TextEditingController textEditingController ;
-  FocusNode focusNode ;
-  FocusNode? focusNodeNext ;
-  bool isDesktop ;
-  WidgetNumber({super.key , required this.textEditingController , required this.focusNode , this.focusNodeNext , this.isDesktop = false});
+  final TextEditingController textEditingController ;
+  final FocusNode focusNode ;
+  final FocusNode? focusNodeNext ;
+  final bool isDesktop ;
+  const WidgetNumber({super.key , required this.textEditingController , required this.focusNode , this.focusNodeNext , this.isDesktop = false});
 
   @override
   State<WidgetNumber> createState() => _WidgetNumberState();
@@ -18,7 +18,7 @@ class _WidgetNumberState extends State<WidgetNumber> {
     return Container(
       width: 48,
       height: 48,
-      margin: EdgeInsets.all(2),
+      margin: const EdgeInsets.all(2),
       decoration: !widget.isDesktop ?
       BoxDecoration(
         color: Colors.white.withOpacity(0.6),

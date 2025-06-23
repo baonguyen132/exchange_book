@@ -9,9 +9,9 @@ import 'package:exchange_book/util/responsive.dart';
 import '../../model/UserModal.dart';
 
 class CheckOtp extends StatefulWidget {
-  int number ;
-  String email ;
-  CheckOtp({super.key , required this.number , required this.email});
+  final int number ;
+  final String email ;
+  const CheckOtp({super.key , required this.number , required this.email});
 
   @override
   State<CheckOtp> createState() => _CheckOtpState();
@@ -46,6 +46,7 @@ class _CheckOtpState extends State<CheckOtp> {
 
   @override
   Widget build(BuildContext context) {
+    int number = widget.number ;
     return Responsive(
         desktop: CheckOtpDesktop(
           number: widget.number,
@@ -53,7 +54,7 @@ class _CheckOtpState extends State<CheckOtp> {
           listFocusCode: listFocus,
           sendOTPNew: () {
             setState(() {
-              widget.number = generateRandomNumber() ;
+              number = generateRandomNumber() ;
               UserModel.sendCodeOtp(widget.email, widget.number) ;
             });
           },
@@ -64,7 +65,7 @@ class _CheckOtpState extends State<CheckOtp> {
           listFocusCode: listFocus,
           sendOTPNew: () {
             setState(() {
-              widget.number = generateRandomNumber() ;
+              number = generateRandomNumber() ;
               UserModel.sendCodeOtp(widget.email, widget.number) ;
             });
           },
@@ -75,7 +76,7 @@ class _CheckOtpState extends State<CheckOtp> {
           listFocusCode: listFocus,
           sendOTPNew: () {
             setState(() {
-              widget.number = generateRandomNumber() ;
+              number = generateRandomNumber() ;
               UserModel.sendCodeOtp(widget.email, widget.number) ;
             });
           },
