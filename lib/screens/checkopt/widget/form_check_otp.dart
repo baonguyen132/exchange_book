@@ -20,29 +20,29 @@ class FormCheckOtp extends StatefulWidget {
 }
 
 class _FormCheckOtpState extends State<FormCheckOtp> {
-  List<TextEditingController> listController = [
-    TextEditingController()  ,
-    TextEditingController()  ,
-    TextEditingController()  ,
-    TextEditingController()  ,
-    TextEditingController()  ,
-    TextEditingController()  ,
-  ];
-  List<FocusNode> listFocus = [
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-  ];
+  late final List<TextEditingController> listController;
+  late final List<FocusNode> listFocus;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final list = context.read<CheckOtpCubit>().state.listDigital;
+    listController = List.generate(6, (index) => TextEditingController(text: list[index],),
+    );
+
+    listFocus = List.generate(6, (_) => FocusNode());
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    for(int i = 0 ; i < listFocus.length ; i++) {
-      listFocus[i].dispose() ;
+    for (final controller in listController) {
+      controller.dispose();
     }
+    for (final focus in listFocus) {
+      focus.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -74,6 +74,10 @@ class _FormCheckOtpState extends State<FormCheckOtp> {
                     focusNode: listFocus[index],
                     focusNodeNext: index < 5 ? listFocus[index + 1] : null,
                     isDesktop: widget.isDesktop,
+
+                    onChange: (value) {
+                      context.read<CheckOtpCubit>().exchangeListDigital(value, index);
+                    },
                   );
                 }),
               ),

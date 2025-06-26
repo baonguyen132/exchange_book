@@ -16,21 +16,26 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CheckOtpState {
+  List<String> get listDigital => throw _privateConstructorUsedError;
   int get number => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int number, String email) initial,
+    required TResult Function(
+            List<String> listDigital, int number, String email)
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int number, String email)? initial,
+    TResult? Function(List<String> listDigital, int number, String email)?
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int number, String email)? initial,
+    TResult Function(List<String> listDigital, int number, String email)?
+        initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -64,7 +69,7 @@ abstract class $CheckOtpStateCopyWith<$Res> {
           CheckOtpState value, $Res Function(CheckOtpState) then) =
       _$CheckOtpStateCopyWithImpl<$Res, CheckOtpState>;
   @useResult
-  $Res call({int number, String email});
+  $Res call({List<String> listDigital, int number, String email});
 }
 
 /// @nodoc
@@ -82,10 +87,15 @@ class _$CheckOtpStateCopyWithImpl<$Res, $Val extends CheckOtpState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? listDigital = null,
     Object? number = null,
     Object? email = null,
   }) {
     return _then(_value.copyWith(
+      listDigital: null == listDigital
+          ? _value.listDigital
+          : listDigital // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
@@ -106,7 +116,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int number, String email});
+  $Res call({List<String> listDigital, int number, String email});
 }
 
 /// @nodoc
@@ -122,10 +132,15 @@ class __$$InitialImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? listDigital = null,
     Object? number = null,
     Object? email = null,
   }) {
     return _then(_$InitialImpl(
+      listDigital: null == listDigital
+          ? _value._listDigital
+          : listDigital // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
@@ -141,7 +156,19 @@ class __$$InitialImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl({required this.number, required this.email});
+  const _$InitialImpl(
+      {required final List<String> listDigital,
+      required this.number,
+      required this.email})
+      : _listDigital = listDigital;
+
+  final List<String> _listDigital;
+  @override
+  List<String> get listDigital {
+    if (_listDigital is EqualUnmodifiableListView) return _listDigital;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listDigital);
+  }
 
   @override
   final int number;
@@ -150,7 +177,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'CheckOtpState.initial(number: $number, email: $email)';
+    return 'CheckOtpState.initial(listDigital: $listDigital, number: $number, email: $email)';
   }
 
   @override
@@ -158,12 +185,15 @@ class _$InitialImpl implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
+            const DeepCollectionEquality()
+                .equals(other._listDigital, _listDigital) &&
             (identical(other.number, number) || other.number == number) &&
             (identical(other.email, email) || other.email == email));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, number, email);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_listDigital), number, email);
 
   /// Create a copy of CheckOtpState
   /// with the given fields replaced by the non-null parameter values.
@@ -176,27 +206,31 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int number, String email) initial,
+    required TResult Function(
+            List<String> listDigital, int number, String email)
+        initial,
   }) {
-    return initial(number, email);
+    return initial(listDigital, number, email);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int number, String email)? initial,
+    TResult? Function(List<String> listDigital, int number, String email)?
+        initial,
   }) {
-    return initial?.call(number, email);
+    return initial?.call(listDigital, number, email);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int number, String email)? initial,
+    TResult Function(List<String> listDigital, int number, String email)?
+        initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(number, email);
+      return initial(listDigital, number, email);
     }
     return orElse();
   }
@@ -232,8 +266,12 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements CheckOtpState {
   const factory _Initial(
-      {required final int number, required final String email}) = _$InitialImpl;
+      {required final List<String> listDigital,
+      required final int number,
+      required final String email}) = _$InitialImpl;
 
+  @override
+  List<String> get listDigital;
   @override
   int get number;
   @override

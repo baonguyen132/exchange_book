@@ -6,7 +6,16 @@ class WidgetNumber extends StatefulWidget {
   final FocusNode focusNode ;
   final FocusNode? focusNodeNext ;
   final bool isDesktop ;
-  const WidgetNumber({super.key , required this.textEditingController , required this.focusNode , this.focusNodeNext , this.isDesktop = false});
+
+  final Function (String value) onChange ;
+  const WidgetNumber({super.key ,
+    required this.textEditingController ,
+    required this.focusNode ,
+    this.focusNodeNext ,
+    this.isDesktop = false,
+
+    required this.onChange,
+  });
 
   @override
   State<WidgetNumber> createState() => _WidgetNumberState();
@@ -66,6 +75,7 @@ class _WidgetNumberState extends State<WidgetNumber> {
         ),
         onChanged: (value) {
           if(value.length == 1) {
+            widget.onChange(value) ;
             widget.focusNode.unfocus();
             FocusScope.of(context).requestFocus(widget.focusNodeNext) ;
           }
