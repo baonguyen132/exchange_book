@@ -4,17 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/screens/checkopt/widget/form_check_otp.dart';
 
 class CheckOtpTablet extends StatefulWidget {
-  final int number ;
-  final List<TextEditingController> listController ;
-  final List<FocusNode> listFocusCode ;
-  final Function () sendOTPNew ;
+  final Widget formCheckOtp ;
 
   const CheckOtpTablet({
-    super.key,
-    required this.number,
-    required this.listController,
-    required this.listFocusCode,
-    required this.sendOTPNew
+    super.key, required this.formCheckOtp,
   });
 
   @override
@@ -46,12 +39,7 @@ class _CheckOtpTabletState extends State<CheckOtpTablet> {
                         )
                       ]
                   ),
-                  child: FormCheckOtp(
-                    number: widget.number,
-                    listController: widget.listController,
-                    listFocusCode: widget.listFocusCode,
-                    sendOTPNew: () {widget.sendOTPNew();},
-                  ),
+                  child: widget.formCheckOtp,
                 )
             ),
           )

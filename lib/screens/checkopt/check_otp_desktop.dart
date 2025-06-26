@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:exchange_book/screens/checkopt/widget/form_check_otp.dart';
 
 class CheckOtpDesktop extends StatefulWidget {
-  final int number ;
-  final List<TextEditingController> listController ;
-  final List<FocusNode> listFocusCode ;
-  final Function () sendOTPNew ;
+  final Widget formCheckOtp ;
 
-  const CheckOtpDesktop({super.key, required this.number, required this.listController , required this.listFocusCode , required this.sendOTPNew});
+  const CheckOtpDesktop({super.key, required this.formCheckOtp, });
 
   @override
   State<CheckOtpDesktop> createState() => _CheckOtpDesktopState();
@@ -46,22 +42,7 @@ class _CheckOtpDesktopState extends State<CheckOtpDesktop> {
                   ]
                 ),
               ),
-              Expanded(
-                  child: Center(
-                    child: Container(
-                      width: 400,
-                      child: FormCheckOtp(
-                        number: widget.number,
-                        listController: widget.listController,
-                        listFocusCode: widget.listFocusCode,
-                        sendOTPNew: () {
-                          widget.sendOTPNew() ;
-                        },
-                        isDesktop: true,
-                      ),
-                    ),
-                  )
-              ),
+              Expanded(child: Center(child: SizedBox(width: 400, child: widget.formCheckOtp,),)),
               Container(
                 width: 120,
                 decoration: BoxDecoration(
@@ -82,7 +63,6 @@ class _CheckOtpDesktopState extends State<CheckOtpDesktop> {
               ),
             ],
           ),
-
         ),
       ),
     );

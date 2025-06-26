@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:exchange_book/screens/checkopt/widget/widget_number.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/check_otp_cubit.dart';
 
 class FormCheckOtp extends StatefulWidget {
   final int number ;
-  final List<TextEditingController> listController ;
-  final List<FocusNode> listFocusCode ;
 
   final bool isDesktop ;
-  final Function () sendOTPNew ;
 
   const FormCheckOtp({
     super.key ,
     required this.number ,
-    required this.listController ,
-    required this.listFocusCode ,
-    required this.sendOTPNew ,
     this.isDesktop = false
   });
 
@@ -23,6 +20,31 @@ class FormCheckOtp extends StatefulWidget {
 }
 
 class _FormCheckOtpState extends State<FormCheckOtp> {
+  List<TextEditingController> listController = [
+    TextEditingController()  ,
+    TextEditingController()  ,
+    TextEditingController()  ,
+    TextEditingController()  ,
+    TextEditingController()  ,
+    TextEditingController()  ,
+  ];
+  List<FocusNode> listFocus = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+  ];
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    for(int i = 0 ; i < listFocus.length ; i++) {
+      listFocus[i].dispose() ;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,27 +65,28 @@ class _FormCheckOtpState extends State<FormCheckOtp> {
           Column(
             children: [
               Wrap(
+                spacing: 10, // nên thêm spacing cho dễ nhìn
+                runSpacing: 10,
                 alignment: WrapAlignment.spaceBetween,
-                children: [
-                  WidgetNumber(textEditingController: widget.listController[0], focusNode: widget.listFocusCode[0], focusNodeNext: widget.listFocusCode[1], isDesktop: widget.isDesktop,),
-                  WidgetNumber(textEditingController: widget.listController[1], focusNode: widget.listFocusCode[1], focusNodeNext: widget.listFocusCode[2], isDesktop: widget.isDesktop),
-                  WidgetNumber(textEditingController: widget.listController[2], focusNode: widget.listFocusCode[2], focusNodeNext: widget.listFocusCode[3], isDesktop: widget.isDesktop),
-                  WidgetNumber(textEditingController: widget.listController[3], focusNode: widget.listFocusCode[3], focusNodeNext: widget.listFocusCode[4], isDesktop: widget.isDesktop),
-                  WidgetNumber(textEditingController: widget.listController[4], focusNode: widget.listFocusCode[4], focusNodeNext: widget.listFocusCode[5], isDesktop: widget.isDesktop),
-                  WidgetNumber(textEditingController: widget.listController[5], focusNode: widget.listFocusCode[5], isDesktop: widget.isDesktop),
-                ],
+                children: List.generate(6, (index) {
+                  return WidgetNumber(
+                    textEditingController: listController[index],
+                    focusNode: listFocus[index],
+                    focusNodeNext: index < 5 ? listFocus[index + 1] : null,
+                    isDesktop: widget.isDesktop,
+                  );
+                }),
               ),
               const SizedBox(height: 30,),
               GestureDetector(
                 onTap: () {
                   String result = "" ;
-                  for(int i = 0 ; i < widget.listController.length ; i++){
-                    result += widget.listController[i].text;
+                  for(int i = 0 ; i < listController.length ; i++){
+                    result += listController[i].text;
                   }
-                  if(result == widget.number.toString()){
+                  if(result == widget.number.toString()) {
                     Navigator.pop(context , true) ;
-                  }
-                  else {
+                  } else {
                     Navigator.pop(context , false) ;
                   }
                 },
@@ -92,19 +115,13 @@ class _FormCheckOtpState extends State<FormCheckOtp> {
               ),
               const SizedBox(height: 30,),
               GestureDetector(
-                onTap: () {widget.sendOTPNew();},
+                onTap: () {context.read<CheckOtpCubit>().generateRandomNumber() ;},
                 child: const MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Column(
                     children: [
-                      Text(
-                        "Haven't received the code yet?",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-
-                        ),
-                      ),
-                      const SizedBox(height: 10,),
+                      Text("Haven't received the code yet?", textAlign: TextAlign.center,),
+                      SizedBox(height: 10,),
                       Text(
                         "Send OTP",
                         style: TextStyle(

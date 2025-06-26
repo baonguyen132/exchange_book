@@ -27,17 +27,17 @@ class _WidgetNumberState extends State<WidgetNumber> {
             color: Colors.blue.shade700,
             blurRadius: 60,
             spreadRadius: 10,
-            offset: Offset(0, 4)
+            offset: const Offset(0, 4)
           )
         ]
       ):
       BoxDecoration(
         color: Colors.blue.withOpacity(0.8),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         boxShadow: [
           BoxShadow(
             color: Colors.indigoAccent.withAlpha(150),
-            offset: Offset(0, 0),
+            offset: const Offset(0, 0),
             blurRadius: 5,
             spreadRadius: 2
           )
@@ -61,8 +61,8 @@ class _WidgetNumberState extends State<WidgetNumber> {
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
-          
-          
+
+
         ),
         onChanged: (value) {
           if(value.length == 1) {
