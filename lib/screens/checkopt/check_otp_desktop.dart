@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:exchange_book/screens/checkopt/widget/form_check_otp.dart';
 
 class CheckOtpDesktop extends StatefulWidget {
-  int number ;
-  List<TextEditingController> listController ;
-  List<FocusNode> listFocusCode ;
-  Function () sendOTPNew ;
+  final Widget formCheckOtp ;
 
-  CheckOtpDesktop({super.key, required this.number, required this.listController , required this.listFocusCode , required this.sendOTPNew});
+  const CheckOtpDesktop({super.key, required this.formCheckOtp, });
 
   @override
   State<CheckOtpDesktop> createState() => _CheckOtpDesktopState();
@@ -31,7 +27,7 @@ class _CheckOtpDesktopState extends State<CheckOtpDesktop> {
               Container(
                 width: 120,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8),
                     bottomLeft: Radius.circular(8),
                   ),
@@ -39,33 +35,18 @@ class _CheckOtpDesktopState extends State<CheckOtpDesktop> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.indigo.withAlpha(150),
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                       spreadRadius: 10,
                       blurRadius: 15
                     )
                   ]
                 ),
               ),
-              Expanded(
-                  child: Center(
-                    child: Container(
-                      width: 400,
-                      child: FormCheckOtp(
-                        number: widget.number,
-                        listController: widget.listController,
-                        listFocusCode: widget.listFocusCode,
-                        sendOTPNew: () {
-                          widget.sendOTPNew() ;
-                        },
-                        isDesktop: true,
-                      ),
-                    ),
-                  )
-              ),
+              Expanded(child: Center(child: SizedBox(width: 400, child: widget.formCheckOtp,),)),
               Container(
                 width: 120,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(8),
                       bottomRight: Radius.circular(8),
                     ),
@@ -73,7 +54,7 @@ class _CheckOtpDesktopState extends State<CheckOtpDesktop> {
                     boxShadow: [
                       BoxShadow(
                           color: Colors.indigo.withAlpha(150),
-                          offset: Offset(0, 0),
+                          offset: const Offset(0, 0),
                           spreadRadius: 10,
                           blurRadius: 15
                       )
@@ -82,7 +63,6 @@ class _CheckOtpDesktopState extends State<CheckOtpDesktop> {
               ),
             ],
           ),
-
         ),
       ),
     );
