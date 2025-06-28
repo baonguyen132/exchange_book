@@ -40,8 +40,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   Widget build(BuildContext context) {
     return Responsive(
         desktop: ScanQrCodeDesktop(),
-        mobile: ScanQrCodeMobile(qrkey: qrkey, controller: controller,),
-        tablet: ScanQrCodeTablet(qrkey: qrkey, controller: controller,)
+        mobile: ScanQrCodeMobile(qrKey: qrkey, controller: controller,),
+        tablet: ScanQrCodeTablet(qrKey: qrkey, controller: controller,)
     );
   }
 }
