@@ -5,8 +5,8 @@ import '../../../../model/UserModal.dart';
 
 class HomeAdmin extends StatefulWidget {
   final bool isMobile;
-  UserModel user ;
-  HomeAdmin({super.key, this.isMobile = false, required this.user});
+  final UserModel user ;
+  const HomeAdmin({super.key, this.isMobile = false, required this.user});
 
   @override
   State<HomeAdmin> createState() => _HomeAdminState();
@@ -138,7 +138,7 @@ class _HomeAdminState extends State<HomeAdmin> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Color(0xFFF5F5F5),
+            color: const Color(0xFFF5F5F5),
             borderRadius: BorderRadius.circular(16),
           ),
           height: 280,

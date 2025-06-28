@@ -1,4 +1,5 @@
 import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/cubit/manage/manage_user_cubit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +31,8 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          BlocProvider.value(value: _dashboardCubit)
+          BlocProvider.value(value: _dashboardCubit),
+          BlocProvider(create: (context) => ManageUserCubit(), lazy: true,)
 
         ],
       child: BlocBuilder<DashboardCubit, DashboardState >(
