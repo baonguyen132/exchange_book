@@ -35,7 +35,6 @@ class _CardTypeBookButtonState extends State<CardTypeBookButton> {
           child: Icon(
             widget.iconData,
             color: widget.color,
-
           ),
         ),
       ),
