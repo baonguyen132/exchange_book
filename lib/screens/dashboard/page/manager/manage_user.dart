@@ -76,7 +76,7 @@ class _ManageUserState extends State<ManageUser> {
   
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
+    return BlocBuilder<ManageUserCubit , ManageUserState>(builder: (context, state) => LayoutBuilder(
       builder: (context, constraints) => Container(
         width: constraints.maxWidth,
         height: constraints.maxHeight,
@@ -114,7 +114,7 @@ class _ManageUserState extends State<ManageUser> {
           ),
         ),
       ),
-    );
+    ),);
 
   }
 }

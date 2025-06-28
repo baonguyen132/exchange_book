@@ -103,7 +103,7 @@ class CartModal {
 
   static Future<void> updateStateCart(String id_user, String id_cart ,String state , String total, Function () handleSuccessful , Function () handleFail ) async {
     final response = await http.post(
-      Uri.parse(location+"/update_state_cart"),
+      Uri.parse("$location/update_state_cart"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "id_user": id_user,
