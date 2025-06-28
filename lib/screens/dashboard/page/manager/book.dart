@@ -1,110 +1,52 @@
+import 'package:exchange_book/main.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/cubit/book/book_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/manager/widget/book/widget_form_insert_product.dart';
 import 'package:exchange_book/screens/dashboard/page/manager/widget/book/widget_list_product.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:exchange_book/model/TypeBookModal.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/ConstraintData.dart';
 
 class Book extends StatefulWidget {
-
-  Book({super.key});
+  const Book({super.key});
 
   @override
   State<Book> createState() => _BookState();
 }
 
 class _BookState extends State<Book> {
-  List<TypeBookModal> list = [] ;
-  bool frame = true ;
-
-  void loadData() async {
-    final result = await TypeBookModal.exportTypeBook(() {},) ;
-    setState(() {
-      list = result ;
-    });
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData() ;
-
+    context.read<BookCubit>().loadData() ;
   }
 
   Widget getFrame() {
-    if(frame) {
+    if(context.read<BookCubit>().state.frame) {
       return WidgetListProduct(
-        list: list,
+        list: context.read<BookCubit>().state.list,
         update: (typeBookModal) {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
-            location+"/updateTypeBook" ,
+            "$location/updateTypeBook" ,
             () {
-              setState(() {
-                for(int i = 0 ; i < list.length ; i++) {
-                  if(list[i].id == typeBookModal.id) {
-                    list[i] = typeBookModal ;
-                  }
-                }
-              });
-              Fluttertoast.showToast(
-                msg: "Cập nhật thành công",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 16.0,
-              );
-
-            },
-            () {
-              Fluttertoast.showToast(
-                msg: "Cập nhật bị lỗi",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 16.0,
-              );
-            },
-
+              context.read<BookCubit>().updateTypeBook(typeBookModal);
+              toast("Cập nhật thành công");},
+            () {toast("Cập nhật bị lỗi");},
           );
-
         },
         delete: (typeBookModal) {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
-            location+"/deleteTypeBook" ,
+            "$location/deleteTypeBook" ,
             () {
-              setState(() {
-                for(int i = 0 ; i < list.length ; i++) {
-                  if(list[i].id == typeBookModal.id) {
-                    list.removeAt(i) ;
-                  }
-                }
-              });
-              Fluttertoast.showToast(
-                msg: "Xoá thành công",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 16.0,
-              );
-
+              context.read<BookCubit>().deleteTypeBook(typeBookModal);
+              toast("Xoá thành công");
             },
-            () {
-              Fluttertoast.showToast(
-                msg: "Không thể xoá được",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 16.0,
-              );
-            },
+            () {toast("Không thể xoá được");},
           );
 
         },
@@ -118,27 +60,11 @@ class _BookState extends State<Book> {
             typeBookModal,
             "$location/insertTypeBook",
             () {
-              setState(() {
-                list.add(typeBookModal) ;
-              });
-              Fluttertoast.showToast(
-                msg: "Thêm thành công",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 16.0,
-              );
+              context.read<BookCubit>().addTypeBook(typeBookModal);
+              toast("Thêm thành công") ;
             },
             () {
-              Fluttertoast.showToast(
-                msg: "Thêm không thành công",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 16.0,
-              );
+              toast("Thêm không thành công") ;
             },
           );
         },
@@ -149,23 +75,18 @@ class _BookState extends State<Book> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+    return BlocBuilder<BookCubit , BookState>(builder: (context, state) => Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: getFrame(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            frame = !frame ;
-          });
-        },
-        child: Icon(frame ? Icons.add : Icons.arrow_back),
+        onPressed: () {context.read<BookCubit>().changeScreen();},
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100),),
+        child: Icon(context.read<BookCubit>().state.frame ? Icons.add : Icons.arrow_back),
       ),
-    );
+    ),);
   }
 }

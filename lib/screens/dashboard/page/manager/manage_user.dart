@@ -1,6 +1,6 @@
+import 'package:exchange_book/screens/dashboard/page/manager/cubit/manage/manage_user_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 class ManageUser extends StatefulWidget {
@@ -11,19 +11,11 @@ class ManageUser extends StatefulWidget {
 }
 
 class _ManageUserState extends State<ManageUser> {
-  List<dynamic> list = [] ;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData() ;
-  }
-
-  void loadData() async {
-    List<dynamic> data = await UserModel.loadDataUser() ;
-    setState(() {
-      list = data ;
-    });
+    context.read<ManageUserCubit>().loadData();
   }
 
   DataColumn cellTitleTable(String title) {
@@ -84,7 +76,7 @@ class _ManageUserState extends State<ManageUser> {
   
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
+    return BlocBuilder<ManageUserCubit , ManageUserState>(builder: (context, state) => LayoutBuilder(
       builder: (context, constraints) => Container(
         width: constraints.maxWidth,
         height: constraints.maxHeight,
@@ -114,15 +106,15 @@ class _ManageUserState extends State<ManageUser> {
                   cellTitleTable("Grant"),
                   cellTitleTable("Delete"),
                 ],
-                rows: List.generate(list.length, (index) {
-                  return rowData(list[index]) ;
+                rows: List.generate(context.read<ManageUserCubit>().state.list.length, (index) {
+                  return rowData(context.read<ManageUserCubit>().state.list[index]) ;
                 }),
               ),
             ),
           ),
         ),
       ),
-    );
+    ),);
 
   }
 }

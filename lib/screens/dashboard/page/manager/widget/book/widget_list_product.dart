@@ -4,16 +4,21 @@ import 'package:exchange_book/theme/theme.dart';
 import '../../../../../../model/TypeBookModal.dart';
 import '../../../../../../util/widget_text_field_area.dart';
 import '../../../../../../util/widget_text_field_custom.dart';
-import 'card_type_book.dart';
+import 'cardbook/card_type_book.dart';
 
 
 
 class WidgetListProduct extends StatefulWidget {
-  Function (TypeBookModal typeBookModal) update ;
-  Function (TypeBookModal typeBookModal) delete ;
+  final Function (TypeBookModal typeBookModal) update ;
+  final Function (TypeBookModal typeBookModal) delete ;
 
-  List<TypeBookModal> list ;
-  WidgetListProduct({super.key , required this.list , required this.update , required this.delete});
+  final List<TypeBookModal> list ;
+  const WidgetListProduct({
+    super.key,
+    required this.list,
+    required this.update,
+    required this.delete
+  });
 
   @override
   State<WidgetListProduct> createState() => _WidgetListProductState();
@@ -68,21 +73,21 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                   hint: "Nhập tên sách",
                   iconData: Icons.drive_file_rename_outline,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 WidgetTextFieldCustom(
                   controller: typeBookController,
                   textInputType: TextInputType.text,
                   hint: "Nhập loại sách",
                   iconData: Icons.book,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 WidgetTextFieldCustom(
                     controller: priceController,
                     textInputType: TextInputType.number,
                     hint: "Nhập giá sách",
                     iconData: Icons.price_change_outlined
                 ),
-                SizedBox(height: 16,),
+                const SizedBox(height: 16,),
                 WidgetTextFieldArea(
                   controller: descriptionController,
                   textInputType: TextInputType.multiline,
@@ -92,12 +97,12 @@ class _WidgetListProductState extends State<WidgetListProduct> {
               ],
             ),
           ),
-          actionsPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           actions: [
             TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
-              icon: Icon(Icons.cancel_outlined, color: Colors.grey),
-              label: Text("Huỷ", style: TextStyle(color: Colors.grey)),
+              icon: const Icon(Icons.cancel_outlined, color: Colors.grey),
+              label: const Text("Huỷ", style: TextStyle(color: Colors.grey)),
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
@@ -117,8 +122,8 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                 );
                 Navigator.of(context).pop();
               },
-              icon: Icon(Icons.save , color: Colors.white,),
-              label: Text("Lưu", style: TextStyle(color: Colors.white)),
+              icon: const Icon(Icons.save , color: Colors.white,),
+              label: const Text("Lưu", style: TextStyle(color: Colors.white)),
             ),
           ],
         );
@@ -132,7 +137,7 @@ class _WidgetListProductState extends State<WidgetListProduct> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: SingleChildScrollView(
         child: Wrap(
           alignment: WrapAlignment.spaceAround,

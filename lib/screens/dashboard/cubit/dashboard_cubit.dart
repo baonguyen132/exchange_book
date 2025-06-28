@@ -55,10 +55,10 @@ class DashboardCubit extends Cubit<DashboardState> {
 
 
     if(newIndexScreen == 1){newScreen = const Home();}
-    else if(newIndexScreen == 2) {newScreen = Product(userdata: state.user!,) ;}
-    else if(newIndexScreen ==3){newScreen = Manage(user: state.user!,);}
+    else if(newIndexScreen == 2) {newScreen = Product(userdata: state.user,) ;}
+    else if(newIndexScreen ==3){newScreen = Manage(user: state.user,);}
     else if (newIndexScreen == 4) {newScreen = const Profile() ;}
-    else if(newIndexScreen == 6) {newScreen = HomeAdmin(isMobile: isMobile,user: state.user!,);}
+    else if(newIndexScreen == 6) {newScreen = HomeAdmin(user: state.user,);}
     else if(newIndexScreen == 7) {newScreen = Book();}
     else if(newIndexScreen == 8) {newScreen = const ManageUser();}
 

@@ -92,7 +92,7 @@ class UserModel {
     };
     try {
       final response = await http.post(
-        Uri.parse(location+"/login"),
+        Uri.parse("$location/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(requestBody), // Chuyển đổi model thành JSON
       );
@@ -113,7 +113,7 @@ class UserModel {
   static Future<void> registerUser(UserModel user , Function () handle) async {
 
     final response = await http.post(
-      Uri.parse(location+"/register"),
+      Uri.parse("$location/register"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(user.toJson()), // Chuyển đổi model thành JSON
     );
@@ -128,7 +128,7 @@ class UserModel {
 
   static Future<List<dynamic>> loadDataUser() async {
     final response = await http.get(
-      Uri.parse(location+"/loadDataUser"),
+      Uri.parse("$location/loadDataUser"),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -148,7 +148,7 @@ class UserModel {
     };
 
     final response = await http.post(
-      Uri.parse(location+"/sendOtp"),
+      Uri.parse("$location/sendOtp"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(requestBody),
     );
@@ -276,15 +276,15 @@ class UserModel {
   }
 
   static Future<UserModel?> exportUser(String id, Function () handle) async {
-    final respone = await http.post(
-      Uri.parse(location+"/loadUser"),
+    final response = await http.post(
+      Uri.parse("$location/loadUser"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "id_user": id,
       }),
     ) ;
 
-    List<dynamic> data = jsonDecode(respone.body) ;
+    List<dynamic> data = jsonDecode(response.body) ;
     return UserModel.fromJson(data) ;
   }
 
