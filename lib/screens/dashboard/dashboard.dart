@@ -42,7 +42,7 @@ class _DashboardState extends State<Dashboard> {
           return state.isLoading ? const Center(child: CircularProgressIndicator()): Responsive(
               desktop: DashboardDesktop(
                 state: state,
-                hanlde: (item) {context.read<DashboardCubit>().exchange(item, false) ;},
+                handle: (item) {context.read<DashboardCubit>().exchange(item, false) ;},
                 child:  state.screen,
               ),
               mobile: DashboardMobile(
