@@ -18,14 +18,14 @@ class _DarkLightModeState extends State<DarkLightMode> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 0 , horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 0 , horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 0 , horizontal: 13),
+                padding: const EdgeInsets.symmetric(vertical: 0 , horizontal: 13),
                 child: Icon(mainLightDarkMode? Icons.sunny : CupertinoIcons.moon),
               ),
               Text(
@@ -51,20 +51,20 @@ class _DarkLightModeState extends State<DarkLightMode> {
                 width: 60,
                 height: 30,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: Color(0xFFF2F2F2),
+                    borderRadius: const BorderRadius.all(Radius.circular(100)),
+                    color: const Color(0xFFF2F2F2),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.shade300,
                       blurRadius: 10 ,
                       spreadRadius: -5,
-                      offset: Offset(-3, -3)
+                      offset: const Offset(-3, -3)
                     ),
                     BoxShadow(
                       color: Colors.grey.shade500, // Bóng ở hướng ngược lại
                       blurRadius: 10,
                       spreadRadius: -5,
-                      offset: Offset(3, 3),
+                      offset: const Offset(3, 3),
                     ),
                   ]
                 ),
@@ -74,8 +74,8 @@ class _DarkLightModeState extends State<DarkLightMode> {
                     Container(
                       height: 20,
                       width: 20,
-                      margin: EdgeInsets.symmetric(vertical: 2 , horizontal: 5),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.symmetric(vertical: 2 , horizontal: 5),
+                      decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(100)),
                           color: Colors.blue
                       ),

@@ -4,13 +4,13 @@ import 'package:exchange_book/theme/theme.dart';
 import '../../../../../../../data/ConstraintData.dart';
 import '../../../../../widget/card/card_item_image.dart';
 import '../product_item_button.dart';
-import '../product_item_infor.dart';
+import '../product_item_information.dart';
 
 class WidgetItemProduct extends StatefulWidget {
-  double width ;
-  List<dynamic> item ;
-  Function (List<dynamic> item) openItem ;
-  WidgetItemProduct({super.key, required this.width , required this.item, required this.openItem});
+  final double width ;
+  final List<dynamic> item ;
+  final Function (List<dynamic> item) openItem ;
+  const WidgetItemProduct({super.key, required this.width , required this.item, required this.openItem});
 
   @override
   State<WidgetItemProduct> createState() => _WidgetItemProductState();
@@ -26,11 +26,11 @@ class _WidgetItemProductState extends State<WidgetItemProduct> {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(
-          padding: EdgeInsets.all(5),
-          margin: EdgeInsets.only(bottom: 15),
+          padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.only(bottom: 15),
           width: widget.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
             border: Border.all(width: 1 , color: Colors.blue.shade300),
           ),
           child: Row(
@@ -43,8 +43,8 @@ class _WidgetItemProductState extends State<WidgetItemProduct> {
                 heart: false,
                 link: "$location/${widget.item[6]}",
               ),
-              SizedBox(width: 20,),
-              Expanded(child: ProductItemInfor(item: widget.item,))
+              const SizedBox(width: 20,),
+              Expanded(child: ProductItemInformation(item: widget.item,))
             ],
           ),
         ),

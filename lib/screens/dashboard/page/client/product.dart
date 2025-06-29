@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:exchange_book/data/ConstraintData.dart';
+import 'package:exchange_book/main.dart';
+import 'package:exchange_book/screens/dashboard/page/client/cubit/product/product_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/product/best_item.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/product/detail/widget_button_card_detail_of_product.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/product/detail/widget_item_product.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:exchange_book/model/BookModal.dart';
@@ -19,56 +23,34 @@ import '../../../../model/CartModal.dart';
 import 'cart.dart';
 
 class Product extends StatefulWidget {
-  UserModel userdata ;
-  Product({super.key, required this.userdata});
+  final UserModel userdata ;
+  const Product({super.key, required this.userdata});
 
   @override
   State<Product> createState() => _ProductState();
 }
 
 class _ProductState extends State<Product> {
-  List<dynamic>? list_product_best ;
-  List<dynamic>? list_product ;
-  int state = 0;
-  late List<dynamic> data ;
 
+  // 0 -> list
+  // 1 -> detail
+  // 2 -> cart
 
-  final ImagePicker _picker = ImagePicker();
-  File? _image;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData() ;
+    context.read<ProductCubit>().loadData(widget.userdata.id.toString());
   }
 
-  void loadData() async {
 
-    List<dynamic> data = await BookModal.exportBook(widget.userdata.id.toString()) ;
-    setState(() {
-      list_product_best = data ;
-      list_product = data ;
-    });
-  }
-
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
-    if (pickedFile != null)  {
-      _image = File(pickedFile.path);
-      List<dynamic> data = (await BookModal.uploadImageScan(_image!,"/scan_books", widget.userdata.id!))! ;
-      setState(() {
-        list_product = data ;
-      });
-    }
-  }
-
-  Widget getWidget() {
-    if(state == 0) {
+  Widget getWidget(ProductState state) {
+    if(state.page == "list") {
       return ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 20, left: 20 , right: 20 , bottom: 10),
+            margin: const EdgeInsets.only(top: 20, left: 20 , right: 20 , bottom: 10),
             child: Text(
               "Danh sách sản phẩm",
               style: TextStyle(
@@ -78,35 +60,32 @@ class _ProductState extends State<Product> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 450,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                if(list_product_best != null)
-                  for(int i = 0 ; i < min(list_product_best!.length, 10) ; i++)
-                    ProductItem(
-                      item: list_product_best![i],
-                      openItem: (item) {
-                        setState(() {
-                          state = 1 ;
-                          data = item ;
-                        });
-                      },
-                      order: (bookModal, name_book) {
-                        DetailCartModal.saveDetail(
-                          bookModal.id.toString(),
-                          bookModal.id_user.toString(),
-                          DetailCartModal(
+                for(int i = 0 ; i < min(state.listProductBest.length, 10) ; i++)
+                  ProductItem(
+                    item: state.listProductBest[i],
+                    openItem: (item) {
+                      context.read<ProductCubit>().openDetailProduct(item) ;
+                    },
+                    order: (bookModal, nameBook) {
+                      DetailCartModal.saveDetail(
+                        bookModal.id.toString(),
+                        bookModal.id_user.toString(),
+                        DetailCartModal(
                             bookModal: bookModal,
                             quantity: 1,
-                            name_book: name_book
-                          ),
+                            name_book: nameBook
+                        ),
 
-                        );
-                      },
-                    )
+                      );
+                    },
+                  )
+
               ],
             ),
           ),
@@ -114,7 +93,7 @@ class _ProductState extends State<Product> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 20, left: 20 , right: 20 , bottom: 10),
+                margin: const EdgeInsets.only(top: 20, left: 20 , right: 20 , bottom: 10),
                 child: Text(
                   "Danh sách sản phẩm",
                   style: TextStyle(
@@ -125,20 +104,18 @@ class _ProductState extends State<Product> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  _pickImage(ImageSource.gallery) ;
-                },
+                onTap: () {context.read<ProductCubit>().pickImage(ImageSource.gallery, widget.userdata.id!);},
                 child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child:Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       width: 300,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.blue,
 
                       ),
-                      margin: EdgeInsets.only(top: 0, left: 20 , right: 20 , bottom: 20),
-                      child: Center(
+                      margin: const EdgeInsets.only(top: 0, left: 20 , right: 20 , bottom: 20),
+                      child: const Center(
                         child: Text(
                           "Tìm kiếm sách bằng ảnh",
                           style: TextStyle(
@@ -155,66 +132,54 @@ class _ProductState extends State<Product> {
             ],
           ),
 
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
               children: [
-                if(list_product != null)
-                  for(int i = 0 ; i < list_product!.length ; i++)
-                    BestItem(
-                      item: list_product![i],
-                      openItem: (item) {
-                        setState(() {
-                          state = 1 ;
-                          data = item ;
-                        });
-                      },
-                      order: (bookModal, name_book) {
-                        DetailCartModal.saveDetail(
-                          bookModal.id.toString(),
-                          bookModal.id_user.toString(),
-                          DetailCartModal(
-                              bookModal: bookModal,
-                              quantity: 1,
-                              name_book: name_book
-                          ),
-                        );
-                      },
-                    )
-
+                for(int i = 0 ; i < state.listProduct.length ; i++)
+                  BestItem(
+                    item: state.listProduct[i],
+                    openItem: (item) {context.read<ProductCubit>().openDetailProduct(item) ;},
+                    order: (bookModal, nameBook) {
+                      DetailCartModal.saveDetail(
+                        bookModal.id.toString(),
+                        bookModal.id_user.toString(),
+                        DetailCartModal(
+                            bookModal: bookModal,
+                            quantity: 1,
+                            name_book: nameBook
+                        ),
+                      );
+                    },
+                  )
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 100,
           )
         ],
       );
     }
-    else if(state == 1) {
+    else if(state.page == "detail") {
       return SingleChildScrollView(
         child: CardDetail(
-          item: data,
+          item: state.detailProduct,
           wigetHasListButton: WidgetButtonCardDetailOfProduct(change: () {
 
           },),
           titleRight: 'Danh sách sản phẩm',
           list: LayoutBuilder(builder: (context, constraints) => Column(
             children: [
-              if(list_product != null)
-                for(int i = 0 ; i < list_product!.length ; i++)
-                  WidgetItemProduct(
-                    width: constraints.maxWidth,
-                    item: list_product?[i],
-                    openItem: (item) {
-                      setState(() {
-                        data = item ;
-                        state = 0 ;
-                      });
-                    },
-                  )
+              for(int i = 0 ; i < state.listProduct.length ; i++)
+                WidgetItemProduct(
+                  width: constraints.maxWidth,
+                  item: state.listProduct[i],
+                  openItem: (item) {context.read<ProductCubit>().openDetailProduct(item) ;},
+                )
+
             ],
           ),),
 
@@ -225,57 +190,42 @@ class _ProductState extends State<Product> {
       return Cart(handleInsert: (data, address, totalText, total, path) {
 
         CartModal.uploadCart(
-          data,address,totalText,path,widget.userdata.id.toString(),() {
-          Fluttertoast.showToast(
-            msg: "Thêm giỏ hàng thành công",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.black54,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );},
+          data,address,totalText,path,widget.userdata.id.toString(),
           () {
-          Fluttertoast.showToast(
-            msg: "Lỗi khi thêm giỏ hàng",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.black54,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );},
+            toast("Thêm giỏ hàng thành công");
+          },
+          () {
+            toast("Lỗi khi thêm giỏ hàng");
+          },
         );
 
         widget.userdata.point = "${int.parse(widget.userdata.point) - total}";
         UserModel.saveUserData(widget.userdata);
 
         DetailCartModal.removeDetailCartData() ;
-        setState(() {
-          state = 0 ;
-        });
-            },);
+        context.read<ProductCubit>().back();
+
+        },);
     }
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: getWidget(),
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100))),
-        child: Icon(state == 0 ? Icons.shopping_cart : Icons.rotate_left , size: 25,),
-        onPressed: () {
-          setState(() {
-            if(state != 0 ) {
-              state = 0 ;
-            }
-            else  {
-              state = 2 ;
-            }
-
-          });
-        },
-      )
-    );
+    return BlocBuilder<ProductCubit , ProductState>(builder: (context, state) {
+      if(state.isLoading){
+        return const Center(child: CircularProgressIndicator());
+      }
+      else {
+        return Scaffold(
+            body: getWidget(state),
+            floatingActionButton: FloatingActionButton(
+              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100))),
+              child: Icon(state.page == "list" ? Icons.shopping_cart : Icons.rotate_left , size: 25,),
+              onPressed: () {context.read<ProductCubit>().handleFloatingButton();},
+            )
+        );
+      }
+    },);
   }
 }

@@ -1,15 +1,15 @@
 import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item_button.dart';
-import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item_infor.dart';
+import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item_information.dart';
 import 'package:flutter/material.dart';
 import 'package:exchange_book/data/ConstraintData.dart';
 import 'package:exchange_book/model/BookModal.dart';
 import 'package:exchange_book/screens/dashboard/widget/card/card_item.dart';
 
 class ProductItem extends StatefulWidget {
-  List<dynamic> item ;
-  Function (List<dynamic> item) openItem ;
-  Function (BookModal bookModal, String name_book) order ;
-  ProductItem({super.key, required this.item , required this.openItem, required this.order});
+  final List<dynamic> item ;
+  final Function (List<dynamic> item) openItem ;
+  final Function (BookModal bookModal, String nameBook) order ;
+  const ProductItem({super.key, required this.item , required this.openItem, required this.order});
 
   @override
   State<ProductItem> createState() => _ProductItemState();
@@ -20,9 +20,7 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.openItem(widget.item) ;
-      },
+      onTap: () {widget.openItem(widget.item) ;},
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: CardItem(
@@ -33,7 +31,7 @@ class _ProductItemState extends State<ProductItem> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Expanded(
-                    child: ProductItemInfor(item:  widget.item,)
+                    child: ProductItemInformation(item:  widget.item,)
                 ),
                 ProductItemButton(handle: () {
                   widget.order(

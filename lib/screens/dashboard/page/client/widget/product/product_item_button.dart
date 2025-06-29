@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductItemButton extends StatefulWidget {
-  Function () handle  ;
+  final Function () handle  ;
 
-  ProductItemButton({super.key , required this.handle});
+  const ProductItemButton({super.key , required this.handle});
 
   @override
   State<ProductItemButton> createState() => _ProductItemButtonState();
@@ -17,16 +17,14 @@ class _ProductItemButtonState extends State<ProductItemButton> {
       width: 50,
       height: 50,
 
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.all(Radius.circular(100))
       ),
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: GestureDetector(
-        onTap: () {
-          widget.handle() ;
-        },
-        child: MouseRegion(
+        onTap: () {widget.handle() ;},
+        child: const MouseRegion(
           child: Icon(
             CupertinoIcons.cart_fill_badge_plus,
             color: Colors.white,
