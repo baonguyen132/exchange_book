@@ -6,15 +6,10 @@ import 'package:exchange_book/model/UserModal.dart';
 
 import '../../../../../../data/ConstraintData.dart';
 
-
-
-
-
-
 class UserProfileCardImg extends StatefulWidget {
-  bool isMobile ;
-  UserModel userModel ;
-  UserProfileCardImg({super.key , required this.isMobile , required this.userModel});
+  final bool isMobile ;
+  final UserModel userModel ;
+  const UserProfileCardImg({super.key , required this.isMobile , required this.userModel});
 
   @override
   State<UserProfileCardImg> createState() => _UserProfileCardImgState();
@@ -38,7 +33,7 @@ class _UserProfileCardImgState extends State<UserProfileCardImg> {
     }
   }
 
-  final backgoundDecorationImage = const DecorationImage(
+  final backgroundDecorationImage = const DecorationImage(
     image: NetworkImage("https://th.bing.com/th/id/OIP.wLWdXsVzTDNeMJcSnKbIbgHaEK?rs=1&pid=ImgDetMain"),
     fit: BoxFit.cover,
   ) ;
@@ -80,7 +75,7 @@ class _UserProfileCardImgState extends State<UserProfileCardImg> {
         Container(
           width: 250,
           decoration: BoxDecoration(
-              image: backgoundDecorationImage,
+              image: backgroundDecorationImage,
               borderRadius: const  BorderRadius.only(
                   topLeft: Radius.circular(10),
                   bottomLeft: Radius.circular(10)
@@ -104,7 +99,7 @@ class _UserProfileCardImgState extends State<UserProfileCardImg> {
         Container(
           height: 280,
           decoration: BoxDecoration(
-              image: backgoundDecorationImage,
+              image: backgroundDecorationImage,
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10)
@@ -140,9 +135,7 @@ class _UserProfileCardImgState extends State<UserProfileCardImg> {
           bottom: 0,
           left: 20,
           child: GestureDetector(
-            onTap: () {
-              _pickImage(ImageSource.gallery) ;
-            },
+            onTap: () {_pickImage(ImageSource.gallery) ;},
             child: Container(
               width: 200,
               height: 200,
