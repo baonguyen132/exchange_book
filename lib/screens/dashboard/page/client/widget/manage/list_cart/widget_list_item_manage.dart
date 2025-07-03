@@ -5,11 +5,11 @@ import 'package:exchange_book/theme/theme.dart';
 
 
 class WidgetListItemManage extends StatefulWidget {
-  List<dynamic> item ;
-  String textButton ;
-  Function (String id_cart, int total) handleClick ;
-  int trangthaibutton ;
-  WidgetListItemManage({super.key, required this.item, required this.textButton, required this.handleClick, required this.trangthaibutton});
+  final List<dynamic> item ;
+  final String textButton ;
+  final Function (String id_cart, int total) handleClick ;
+  final int stateButton ;
+  const WidgetListItemManage({super.key, required this.item, required this.textButton, required this.handleClick, required this.stateButton,});
 
   @override
   State<WidgetListItemManage> createState() => _WidgetListItemManageState();
@@ -19,7 +19,7 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
 
   List<dynamic>? listItem ;
   bool click = false ;
-  String trangthai = "";
+  String state = "";
 
 
   @override
@@ -31,7 +31,7 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
   void loadData() async {
     List<dynamic> data = await CartModal.exportItemCart(widget.item[0].toString());
     setState(() {
-      trangthai = widget.item[1] ;
+      state = widget.item[1] ;
       listItem = data ;
     });
   }
@@ -43,23 +43,23 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
         Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             color: Colors.blue.shade400,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.shade300,
                 blurRadius: 3,
                 spreadRadius: 3,
-                offset: Offset(0, 0),
+                offset: const Offset(0, 0),
               )
             ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   "Tên: ${widget.item[4]}",
                   style: TextStyle(
@@ -69,16 +69,16 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const  SizedBox(height: 20),
               if(listItem != null)
                 for(int i = 0 ; i < listItem!.length ; i++)
                   WidgetItemManage(item: listItem?[i],) ,
 
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    "Trạng thái: $trangthai",
+                    "Trạng thái: $state",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -86,9 +86,9 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                     ),
                   )
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     "Địa chỉ: ${widget.item[2]}",
                     style: TextStyle(
@@ -98,9 +98,9 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                     ),
                   )
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     "Tổng tiền: ${widget.item[3]} VND",
                     style: TextStyle(
@@ -110,8 +110,8 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                     ),
                   )
               ),
-              SizedBox(height: 20),
-              if((widget.trangthaibutton == 2 && widget.item[1] == "Đã xác nhận" && !click) || (widget.trangthaibutton == 1 && widget.item[1] == "Đã chuyển" && !click))
+              const SizedBox(height: 20),
+              if((widget.stateButton == 2 && widget.item[1] == "Đã xác nhận" && !click) || (widget.stateButton == 1 && widget.item[1] == "Đã chuyển" && !click))
                 GestureDetector(
                   onTap: () {
                     if(!click) {
@@ -119,10 +119,10 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                       setState(() {
                         click = !click ;
                         if(widget.item[1] == "Đã xác nhận") {
-                          trangthai = "Đã chuyển";
+                          state = "Đã chuyển";
                         }
                         else if (widget.item[1] == "Đã chuyển") {
-                          trangthai = "Đã nhận";
+                          state = "Đã nhận";
                         }
                       });
                     }
@@ -130,16 +130,16 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderRadius:const  BorderRadius.all(Radius.circular(8)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
                               blurRadius: 2,
                               spreadRadius: 1,
-                              offset: Offset(0, 1),
+                              offset:const  Offset(0, 1),
                             )
                           ]
                       ),
@@ -161,7 +161,7 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ],
     );
   }

@@ -11,19 +11,16 @@ import '../../../../model/BookModal.dart';
 import '../../../../model/UserModal.dart';
 
 class Manage extends StatefulWidget {
-  UserModel user ;
-  Manage({super.key , required this.user});
+  final UserModel user ;
+  const Manage({super.key , required this.user});
 
   @override
   State<Manage> createState() => _ManageState();
 }
 
 class _ManageState extends State<Manage> {
-
-
   int state = 0 ;
   List<dynamic>? item ;
-
 
   Widget getWidget() {
     if(state == 0) {
@@ -41,9 +38,9 @@ class _ManageState extends State<Manage> {
     else if(state == 1) {
       return WidgetSignUpBook(
         user: widget.user,
-        insert: (bookmodal) {
+        insert: (bookModal) {
           BookModal.updateDatabaseBook(
-            bookmodal,
+            bookModal,
             "$location/insertBook",
                 () {
 
@@ -124,7 +121,7 @@ class _ManageState extends State<Manage> {
                 change: () {
 
                 },
-                nochange: () {
+                noChange: () {
 
                 },
               ),

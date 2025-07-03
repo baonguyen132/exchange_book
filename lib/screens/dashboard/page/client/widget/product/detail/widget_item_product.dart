@@ -20,9 +20,7 @@ class _WidgetItemProductState extends State<WidgetItemProduct> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.openItem(widget.item) ;
-      },
+      onTap: () {widget.openItem(widget.item) ;},
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(

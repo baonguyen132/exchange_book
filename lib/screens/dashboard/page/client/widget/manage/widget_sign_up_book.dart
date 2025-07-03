@@ -17,10 +17,10 @@ import 'card_book.dart';
 
 
 class WidgetSignUpBook extends StatefulWidget {
-  UserModel user ;
-  Function (BookModal bookmodal) insert;
+  final UserModel user ;
+  final Function (BookModal bookModal) insert;
 
-  WidgetSignUpBook({super.key , required this.user , required this.insert});
+  const WidgetSignUpBook({super.key , required this.user , required this.insert});
 
   @override
   State<WidgetSignUpBook> createState() => _WidgetSignUpBookState();
@@ -28,12 +28,12 @@ class WidgetSignUpBook extends StatefulWidget {
 
 class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
   final ImagePicker _picker = ImagePicker();
-  TypeBookModal? typeBookModal = null  ;
+  TypeBookModal? typeBookModal  ;
   String path = "" ;
   File? _image;
   String error = "" ;
 
-  TextEditingController date_purchase = TextEditingController() ;
+  TextEditingController datePurchase = TextEditingController() ;
   TextEditingController price = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController quantity = TextEditingController();
@@ -80,128 +80,124 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
 
-          Container(
-            height: 55,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                border: Border.all(width: 2 , color: Colors.blue)
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 200,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                      color: Colors.blue
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      _pickImage(ImageSource.gallery) ;
-                    },
-                    child:const  MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.image,
+        Container(
+          height: 55,
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              border: Border.all(width: 2 , color: Colors.blue)
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 200,
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(color: Colors.blue),
+                child: GestureDetector(
+                  onTap: () {
+                    _pickImage(ImageSource.gallery) ;
+                  },
+                  child:const  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.image,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 10,),
+                        Text(
+                          "Chọn ảnh",
+                          style: TextStyle(
                             color: Colors.white,
                           ),
-                          SizedBox(width: 10,),
-                          Text(
-                            "Chọn ảnh",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-                Expanded(
-                    child: Center(
-                      child: Text("Upload hình ảnh sách"),
-                    )
-                )
-              ],
-            ),
+              ),
+              const Expanded(
+                  child: Center(
+                    child: Text("Upload hình ảnh sách"),
+                  )
+              )
+            ],
           ),
-          SizedBox(height: 20,),
-          WidgetTextFieldCustom(
-              controller: date_purchase,
-              textInputType: TextInputType.datetime,
-              hint: "DDMMYYYY",
-              iconData: Icons.edit_calendar,
-              onChange: (value) {
-                if (value.length == 8) {
-                  String formatted = formatIDToDate(value);
+        ),
+        const SizedBox(height: 20,),
+        WidgetTextFieldCustom(
+            controller: datePurchase,
+            textInputType: TextInputType.datetime,
+            hint: "DDMMYYYY",
+            iconData: Icons.edit_calendar,
+            onChange: (value) {
+              if (value.length == 8) {
+                String formatted = formatIDToDate(value);
+                setState(() {
+                  datePurchase.text = formatted;
+                });
+              }
+          },
+        ),
+        const SizedBox(height: 20,),
+        WidgetTextFieldCustom(controller: price, textInputType: TextInputType.number, hint: "giá", iconData: Icons.price_change_sharp),
+        const SizedBox(height: 20,),
+        WidgetTextFieldCustom(controller: quantity, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.confirmation_number_rounded),
+        const SizedBox(height: 20,),
+        WidgetTextFieldArea(controller: description, textInputType: TextInputType.multiline, hint: "Nhập mô tả", iconData: Icons.format_indent_decrease) ,
+        const SizedBox(height: 20,),
+
+        typeBookModal != null ? loadData() : Container(),
+
+        WidgetButtonCustom(
+            handle: ()  {
+              final typeBookModal = this.typeBookModal;
+
+              if(typeBookModal != null) {
+                if(double.parse(price.text) < double.parse(typeBookModal.price) * 0.5) {
+                  widget.insert(
+                      BookModal(
+                          date_purchase: datePurchase.text ,
+                          price: price.text,
+                          description: description.text,
+                          status: "1",
+                          quantity: quantity.text,
+                          image: path,
+                          id_user: widget.user.id.toString(),
+                          id_type_book: typeBookModal.id.toString()
+                      ));
                   setState(() {
-                    date_purchase.text = formatted;
+                    datePurchase.text = "" ;
+                    price.text = "" ;
+                    this.typeBookModal = null ;
+                    description.text = "" ;
+                    path = "" ;
+                    error="";
                   });
                 }
-            },
-          ),
-          SizedBox(height: 20,),
-          WidgetTextFieldCustom(controller: price, textInputType: TextInputType.number, hint: "giá", iconData: Icons.price_change_sharp),
-          SizedBox(height: 20,),
-          WidgetTextFieldCustom(controller: quantity, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.confirmation_number_rounded),
-          SizedBox(height: 20,),
-          WidgetTextFieldArea(controller: description, textInputType: TextInputType.multiline, hint: "Nhập mô tả", iconData: Icons.format_indent_decrease) ,
-          SizedBox(height: 20,),
-
-          typeBookModal != null ? loadData() : Container(),
-
-          WidgetButtonCustom(
-              handle: ()  {
-                final typeBookModal = this.typeBookModal;
-
-                if(typeBookModal != null) {
-                  if(double.parse(price.text) < double.parse(typeBookModal.price) * 0.5) {
-                    widget.insert(
-                        BookModal(
-                            date_purchase: date_purchase.text ,
-                            price: price.text,
-                            description: description.text,
-                            status: "1",
-                            quantity: quantity.text,
-                            image: path,
-                            id_user: widget.user.id.toString(),
-                            id_type_book: typeBookModal.id.toString()
-                        ));
-                    setState(() {
-                      date_purchase.text = "" ;
-                      price.text = "" ;
-                      this.typeBookModal = null ;
-                      description.text = "" ;
-                      path = "" ;
-                      error="";
-                    });
-                  }
-                  else {
-                    setState(() {
-                      error = "Giá phải nhỏ hơn 50% giá gốc" ;
-                    });
-                  }
+                else {
+                  setState(() {
+                    error = "Giá phải nhỏ hơn 50% giá gốc" ;
+                  });
                 }
+              }
 
-              },
-              text: "Thêm sản phẩm"
-          ),
-          SizedBox(height: 20,),
-          Text(
-            error,
-            style: TextStyle(color: Colors.red),
-            maxLines: 2, // hoặc nhiều hơn tùy ý
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
-      ),
+            },
+            text: "Thêm sản phẩm"
+        ),
+        const SizedBox(height: 20,),
+        Text(
+          error,
+          style: const TextStyle(color: Colors.red),
+          maxLines: 2, // hoặc nhiều hơn tùy ý
+          overflow: TextOverflow.ellipsis,
+        )
+      ],
     );
   }
 }

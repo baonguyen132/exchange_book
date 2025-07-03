@@ -8,11 +8,11 @@ import '../../../../../../../util/widget_text_field_custom.dart';
 
 
 class WidgetButtonCardDetailOfHistory extends StatefulWidget {
-  List<dynamic> item ;
-  Function (BookModal bookModal) editItem ;
-  Function (BookModal bookModal) deleteItem ;
+  final List<dynamic> item ;
+  final Function (BookModal bookModal) editItem ;
+  final Function (BookModal bookModal) deleteItem ;
 
-  WidgetButtonCardDetailOfHistory({super.key, required this.item, required this.editItem , required this.deleteItem});
+  const WidgetButtonCardDetailOfHistory({super.key, required this.item, required this.editItem , required this.deleteItem});
 
   @override
   State<WidgetButtonCardDetailOfHistory> createState() => _WidgetButtonCardDetailOfHistoryState();
@@ -27,7 +27,7 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
       ) {
 
 
-    final TextEditingController date_purchaseController =
+    final TextEditingController datePurchaseController =
     TextEditingController(text: bookModal.date_purchase);
     final TextEditingController priceController =
     TextEditingController(text: bookModal.price);
@@ -66,7 +66,7 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
               mainAxisSize: MainAxisSize.min,
               children: [
                 WidgetTextFieldCustom(
-                  controller: date_purchaseController,
+                  controller: datePurchaseController,
                   textInputType: TextInputType.datetime,
                   hint: "DDMMYYYY",
                   iconData: Icons.edit_calendar,
@@ -74,17 +74,17 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
                     if (value.length == 8) {
                       String formatted = formatIDToDate(value);
                       setState(() {
-                        date_purchaseController.text = formatted;
+                        datePurchaseController.text = formatted;
                       });
                     }
                   },
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 WidgetTextFieldCustom(controller: priceController, textInputType: TextInputType.number, hint: "Giá", iconData: Icons.price_change_sharp),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 WidgetTextFieldCustom(controller: quantityController, textInputType: TextInputType.number, hint: "Số lượng", iconData: Icons.price_change_sharp),
 
-                SizedBox(height: 16,),
+                const SizedBox(height: 16,),
                 WidgetTextFieldArea(
                   controller: descriptionController,
                   textInputType: TextInputType.multiline,
@@ -94,12 +94,12 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
               ],
             ),
           ),
-          actionsPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           actions: [
             TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
-              icon: Icon(Icons.cancel_outlined, color: Colors.grey),
-              label: Text("Huỷ", style: TextStyle(color: Colors.grey)),
+              icon: const Icon(Icons.cancel_outlined, color: Colors.grey),
+              label: const Text("Huỷ", style: TextStyle(color: Colors.grey)),
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
@@ -110,7 +110,7 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
                 onSubmit(
                   BookModal(
                       id: bookModal.id,
-                      date_purchase: date_purchaseController.text,
+                      date_purchase: datePurchaseController.text,
                       status: bookModal.status,
                       quantity: quantityController.text,
                       description: descriptionController.text,
@@ -123,8 +123,8 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
                 );
                 Navigator.of(context).pop();
               },
-              icon: Icon(Icons.save , color: Colors.white,),
-              label: Text("Lưu", style: TextStyle(color: Colors.white)),
+              icon: const Icon(Icons.save , color: Colors.white,),
+              label: const Text("Lưu", style: TextStyle(color: Colors.white)),
             ),
           ],
         );
@@ -157,9 +157,9 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
             cursor: SystemMouseCursors.click,
             child: Container(
 
-              margin: EdgeInsets.only(right: 12),
-              padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+              decoration:const  BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.all(Radius.circular(10))
               ),
@@ -204,10 +204,10 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
             cursor: SystemMouseCursors.click,
             child: Container(
 
-              margin: EdgeInsets.only(right: 12),
-              padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+              margin: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 border: Border.all(
                   color: Colors.blue,
                   width: 2,
@@ -220,7 +220,7 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
                     color: Theme.of(context).colorScheme.maintext,
                     size: 20,
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Text(
                     "Xoá",
                     style: TextStyle(

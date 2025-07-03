@@ -7,11 +7,11 @@ import '../../../../widget/card/card_item_image.dart';
 
 class CardBook extends StatefulWidget {
 
-   String link ;
-   Widget child ;
-   double width ;
+   final String link ;
+   final Widget child ;
+   final double width ;
 
-   CardBook({super.key, required this.width , required this.link , required this.child});
+   const CardBook({super.key, required this.width , required this.link , required this.child});
 
   @override
   State<CardBook> createState() => _CardBookState();

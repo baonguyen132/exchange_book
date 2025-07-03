@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage/widget_button_custom.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage/widget_text.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +10,10 @@ import 'card_book.dart';
 import 'list_cart/widget_list_change.dart';
 
 class WidgetListBook extends StatefulWidget {
-  UserModel user ;
-  Function (List<dynamic> data) handle ;
+  final UserModel user ;
+  final Function (List<dynamic> data) handle ;
 
-  WidgetListBook({super.key, required this.user ,required this.handle});
+  const WidgetListBook({super.key, required this.user ,required this.handle});
 
 
   @override
@@ -88,13 +86,13 @@ class _WidgetListBookState extends State<WidgetListBook> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(e[1]),
-                            SizedBox(height: 15,),
+                            const SizedBox(height: 15,),
                             WidgetText(icon: Icons.book, title: "Loại: ", content: e[2]),
-                            SizedBox(height: 15,),
+                            const SizedBox(height: 15,),
                             WidgetText(icon: Icons.book, title: "Ngày mua: ", content: e[3]),
-                            SizedBox(height: 15,),
+                            const SizedBox(height: 15,),
                             WidgetText(icon: Icons.book, title: "Còn lại: ", content: e[10].toString()),
-                            SizedBox(height: 15,),
+                            const SizedBox(height: 15,),
                             WidgetText(icon: Icons.book, title: "Giá: ", content: e[4].toString()),
 
                           ],
@@ -111,11 +109,11 @@ class _WidgetListBookState extends State<WidgetListBook> {
       return WidgetListManage(
 
         list: list!,
-        trangthaibutton: 1,
+        stateButton: 1,
         textButton: "Đã nhận",
-        handleClick: (id_cart, total) {
+        handleClick: (idCart, total) {
 
-          CartModal.updateStateCart(widget.user.id!, id_cart, "Đã nhận", total.toString(), () {
+          CartModal.updateStateCart(widget.user.id!, idCart, "Đã nhận", total.toString(), () {
             Fluttertoast.showToast(
               msg: "Cập nhật trạng thái thành công",
               toastLength: Toast.LENGTH_SHORT,
@@ -141,10 +139,10 @@ class _WidgetListBookState extends State<WidgetListBook> {
 
       return WidgetListManage(
         list: list!,
-        trangthaibutton: 2,
+        stateButton: 2,
         textButton: "Đã chuyển",
-        handleClick: (id_cart, total) async {
-          CartModal.updateStateCart(widget.user.id!, id_cart, "Đã chuyển", total.toString(), () {
+        handleClick: (idCart, total) async {
+          CartModal.updateStateCart(widget.user.id!, idCart, "Đã chuyển", total.toString(), () {
             Fluttertoast.showToast(
               msg: "Cập nhật trạng thái thành công",
               toastLength: Toast.LENGTH_SHORT,
@@ -180,7 +178,7 @@ class _WidgetListBookState extends State<WidgetListBook> {
           children: [
             Expanded(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 200),
+                constraints: const BoxConstraints(maxWidth: 200),
                 child: WidgetButtonCustom(
                   handle: () {setState(() {
                     state = 1 ;
@@ -191,10 +189,10 @@ class _WidgetListBookState extends State<WidgetListBook> {
                 ),
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 200),
+                constraints: const BoxConstraints(maxWidth: 200),
                 child: WidgetButtonCustom(
                   handle: () {
                     setState(() { state = 2 ; list = null ; loadData(state);});
@@ -203,10 +201,10 @@ class _WidgetListBookState extends State<WidgetListBook> {
                 ),
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 200),
+                constraints: const BoxConstraints(maxWidth: 200),
                 child: WidgetButtonCustom(
                   handle: () {
                     setState(() {state = 3; list = null ; loadData(state);});
@@ -218,7 +216,7 @@ class _WidgetListBookState extends State<WidgetListBook> {
           ],
         ),
 
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         getListCart() ,
 
       ],
