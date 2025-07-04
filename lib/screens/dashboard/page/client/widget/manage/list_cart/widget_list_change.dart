@@ -43,9 +43,7 @@ class _WidgetListManageState extends State<WidgetListManage> {
                 item: widget.list[i],
                 textButton: widget.textButton,
                 stateButton: widget.stateButton,
-                handleClick: (idCart, total) {
-                  widget.handleClick(idCart, total) ;
-                },
+                handleClick: (idCart, total) {widget.handleClick(idCart, total) ;},
               )
 
         ],

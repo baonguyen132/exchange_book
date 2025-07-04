@@ -90,6 +90,7 @@ class _WidgetButtonCardDetailOfHistoryState extends State<WidgetButtonCardDetail
                   textInputType: TextInputType.multiline,
                   hint: "Nhập mô tả",
                   iconData: Icons.format_indent_decrease,
+                  onChange: (value) {},
                 ),
               ],
             ),

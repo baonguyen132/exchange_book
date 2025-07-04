@@ -86,11 +86,11 @@ class CartModal {
     }
   }
 
-  static Future<List<dynamic>> exportItemCart(String id_cart) async {
+  static Future<List<dynamic>> exportItemCart(String idCart) async {
     final response = await http.post(
         Uri.parse("$location/export_item_cart"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"id_cart": id_cart})
+        body: jsonEncode({"id_cart": idCart})
     ) ;
 
     if (response.statusCode == 200) {

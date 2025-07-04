@@ -93,6 +93,7 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                   textInputType: TextInputType.multiline,
                   hint: "Nhập mô tả",
                   iconData: Icons.format_indent_decrease,
+                  onChange: (value) {},
                 ),
               ],
             ),
@@ -144,13 +145,9 @@ class _WidgetListProductState extends State<WidgetListProduct> {
           children: List.generate(widget.list.length ,  (index) => CardTypeBook(
             typeBookModal: widget.list[index],
             edit: (typeBookModal) {
-              showEditProductDialog(context, typeBookModal, (typeBookModal) {
-                widget.update(typeBookModal) ;
-              },);
+              showEditProductDialog(context, typeBookModal, (typeBookModal) {widget.update(typeBookModal) ;},);
             },
-            delete: (typeBookModal) {
-              widget.delete(typeBookModal);
-            },
+            delete: (typeBookModal) {widget.delete(typeBookModal);},
           ),),
         ),
       ),

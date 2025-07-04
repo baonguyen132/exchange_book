@@ -20,7 +20,7 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
       width: widget.width,
       height: 120,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
         border: Border.all(width: 1 , color: Colors.blue.shade300),
       ),
       child: Row(
@@ -58,9 +58,7 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        widget.change();
-                      },
+                      onTap: () {widget.change();},
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: Container(
@@ -80,9 +78,7 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        widget.noChange();
-                      },
+                      onTap: () {widget.noChange();},
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: Container(

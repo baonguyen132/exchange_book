@@ -22,7 +22,4 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(list: dataBooks , user: dataUser));
 
   }
-
-
-
 }
