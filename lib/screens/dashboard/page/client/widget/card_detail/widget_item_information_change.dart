@@ -8,11 +8,11 @@ import '../../../../widget/card/card_item_image.dart';
 
 class WidgetItemInformationChange extends StatefulWidget {
   List<dynamic> item ;
-  Widget widget_button ;
+  Widget widgetButton ;
   WidgetItemInformationChange({
     super.key ,
     required this.item,
-    required this.widget_button
+    required this.widgetButton
   });
 
   @override
@@ -29,11 +29,11 @@ class _WidgetItemInformationChangeState extends State<WidgetItemInformationChang
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.item[0]);
     loadData() ;
 
   }
   void loadData() async {
-
     UserModel? data = await UserModel.exportUser(widget.item[7].toString(),() {},) ;
     String? pathData = await UserModel.export_image_avata(widget.item[7].toString()) ;
     setState(() {
@@ -127,7 +127,7 @@ class _WidgetItemInformationChangeState extends State<WidgetItemInformationChang
               // 2 nút
               SizedBox(height: 20),
 
-              widget.widget_button ,
+              widget.widgetButton ,
 
               SizedBox(height: 20,) ,
               Container(

@@ -119,19 +119,18 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
             controller: description,
             textInputType: TextInputType.multiline,
             hint: "Nhập mô tả",
-            iconData: Icons.format_indent_decrease
+            iconData: Icons.format_indent_decrease,
+            onChange: (value) {},
         ) ,
         const SizedBox(height: 20,),
         WidgetButtonCustom(
             handle: () {
               widget.insert(TypeBookModal(name_book: nameBook.text, type_book: typeBook.text, price: price.text , description: description.text ,image: path));
-              setState(() {
-                nameBook.text = "" ;
-                typeBook.text = "" ;
-                price.text = "" ;
-                description.text = "" ;
-                path = "" ;
-              });
+              nameBook.clear();
+              typeBook.clear();
+              price.clear();
+              description.clear();
+              path = "" ;
             },
             text: "Thêm sản phẩm"
         )

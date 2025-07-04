@@ -1,4 +1,5 @@
 import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
+import 'package:exchange_book/screens/dashboard/page/client/cubit/manage/manage_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/client/cubit/product/product_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/client/cubit/profile/profile_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/manager/cubit/book/book_cubit.dart';
@@ -38,8 +39,8 @@ class _DashboardState extends State<Dashboard> {
           BlocProvider(create: (context) => ManageUserCubit(), lazy: true,),
           BlocProvider(create: (context) => BookCubit(), lazy: true,),
           BlocProvider(create: (context) => ProfileCubit(), lazy: true,),
-          BlocProvider(create: (context) => ProductCubit(), lazy: true,)
-
+          BlocProvider(create: (context) => ProductCubit(), lazy: true,),
+          BlocProvider(create: (context) => ManageCubit(), lazy: true,)
         ],
       child: BlocBuilder<DashboardCubit, DashboardState >(
         builder: (context, state) {

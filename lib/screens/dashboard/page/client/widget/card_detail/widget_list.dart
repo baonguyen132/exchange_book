@@ -25,7 +25,7 @@ class _WidgetListState extends State<WidgetList> {
             color: Theme.of(context).colorScheme.maintext,
           ),
         ),
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         widget.list
       ],
     );

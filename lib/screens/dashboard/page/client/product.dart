@@ -167,7 +167,7 @@ class _ProductState extends State<Product> {
       return SingleChildScrollView(
         child: CardDetail(
           item: state.detailProduct,
-          wigetHasListButton: WidgetButtonCardDetailOfProduct(change: () {
+          widgetHasListButton: WidgetButtonCardDetailOfProduct(change: () {
 
           },),
           titleRight: 'Danh sách sản phẩm',

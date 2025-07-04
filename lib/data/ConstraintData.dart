@@ -3,8 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 var mainLightDarkMode = true ;
 
-const location = "https://steady-sharply-ibex.ngrok-free.app" ;
-// const location = "http://localhost:5000" ;
+// const location = "https://steady-sharply-ibex.ngrok-free.app" ;
+const location = "http://localhost:5000" ;
 
 // Hàm chuyển số CCCD thành ngày tháng năm
 String formatIDToDate(String idNumber) {
