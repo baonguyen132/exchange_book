@@ -42,7 +42,7 @@ class _UserProfileCardImgState extends State<UserProfileCardImg> {
   Future<void> loadDataImg() async {
     if (path.isNotEmpty) return; // Tránh load lại nếu đã có dữ liệu
 
-    String? newPath = await UserModel.export_image_avata(widget.userModel.id!);
+    String? newPath = await UserModel.exportImageAva(widget.userModel.id!);
 
     if (newPath != null && newPath.isNotEmpty && newPath != path) {
       setState(() {
