@@ -8,16 +8,16 @@ import 'cart_item.dart';
 
 
 class CartItemSeller extends StatefulWidget {
-  String idseller ;
-  Map<String, dynamic> exportListRaw ;
-  Function (String idItem , String idUser, int value) update ;
-  Function (String idItem , String idUser) delete ;
-  int number ;
+  final String idSeller ;
+  final Map<String, dynamic> exportListRaw ;
+  final Function (String idItem , String idUser, int value) update ;
+  final Function (String idItem , String idUser) delete ;
+  final int number ;
 
-  final Function(String idSeller,int totalSeller, int quantity_list) onTotalUpdated; // Callback function to pass the total
+  final Function(String idSeller,int totalSeller, int quantityList) onTotalUpdated; // Callback function to pass the total
 
-  CartItemSeller({super.key ,
-    required this.idseller,
+  const CartItemSeller({super.key ,
+    required this.idSeller,
     required this.exportListRaw,
     required this.update,
     required this.delete,
@@ -31,6 +31,7 @@ class CartItemSeller extends StatefulWidget {
 
 class _CartItemSellerState extends State<CartItemSeller> {
 
+  @override
   Widget build(BuildContext context) {
     int totalItem = 0;
 
@@ -40,21 +41,21 @@ class _CartItemSellerState extends State<CartItemSeller> {
       totalItem += detail.quantity * int.parse(detail.bookModal.price);
     });
 
-    widget.onTotalUpdated(widget.idseller,totalItem, widget.number) ;
+    widget.onTotalUpdated(widget.idSeller,totalItem, widget.number) ;
 
     return Column(
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             color: Colors.blue.shade400,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.shade300,
                 blurRadius: 3,
                 spreadRadius: 3,
-                offset: Offset(0, 0),
+                offset: const Offset(0, 0),
               )
             ],
           ),
@@ -62,22 +63,16 @@ class _CartItemSellerState extends State<CartItemSeller> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               for (var item in widget.exportListRaw.entries)
                 CartItem(
                   detailCartModal: item.value,
-                  update: (idItem, idUser, value) {
-                    widget.update(idItem, idUser, value);
-                    setState(() {}); // Gọi lại build để cập nhật tổng tiền
-                  },
-                  delete: (idItem, idUser) {
-                    widget.delete(idItem, idUser);
-                     // Gọi lại build để cập nhật tổng tiền
-                  },
+                  update: (idItem, idUser, value) {widget.update(idItem, idUser, value);},
+                  delete: (idItem, idUser) {widget.delete(idItem, idUser);},
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   "Tổng tiền: $totalItem VND",
                   style: TextStyle(
@@ -87,12 +82,11 @@ class _CartItemSellerState extends State<CartItemSeller> {
                   ),
                 )
               ),
-              SizedBox(height: 10),
-
+              const SizedBox(height: 10),
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ],
     );
   }

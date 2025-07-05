@@ -79,7 +79,7 @@ class _ProductState extends State<Product> {
                         DetailCartModal(
                             bookModal: bookModal,
                             quantity: 1,
-                            name_book: nameBook
+                            nameBook: nameBook
                         ),
 
                       );
@@ -148,7 +148,7 @@ class _ProductState extends State<Product> {
                         DetailCartModal(
                             bookModal: bookModal,
                             quantity: 1,
-                            name_book: nameBook
+                            nameBook: nameBook
                         ),
                       );
                     },
@@ -189,25 +189,23 @@ class _ProductState extends State<Product> {
     else {
 
 
-      return Cart(handleInsert: (data, address, totalText, total, path) {
+      return Cart(
+        userModel: widget.userdata,
+        handleInsert: (data, address, totalText, total, path) {
+          CartModal.uploadCart(
+            data,address,totalText,path,widget.userdata.id.toString(),
+                () {toast("Thêm giỏ hàng thành công");},
+                () {toast("Lỗi khi thêm giỏ hàng");},
+          );
 
-        CartModal.uploadCart(
-          data,address,totalText,path,widget.userdata.id.toString(),
-          () {
-            toast("Thêm giỏ hàng thành công");
-          },
-          () {
-            toast("Lỗi khi thêm giỏ hàng");
-          },
-        );
+          widget.userdata.point = "${int.parse(widget.userdata.point) - total}";
+          UserModel.saveUserData(widget.userdata);
 
-        widget.userdata.point = "${int.parse(widget.userdata.point) - total}";
-        UserModel.saveUserData(widget.userdata);
+          DetailCartModal.removeDetailCartData() ;
+          context.read<ProductCubit>().back();
 
-        DetailCartModal.removeDetailCartData() ;
-        context.read<ProductCubit>().back();
-
-        },);
+        },
+      );
     }
   }
 
