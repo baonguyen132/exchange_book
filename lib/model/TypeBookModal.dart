@@ -5,7 +5,6 @@ import 'package:mime/mime.dart';
 
 import '../data/ConstraintData.dart';
 
-import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 class TypeBookModal {
   String? id;
@@ -54,7 +53,7 @@ class TypeBookModal {
     List<TypeBookModal> list = [] ;
     
     final respone = await http.post(
-      Uri.parse(location+"/exportTypeBook"),
+      Uri.parse("$location/exportTypeBook"),
       headers: {"Content-Type": "application/json"},
     ) ;
 

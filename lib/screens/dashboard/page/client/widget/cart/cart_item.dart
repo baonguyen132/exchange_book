@@ -10,10 +10,10 @@ import '../../../../widget/card/card_item_text.dart';
 
 
 class CartItem extends StatefulWidget {
-  String detailCartModal ;
-  Function (String idItem , String idUser, int value) update ;
-  Function (String idItem , String idUser) delete ;
-  CartItem({super.key,
+  final String detailCartModal ;
+  final Function (String idItem , String idUser, int value) update ;
+  final Function (String idItem , String idUser) delete ;
+  const CartItem({super.key,
     required this.detailCartModal,
     required this.update , required
     this.delete,
@@ -34,11 +34,10 @@ class _CartItemState extends State<CartItem> {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(horizontal: 20 , vertical:10),
-      padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
+      margin: const EdgeInsets.symmetric(horizontal: 20 , vertical:10),
+      padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: Theme.of(context).colorScheme.mainCard
       ),
       child: Row(
@@ -51,27 +50,27 @@ class _CartItemState extends State<CartItem> {
             heart: false,
             link: "$location/${detailCartModal.bookModal.image}",
           ),
-          SizedBox(width: 20,),
+          const SizedBox(width: 20,),
           Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5), // Thêm padding cho nội dung
+                    padding: const EdgeInsets.symmetric(horizontal: 5), // Thêm padding cho nội dung
                     child: Column(
 
                       crossAxisAlignment: CrossAxisAlignment.start, // Căn trái
                       children: [
-                        CardItemText(text: detailCartModal.name_book, fontWeight: FontWeight.bold),
-                        SizedBox(height: 10),
+                        CardItemText(text: detailCartModal.nameBook, fontWeight: FontWeight.bold),
+                        const SizedBox(height: 10),
                         CardItemText(text: "- Số lượng: ${detailCartModal.quantity}", fontWeight: FontWeight.normal),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         CardItemText(text: "- Tổng: ${detailCartModal.quantity * int.parse(detailCartModal.bookModal.price)}vnd", fontWeight: FontWeight.normal),
                       ],
                     ),
                   ),),
-                  SizedBox(width: 50,),
-                  Container(
+                  const SizedBox(width: 50,),
+                  SizedBox(
                     width: 50,
                     child: Column(
                       children: [
@@ -88,7 +87,7 @@ class _CartItemState extends State<CartItem> {
                               borderRadius: BorderRadius.all(Radius.circular(8)),
                             ),
                           ),
-                          onChanged: (value) async {
+                          onChanged: (value) {
                             int? newQuantity = int.tryParse(value);
                             if (newQuantity != null && newQuantity >= 0) {
                               // Cập nhật vào SharedPreferences
@@ -97,16 +96,13 @@ class _CartItemState extends State<CartItem> {
                                 detailCartModal.bookModal.id_user.toString(),
                                 newQuantity,
                               );
-
-                              // Cập nhật lại giao diện
-
                             }
                           },
                         ),
 
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         GestureDetector(
-                          onTap: () async {
+                          onTap: ()  {
                             widget.delete(
                                 detailCartModal.bookModal.id.toString(),
                                 detailCartModal.bookModal.id_user.toString()
@@ -117,19 +113,19 @@ class _CartItemState extends State<CartItem> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.blue,
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderRadius: const BorderRadius.all(Radius.circular(8)),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
                                     blurRadius: 2,
                                     spreadRadius: 1,
-                                    offset: Offset(0, 1),
+                                    offset: const Offset(0, 1),
                                   )
                                 ],
                               ),
                               height: 50,
                               alignment: Alignment.center,
-                              child: Icon(Icons.close, color: Colors.white,),
+                              child: const Icon(Icons.close, color: Colors.white,),
                             ),
                           ),
                         )
@@ -137,8 +133,6 @@ class _CartItemState extends State<CartItem> {
                       ],
                     ),
                   )
-                  
-                  
                 ],
               )
           )

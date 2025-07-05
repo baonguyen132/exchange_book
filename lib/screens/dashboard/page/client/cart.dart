@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:exchange_book/screens/dashboard/page/client/cubit/cart/cart_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/cart/cart_item_seller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,61 +8,39 @@ import 'package:exchange_book/model/DetailCartModal.dart';
 import 'package:exchange_book/model/UserModal.dart';
 import 'package:exchange_book/theme/theme.dart';
 import 'package:exchange_book/util/widget_text_field_custom.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/ConstraintData.dart';
 
 
 
 class Cart extends StatefulWidget {
-  Function (Map<String, String> data,String address, String totalText, int totalSeller ,String path) handleInsert ;
-  Cart({super.key , required this.handleInsert});
+  final Function (Map<String, String> data,String address, String totalText, int totalSeller ,String path) handleInsert ;
+  final UserModel userModel ;
+  const Cart({super.key , required this.handleInsert, required this.userModel});
 
   @override
   State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
-  Map<String , String>? listSeller ;
-  TextEditingController address = TextEditingController() ;
-  UserModel? user ;
 
-  Map<String, int> total = {};
-  int totalSeller = 0 ;
-  String totalText = "" ;
-  bool isDone = false ;
+  late CartCubit cartCubit ;
+  late TextEditingController address  ;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData() ;
-  }
-  void loadData() async {
-    Map<String , String>? data = await DetailCartModal.loadData() ;
-    UserModel? userdata = await UserModel.loadUserData() ;
-    setState(() {
-      listSeller = data ;
-      user = userdata ;
-      totalSeller = 0;
-      totalText = "" ;
-    });
-
-  }
-  void is_Done() async {
-
-    if(!isDone) {
-      bool condition = await true ;
-      setState(() {
-        isDone = condition ;
-      });
-    }
+    cartCubit = CartCubit() ;
+    address = TextEditingController(text: cartCubit.state.address);
+    cartCubit.loadData() ;
+    cartCubit.loadTotal();
   }
 
-  Widget getWidget(constraints) {
-    for (var item in total.entries) {
-      totalText = "$totalText-${item.value}";
-      totalSeller += item.value;
-    }
+
+  Widget getWidget(constraints , CartState state) {
+
 
     return Container(
       width: constraints.maxWidth < 500
@@ -76,14 +55,14 @@ class _CartState extends State<Cart> {
             color: Colors.blue.shade100,
             blurRadius: 10,
             spreadRadius: 2,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Thông tin người mua",
             style: TextStyle(
               fontSize: 18,
@@ -93,20 +72,20 @@ class _CartState extends State<Cart> {
           ),
           const SizedBox(height: 8),
           Text(
-            "Tên: ${user!.name}",
-            style: TextStyle(fontSize: 15, color: Colors.black87),
+            "Tên: ${widget.userModel.name}",
+            style: const TextStyle(fontSize: 15, color: Colors.black87),
           ),
           const SizedBox(height: 4),
           Text(
-            "Email: ${user!.email}",
-            style: TextStyle(fontSize: 15, color: Colors.black87),
+            "Email: ${widget.userModel.email}",
+            style: const TextStyle(fontSize: 15, color: Colors.black87),
           ),
           const SizedBox(height: 12),
           Divider(color: Colors.grey.shade300),
 
           // Tổng tiền
           const SizedBox(height: 12),
-          Text(
+          const Text(
             "Tổng tiền",
             style: TextStyle(
               fontSize: 16,
@@ -116,7 +95,7 @@ class _CartState extends State<Cart> {
           ),
           const SizedBox(height: 4),
           Text(
-            "$totalSeller",
+            "${state.totalSeller}",
             style: TextStyle(
               fontSize: 16,
               color: Colors.green[700],
@@ -137,17 +116,7 @@ class _CartState extends State<Cart> {
 
           // Button gửi
           GestureDetector(
-            onTap: () {
-
-              widget.handleInsert(
-                listSeller!,
-                address.text,
-                totalText,
-                totalSeller,
-                "$location/insert_cart",
-              );
-
-            },
+            onTap: () {widget.handleInsert(state.listSeller!, address.text, state.totalText, state.totalSeller, "$location/insert_cart",);},
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Container(
@@ -161,12 +130,12 @@ class _CartState extends State<Cart> {
                       color: Colors.blue.withOpacity(0.3),
                       spreadRadius: 1,
                       blurRadius: 6,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Gửi",
                   style: TextStyle(
                     color: Colors.white,
@@ -186,90 +155,57 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     int number = 1 ;
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(10),
-      child: LayoutBuilder(builder: (context, constraints) => Container(
+    return BlocBuilder<CartCubit , CartState>(
+      bloc: cartCubit,
+      builder: (context, state) => LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+              padding: const EdgeInsets.all(10),
+              child: Wrap(
+                children: [
+                  SizedBox(
+                      width: constraints.maxWidth < 500 ? constraints.maxWidth : constraints.maxWidth * 0.7 - 50 ,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Text(
+                              "Danh sách sản phẩm",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context).colorScheme.maintext
+                              ),
+                            ),
 
-        child: Wrap(
-          children: [
-            Container(
-                width: constraints.maxWidth < 500 ? constraints.maxWidth : constraints.maxWidth * 0.7 - 20 ,
-                decoration: BoxDecoration(
+                          ),
+                          if(state.listSeller != null)
+                            for(var item in state.listSeller!.entries)
+                              CartItemSeller(
+                                idSeller: item.key,
+                                exportListRaw: jsonDecode(item.value),
+                                number: number++,
+                                update: (idItem, idUser, value) async  {
+                                  await DetailCartModal.updateItem(idItem, idUser, value,);
+                                  cartCubit.updateItemCart(item: item, idItem: idItem, idUser: idUser, value: value);
+                                },
+                                delete: (idItem, idUser) async {
+                                  await DetailCartModal.deleteItem(idItem, idUser);
+                                  cartCubit.deleteItemCart(item: item, idItem: idItem, idUser: idUser);
+                                },
+                                onTotalUpdated: (idSeller, totalSeller, numbers) {
+                                  cartCubit.onTotalUpdated(idSeller: idSeller, totalSeller: totalSeller, numbers: numbers);
+                                },
+                              )
 
-                ),
-
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Text(
-                        "Danh sách sản phẩm",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.maintext
-                        ),
-                      ),
-
-                    ),
-                    if(listSeller != null)
-                      for(var item in listSeller!.entries)
-                        CartItemSeller(
-                          idseller: item.key,
-                          exportListRaw: jsonDecode(item.value),
-                          number: number++,
-                          update: (idItem, idUser, value) async  {
-                            await DetailCartModal.updateItem(
-                              idItem,
-                              idUser,
-                              value,
-                            );
-
-                            setState(() {
-                             // Tính tổng tiền từ dữ liệu hiện tại
-                             jsonDecode(item.value).forEach((key, item_value) {
-                               DetailCartModal detail = DetailCartModal.fromJson(jsonDecode(item_value));
-                               if(detail.bookModal.id == idItem){
-                                 total[idUser] = (total[idUser]! - (detail.quantity - value) * int.parse(detail.bookModal.price))  ;
-                               }
-                             });
-                           });loadData();
-
-                          },
-                          delete: (idItem, idUser) async {
-                            await DetailCartModal.deleteItem(idItem, idUser);
-
-                            setState(() {
-                              // Tính tổng tiền từ dữ liệu hiện tại
-                              jsonDecode(item.value).forEach((key, item_value) {
-                                DetailCartModal detail = DetailCartModal.fromJson(jsonDecode(item_value));
-                                if(detail.bookModal.id == idItem){
-                                  total[idUser] = (total[idUser]! - (detail.quantity * int.parse(detail.bookModal.price)))  ;
-                                }
-                              });
-                            });
-                            loadData();
-
-                          },
-                          onTotalUpdated: (idSeller, totalSeller, numbers) {
-                            total[idSeller] = totalSeller ;
-
-                            if(numbers >= listSeller!.length) {
-                              is_Done();
-                            }
-                          },
-                        )
-
-                  ],
-                )
-            ),
-            SizedBox(width: 20,) ,
-            if(isDone)
-              getWidget(constraints) ,
-          ],
-        ),
-      ),),
+                        ],
+                      )
+                  ),
+                  const SizedBox(width: 20,) ,
+                  if(cartCubit.state.isDone) getWidget(constraints , cartCubit.state) ,
+                ],
+              )),
+      )
     );
   }
 }

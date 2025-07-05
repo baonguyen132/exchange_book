@@ -3,10 +3,10 @@ import 'package:exchange_book/theme/theme.dart';
 
 class WidgetText extends StatefulWidget {
 
-  IconData icon ;
-  String title , content ;
+  final IconData icon ;
+  final String title , content ;
 
-  WidgetText({super.key , required this.icon , required this.title , required this.content});
+  const WidgetText({super.key , required this.icon , required this.title , required this.content});
 
   @override
   State<WidgetText> createState() => _WidgetTextState();

@@ -48,7 +48,7 @@ class _WidgetTextFieldCustomState extends State<WidgetTextFieldCustom> {
           fontWeight: FontWeight.w500
       ),
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(20),
           hintText: widget.hint,
           hintStyle: const TextStyle(
             letterSpacing: 1,

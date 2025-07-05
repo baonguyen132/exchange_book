@@ -2,10 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CardTypeBookButton extends StatefulWidget {
-  Function () handle ;
-  Color color ;
-  IconData iconData ;
-  CardTypeBookButton({super.key , required this.handle , required this.color , required this.iconData});
+  final Function () handle ;
+  final Color color ;
+  final IconData iconData ;
+  const CardTypeBookButton({
+    super.key,
+    required this.color,
+    required this.iconData,
+    required this.handle,
+  });
 
   @override
   State<CardTypeBookButton> createState() => _CardTypeBookButtonState();
@@ -23,19 +28,16 @@ class _CardTypeBookButtonState extends State<CardTypeBookButton> {
             width: 2,
             color: widget.color,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(100))
+          borderRadius: const BorderRadius.all(Radius.circular(100))
       ),
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: GestureDetector(
-        onTap: () {
-          widget.handle() ;
-        },
+        onTap: () {widget.handle() ;},
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: Icon(
             widget.iconData,
             color: widget.color,
-
           ),
         ),
       ),

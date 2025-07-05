@@ -2,38 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/model/UserModal.dart';
 import 'package:exchange_book/theme/theme.dart';
 
-class UserProfileCardInfor extends StatefulWidget {
-  UserModel user ;
-  UserProfileCardInfor({super.key , required this.user});
+class UserProfileCardInformation extends StatefulWidget {
+  final UserModel user ;
+  const UserProfileCardInformation({super.key , required this.user});
 
   @override
-  State<UserProfileCardInfor> createState() => _UserProfileCardInforState();
+  State<UserProfileCardInformation> createState() => _UserProfileCardInformationState();
 }
 
-class _UserProfileCardInforState extends State<UserProfileCardInfor> {
-
-
-
-
+class _UserProfileCardInformationState extends State<UserProfileCardInformation> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.user.name,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 22,
               color: Colors.blue,
               decoration: TextDecoration.none,
               fontWeight: FontWeight.bold
           ),
         ),
-        SizedBox(height: 20,) ,
+        const SizedBox(height: 20,) ,
         Wrap(
           alignment: WrapAlignment.spaceBetween,
           children: [
@@ -48,7 +42,7 @@ class _UserProfileCardInforState extends State<UserProfileCardInfor> {
             ),
           ],
         ),
-        SizedBox(height: 20,) ,
+        const SizedBox(height: 20,) ,
         Wrap(
           alignment: WrapAlignment.spaceBetween,
           children: [
@@ -63,7 +57,7 @@ class _UserProfileCardInforState extends State<UserProfileCardInfor> {
             ),
           ],
         ),
-        SizedBox(height: 20,) ,
+        const SizedBox(height: 20,) ,
         Wrap(
           alignment: WrapAlignment.spaceBetween,
           children: [
@@ -78,7 +72,7 @@ class _UserProfileCardInforState extends State<UserProfileCardInfor> {
             ),
           ],
         ),
-        SizedBox(height: 20,) ,
+        const SizedBox(height: 20,) ,
         Wrap(
           alignment: WrapAlignment.spaceBetween,
           children: [
@@ -93,7 +87,7 @@ class _UserProfileCardInforState extends State<UserProfileCardInfor> {
             ),
           ],
         ),
-        SizedBox(height: 20,) ,
+        const SizedBox(height: 20,) ,
         Wrap(
           alignment: WrapAlignment.spaceBetween,
           children: [

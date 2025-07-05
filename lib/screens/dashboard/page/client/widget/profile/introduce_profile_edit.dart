@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class IntroduceProfileEdit extends StatefulWidget {
-  Function () handle ;
-  IntroduceProfileEdit({super.key , required this.handle});
+  final Function () handle ;
+  const IntroduceProfileEdit({super.key , required this.handle});
 
   @override
   State<IntroduceProfileEdit> createState() => _IntroduceProfileEditState();
@@ -13,11 +13,9 @@ class _IntroduceProfileEditState extends State<IntroduceProfileEdit> {
   Widget build(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: GestureDetector(
-          onTap: () {
-            widget.handle() ;
-          },
+          onTap: () {widget.handle() ;},
           child: const MouseRegion(
             cursor: SystemMouseCursors.click,
             child: Row(

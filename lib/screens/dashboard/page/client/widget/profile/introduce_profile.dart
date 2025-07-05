@@ -7,10 +7,10 @@ import 'introduce_profile_edit.dart';
 import 'introduce_profile_item.dart';
 
 class IntroduceProfile extends StatefulWidget {
-  double? height ;
-  double weight ;
-  double margin ;
-  IntroduceProfile({super.key , this.height , required this.weight , required this.margin});
+  final double? height ;
+  final double weight ;
+  final double margin ;
+  const IntroduceProfile({super.key , this.height , required this.weight , required this.margin});
 
   @override
   State<IntroduceProfile> createState() => _IntroduceProfileState();
@@ -24,14 +24,14 @@ class _IntroduceProfileState extends State<IntroduceProfile> {
       height: widget.height,
       margin: EdgeInsets.all(widget.margin),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: Theme.of(context).colorScheme.mainCard,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1), // Màu bóng
             blurRadius: 10, // Độ mờ của bóng
             spreadRadius: 2, // Độ lan rộng của bóng
-            offset: Offset(0, 4), // Vị trí bóng (x, y)
+            offset: const Offset(0, 4), // Vị trí bóng (x, y)
           ),
         ],
       ),
@@ -39,7 +39,7 @@ class _IntroduceProfileState extends State<IntroduceProfile> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.all(30),
+            padding: const EdgeInsets.all(30),
             child: const Text(
               "Profile",
               style: TextStyle(
@@ -51,10 +51,10 @@ class _IntroduceProfileState extends State<IntroduceProfile> {
             ),
           ),
           Expanded(
-              child: Container(
+              child: SizedBox(
                 height: 0,
                 child: ListView(
-                  children: [
+                  children: const [
                     IntroduceProfileItem(
                       text: "Facebook",
                       imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s",

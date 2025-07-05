@@ -92,7 +92,7 @@ class UserModel {
     };
     try {
       final response = await http.post(
-        Uri.parse(location+"/login"),
+        Uri.parse("$location/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(requestBody), // Chuyển đổi model thành JSON
       );
@@ -113,7 +113,7 @@ class UserModel {
   static Future<void> registerUser(UserModel user , Function () handle) async {
 
     final response = await http.post(
-      Uri.parse(location+"/register"),
+      Uri.parse("$location/register"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(user.toJson()), // Chuyển đổi model thành JSON
     );
@@ -128,7 +128,7 @@ class UserModel {
 
   static Future<List<dynamic>> loadDataUser() async {
     final response = await http.get(
-      Uri.parse(location+"/loadDataUser"),
+      Uri.parse("$location/loadDataUser"),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -148,7 +148,7 @@ class UserModel {
     };
 
     final response = await http.post(
-      Uri.parse(location+"/sendOtp"),
+      Uri.parse("$location/sendOtp"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(requestBody),
     );
@@ -253,7 +253,7 @@ class UserModel {
     }
   }
 
-  static Future<String?> export_image_avata(String id) async {
+  static Future<String> exportImageAva(String id) async {
     try {
       var uri = Uri.parse("$location/export_image_avata"); // API đúng
       var response = await http.post(
@@ -271,20 +271,21 @@ class UserModel {
       }
     } catch (e) {
       print("Lỗi kết nối API: $e");
-      return null;
+      return "";
     }
+    return "";
   }
 
-  static Future<UserModel?> exportUser(String id, Function () handle) async {
-    final respone = await http.post(
-      Uri.parse(location+"/loadUser"),
+  static Future<UserModel?> exportUser(String id) async {
+    final response = await http.post(
+      Uri.parse("$location/loadUser"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "id_user": id,
       }),
     ) ;
 
-    List<dynamic> data = jsonDecode(respone.body) ;
+    List<dynamic> data = jsonDecode(response.body) ;
     return UserModel.fromJson(data) ;
   }
 

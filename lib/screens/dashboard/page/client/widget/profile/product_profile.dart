@@ -7,8 +7,8 @@ import '../../../../../../data/ConstraintData.dart';
 
 
 class ProductProfile extends StatefulWidget {
-  List<dynamic> list ;
-  ProductProfile({super.key, required this.list});
+  final List<dynamic> list ;
+  const ProductProfile({super.key, required this.list});
 
   @override
   State<ProductProfile> createState() => _ProductProfileState();
@@ -26,17 +26,17 @@ class _ProductProfileState extends State<ProductProfile> {
             color: Colors.black.withOpacity(0.1), // Màu bóng
             blurRadius: 10, // Độ mờ của bóng
             spreadRadius: 2, // Độ lan rộng của bóng
-            offset: Offset(0, 4), // Vị trí bóng (x, y)
+            offset: const Offset(0, 4), // Vị trí bóng (x, y)
           ),
         ],
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
               "Project one",
               style: TextStyle(
                 fontSize: 22,

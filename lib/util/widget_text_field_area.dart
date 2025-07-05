@@ -5,13 +5,14 @@ class WidgetTextFieldArea extends StatefulWidget {
   final TextInputType textInputType ;
   final String hint ;
   final IconData iconData ;
+  final Function (String value) onChange ;
 
   const WidgetTextFieldArea({
     super.key,
     required this.controller,
     required this.textInputType,
     required this.hint,
-    required this.iconData,
+    required this.iconData, required this.onChange,
   });
 
   @override
@@ -66,6 +67,7 @@ class _WidgetTextFieldAreaState extends State<WidgetTextFieldArea> {
               )
           )
       ),
+      onChanged: (value) => widget.onChange(value),
     );
   }
 }

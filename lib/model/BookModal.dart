@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
-import 'package:exchange_book/model/TypeBookModal.dart';
 
 import '../data/ConstraintData.dart';
 
-import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 class BookModal {
 
@@ -74,7 +72,7 @@ class BookModal {
 
   static Future<List<dynamic>> exporUserBook(String id) async {
     final respone = await http.post(
-      Uri.parse(location+"/exportMyBook"),
+      Uri.parse("$location/exportMyBook"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "id_user": id,

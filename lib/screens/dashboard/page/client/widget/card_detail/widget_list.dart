@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 class WidgetList extends StatefulWidget {
-  String title ;
-  Widget  list ;
-  WidgetList({super.key , required this.title , required this.list});
+  final String title ;
+  final Widget  list ;
+  const WidgetList({super.key , required this.title , required this.list});
 
   @override
   State<WidgetList> createState() => _WidgetListState();
@@ -25,7 +25,7 @@ class _WidgetListState extends State<WidgetList> {
             color: Theme.of(context).colorScheme.maintext,
           ),
         ),
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         widget.list
       ],
     );

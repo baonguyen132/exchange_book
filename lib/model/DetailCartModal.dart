@@ -5,31 +5,31 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailCartModal {
   BookModal bookModal ;
-  String name_book ;
+  String nameBook ;
   int quantity;
-  int id_cart  ;
+  int idCart  ;
 
   DetailCartModal({
     required this.bookModal,
-    required this.name_book,
+    required this.nameBook,
     required this.quantity,
-    this.id_cart = 0,
+    this.idCart = 0,
   });
 
   Map<String, dynamic> toJson() {
     return {
       "bookModal": bookModal.toJson(),
       "quantity": quantity,
-      "id_cart": id_cart,
-      "name_book": name_book
+      "id_cart": idCart,
+      "name_book": nameBook
     };
   }
   factory DetailCartModal.fromJson(Map<String, dynamic> json) {
     return DetailCartModal(
       bookModal: BookModal.fromJson(json['bookModal']),
       quantity: json['quantity'],
-      id_cart: json['id_cart'],
-      name_book: json['name_book']
+      idCart: json['id_cart'],
+      nameBook: json['name_book']
     );
   }
 
