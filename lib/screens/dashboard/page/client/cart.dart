@@ -26,6 +26,7 @@ class _CartState extends State<Cart> {
   UserModel? user ;
 
   Map<String, int> total = {};
+
   int totalSeller = 0 ;
   String totalText = "" ;
   bool isDone = false ;
@@ -47,10 +48,10 @@ class _CartState extends State<Cart> {
     });
 
   }
-  void is_Done() async {
+  void is_Done()  {
 
     if(!isDone) {
-      bool condition = await true ;
+      bool condition = true ;
       setState(() {
         isDone = condition ;
       });
