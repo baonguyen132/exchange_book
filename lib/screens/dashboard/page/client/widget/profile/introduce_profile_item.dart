@@ -16,14 +16,6 @@ class IntroduceProfileItem extends StatefulWidget {
 }
 
 class _IntroduceProfileItemState extends State<IntroduceProfileItem> {
-  // Future<void> _launchURL() async {
-  //   final Uri uri = Uri.parse(widget.url);
-  //   if (await canLaunchUrl(uri)) {
-  //     await launchUrl(uri, mode: LaunchMode.externalApplication);
-  //   } else {
-  //     throw 'Không thể mở liên kết ${widget.url}';
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +41,7 @@ class _IntroduceProfileItemState extends State<IntroduceProfileItem> {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  "${widget.text}",
+                  widget.text,
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontSize: 20,

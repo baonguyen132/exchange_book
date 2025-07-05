@@ -253,7 +253,7 @@ class UserModel {
     }
   }
 
-  static Future<String?> export_image_avata(String id) async {
+  static Future<String> exportImageAva(String id) async {
     try {
       var uri = Uri.parse("$location/export_image_avata"); // API đúng
       var response = await http.post(
@@ -271,11 +271,12 @@ class UserModel {
       }
     } catch (e) {
       print("Lỗi kết nối API: $e");
-      return null;
+      return "";
     }
+    return "";
   }
 
-  static Future<UserModel?> exportUser(String id, Function () handle) async {
+  static Future<UserModel?> exportUser(String id) async {
     final response = await http.post(
       Uri.parse("$location/loadUser"),
       headers: {"Content-Type": "application/json"},

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item_button.dart';
-import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item_infor.dart';
+import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item_information.dart';
 import 'package:exchange_book/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +10,11 @@ import '../../../../../../model/BookModal.dart';
 import '../../../../widget/card/card_item_image.dart';
 
 class BestItem extends StatefulWidget {
-  List<dynamic> item ;
-  Function (List<dynamic> item) openItem ;
-  Function (BookModal bookModal, String name_book) order ;
+  final List<dynamic> item ;
+  final Function (List<dynamic> item) openItem ;
+  final Function (BookModal bookModal, String nameBook) order ;
 
-  BestItem({super.key , required this.item, required this.openItem, required this.order});
+  const BestItem({super.key , required this.item, required this.openItem, required this.order});
 
   @override
   State<BestItem> createState() => _BestItemState();
@@ -24,21 +24,19 @@ class _BestItemState extends State<BestItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.openItem(widget.item);
-      },
+      onTap: () {widget.openItem(widget.item);},
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(
           width: min(MediaQuery.of(context).size.width, 550),
-          margin: EdgeInsets.symmetric(horizontal: 20 , vertical:10),
-          padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
+          margin: const EdgeInsets.symmetric(horizontal: 20 , vertical:10),
+          padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
                   color: Theme.of(context).shadowColor,
-                  offset: Offset(0, 3), // Bóng dịch xuống một chút
+                  offset: const Offset(0, 3), // Bóng dịch xuống một chút
                   blurRadius: 10, // Làm mềm bóng hơn
                   spreadRadius: 2, // Giảm độ lan để giữ rõ viền bo
                 )
@@ -55,13 +53,13 @@ class _BestItemState extends State<BestItem> {
                 heart: false,
                 link: "$location/${widget.item[6]}",
               ),
-              SizedBox(width: 20,),
+              const SizedBox(width: 20,),
               Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
-                          child: ProductItemInfor(item: widget.item,)
+                          child: ProductItemInformation(item: widget.item,)
                       ),
                       ProductItemButton(handle: () {
                         widget.order(

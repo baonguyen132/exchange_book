@@ -25,8 +25,6 @@ class CheckOtpCubit extends Cubit<CheckOtpState> {
   void exchangeListDigital(String value, int index) {
     final updatedList = List<String>.from(state.listDigital); // copy mới
     updatedList[index] = value;
-    print(updatedList);
     emit(state.copyWith(listDigital: updatedList));
   }
-
 }

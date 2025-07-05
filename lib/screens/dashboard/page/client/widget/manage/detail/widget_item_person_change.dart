@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class WidgetItemPersonChange extends StatefulWidget {
-  Function () change ;
-  Function () nochange ;
-  double width ;
+  final Function () change ;
+  final Function () noChange ;
+  final double width ;
 
-  WidgetItemPersonChange({super.key , required this.width , required this.change , required this.nochange});
+  const WidgetItemPersonChange({super.key , required this.width , required this.change , required this.noChange});
 
   @override
   State<WidgetItemPersonChange> createState() => _WidgetItemPersonChangeState();
@@ -15,12 +15,12 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
-      margin: EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(5),
+      margin: const EdgeInsets.only(bottom: 15),
       width: widget.width,
       height: 120,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
         border: Border.all(width: 1 , color: Colors.blue.shade300),
       ),
       child: Row(
@@ -28,7 +28,7 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
           Container(
             width: 80,
             height: 80,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
                 image: DecorationImage(
                   image: NetworkImage(
@@ -39,14 +39,14 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
                 )
             ),
           ),
-          SizedBox(width: 10,),
+          const SizedBox(width: 10,),
           Expanded(child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Họ và tên",
                   style: const TextStyle(
                     fontSize: 20 ,
@@ -58,16 +58,14 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        widget.change();
-                      },
+                      onTap: () {widget.change();},
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: Container(
                           width: 40,
                           height: 40,
-                          margin: EdgeInsets.only(right: 12),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.only(right: 12),
+                          decoration: const BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
@@ -80,16 +78,14 @@ class _WidgetItemPersonChangeState extends State<WidgetItemPersonChange> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        widget.nochange();
-                      },
+                      onTap: () {widget.noChange();},
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: Container(
                           width: 40,
                           height: 40,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                             border: Border.all(
                               color: Colors.blue,
                               width: 2,

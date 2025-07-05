@@ -8,16 +8,16 @@ import 'package:exchange_book/theme/theme.dart';
 import '../../../../data/ConstraintData.dart';
 
 class CardDetail extends StatefulWidget {
-  List<dynamic> item ;
-  Widget wigetHasListButton ;
+  final List<dynamic> item ;
+  final Widget widgetHasListButton ;
 
-  String titleRight ;
-  Widget list ;
+  final String titleRight ;
+  final Widget list ;
 
-  CardDetail({
+  const CardDetail({
     super.key ,
     required this.item,
-    required this.wigetHasListButton,
+    required this.widgetHasListButton,
     required this.titleRight,
     required this.list
   });
@@ -39,12 +39,12 @@ class _CardDetailState extends State<CardDetail> {
       children: [
         Container(
             width: constraints.maxWidth < 850 ? constraints.maxWidth : constraints.maxWidth * 0.7 ,
-            margin: EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20),
             child: Column(
               children: [
                 WidgetItemInformationChange(
                   item: widget.item,
-                  widget_button: widget.wigetHasListButton,
+                  widgetButton: widget.widgetHasListButton,
                 ),
 
               ],
@@ -53,14 +53,14 @@ class _CardDetailState extends State<CardDetail> {
 
         Container(
           width: constraints.maxWidth < 850 ? constraints.maxWidth : constraints.maxWidth * 0.3,
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             color: Theme.of(context).colorScheme.mainCard,
             boxShadow: [
               BoxShadow(
                   color: Colors.blue.shade100,
-                  offset: Offset(0, 0),
+                  offset: const Offset(0, 0),
                   spreadRadius: 2,
                   blurRadius: 2
               )
