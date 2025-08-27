@@ -1,8 +1,8 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../../../../model/BookModal.dart';
-import '../../../../../../model/UserModal.dart';
+import '../../../../../../model/book_modal.dart';
+import '../../../../../../model/user_modal.dart';
 
 
 

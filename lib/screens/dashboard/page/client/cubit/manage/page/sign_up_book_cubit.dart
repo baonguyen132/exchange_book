@@ -6,8 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../../../data/ConstraintData.dart';
-import '../../../../../../../model/BookModal.dart';
-import '../../../../../../../model/TypeBookModal.dart';
+import '../../../../../../../model/book_modal.dart';
+import '../../../../../../../model/type_book_modal.dart';
 
 
 part 'sign_up_book_state.dart';

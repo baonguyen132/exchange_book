@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:exchange_book/data/ConstraintData.dart';
-import 'package:exchange_book/model/TypeBookModal.dart';
+import 'package:exchange_book/model/type_book_modal.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../widget/card/card_item_image.dart';

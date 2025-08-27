@@ -1,12 +1,13 @@
 
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../model/MenuModal.dart';
+import '../../../model/menu_modal.dart';
 import '../page/client/home.dart';
 import '../page/client/manage.dart';
+import '../page/client/manage_point.dart';
 import '../page/client/product.dart';
 import '../page/client/profile.dart';
 import '../page/manager/book.dart';
@@ -56,11 +57,14 @@ class DashboardCubit extends Cubit<DashboardState> {
 
     if(newIndexScreen == 1){newScreen = const Home();}
     else if(newIndexScreen == 2) {newScreen = Product(userdata: state.user,) ;}
-    else if(newIndexScreen ==3){newScreen = Manage(user: state.user,);}
+    else if(newIndexScreen == 3){newScreen = Manage(user: state.user,);}
     else if (newIndexScreen == 4) {newScreen = const Profile() ;}
-    else if(newIndexScreen == 6) {newScreen = HomeAdmin(user: state.user,);}
-    else if(newIndexScreen == 7) {newScreen = Book();}
-    else if(newIndexScreen == 8) {newScreen = const ManageUser();}
+    else if (newIndexScreen == 5) {newScreen = ManagePoint(userModel: state.user);}
+
+
+    else if(newIndexScreen == 7) {newScreen = HomeAdmin(user: state.user,);}
+    else if(newIndexScreen == 8) {newScreen = Book();}
+    else if(newIndexScreen == 9) {newScreen = const ManageUser();}
 
 
     emit(state.copyWith(indexScreen: newIndexScreen, status: newIndexStatus, screen: newScreen));

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:exchange_book/data/ConstraintData.dart';
-import 'package:exchange_book/model/DetailCartModal.dart';
+import 'package:exchange_book/model/detail_cart_modal.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../widget/card/card_item_image.dart';

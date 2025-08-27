@@ -7,7 +7,7 @@ import 'package:exchange_book/screens/signup/widget/widget_button_sign_up.dart';
 import 'package:exchange_book/screens/signup/widget/widget_scan_qr_code.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../model/UserModal.dart';
+import '../../../model/user_modal.dart';
 import '../../../util/widget_text_field_password_custom.dart';
 import '../../../util/widget_text_field_custom.dart';
 import '../../checkopt/check_otp.dart';

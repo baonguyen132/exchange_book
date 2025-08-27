@@ -6,7 +6,7 @@ import 'package:exchange_book/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../data/ConstraintData.dart';
-import '../../../../../../model/BookModal.dart';
+import '../../../../../../model/book_modal.dart';
 import '../../../../widget/card/card_item_image.dart';
 
 class BestItem extends StatefulWidget {

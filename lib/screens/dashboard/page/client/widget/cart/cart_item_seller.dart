@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
-import '../../../../../../model/DetailCartModal.dart';
+import '../../../../../../model/detail_cart_modal.dart';
 import 'cart_item.dart';
 
 

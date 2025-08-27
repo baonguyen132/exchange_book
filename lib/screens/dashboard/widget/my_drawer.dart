@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../data/SideMenuData.dart';
-import '../../../model/MenuModal.dart';
-import '../../../model/UserModal.dart';
+import '../../../model/menu_modal.dart';
+import '../../../model/user_modal.dart';
 import 'dark_light_mode.dart';
 import 'side_menu_widget.dart';
 
@@ -100,18 +100,19 @@ class _MyDrawerState extends State<MyDrawer> {
                         if (widget.state.user.id != "0") ...[
                           _buildMenuItem(2),
                           _buildMenuItem(3),
-                          if (widget.state.user.status == "5") _buildMenuItem(4),
+                          _buildMenuItem(4),
+                          if (widget.state.user.status == "5") _buildMenuItem(5),
                         ],
                       ],
                     )
                         : Column(
                       children: [
                         if(widget.isDesktop) ...[
-                          _buildMenuItem(5),
                           _buildMenuItem(6),
+                          _buildMenuItem(7),
                         ],
-                        _buildMenuItem(7),
                         _buildMenuItem(8),
+                        _buildMenuItem(9),
                       ],
                     ),
                   ],

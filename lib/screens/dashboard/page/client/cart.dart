@@ -4,8 +4,8 @@ import 'package:exchange_book/screens/dashboard/page/client/cubit/cart/cart_cubi
 import 'package:exchange_book/screens/dashboard/page/client/widget/cart/cart_item_seller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:exchange_book/model/DetailCartModal.dart';
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/model/detail_cart_modal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 import 'package:exchange_book/theme/theme.dart';
 import 'package:exchange_book/util/widget_text_field_custom.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../data/SideMenuData.dart';
-import '../../../model/MenuModal.dart';
+import '../../../model/menu_modal.dart';
 
 class BottomNavBar extends StatefulWidget {
   final DashboardState state ;

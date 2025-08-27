@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:exchange_book/model/TypeBookModal.dart';
+import 'package:exchange_book/model/type_book_modal.dart';
 import 'package:exchange_book/util/widget_text_field_area.dart';
 
 import '../../../../../../util/widget_text_field_custom.dart';

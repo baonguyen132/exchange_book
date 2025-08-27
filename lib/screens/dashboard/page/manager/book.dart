@@ -3,7 +3,7 @@ import 'package:exchange_book/screens/dashboard/page/manager/cubit/book/book_cub
 import 'package:exchange_book/screens/dashboard/page/manager/widget/book/widget_form_insert_product.dart';
 import 'package:exchange_book/screens/dashboard/page/manager/widget/book/widget_list_product.dart';
 import 'package:flutter/material.dart';
-import 'package:exchange_book/model/TypeBookModal.dart';
+import 'package:exchange_book/model/type_book_modal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/ConstraintData.dart';

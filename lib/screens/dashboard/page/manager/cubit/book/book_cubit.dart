@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../model/TypeBookModal.dart';
+import '../../../../../../model/type_book_modal.dart';
 
 part 'book_state.dart';
 part 'book_cubit.freezed.dart';

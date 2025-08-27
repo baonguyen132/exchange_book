@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../../model/BookModal.dart';
-import '../../../../../../../model/CartModal.dart';
+import '../../../../../../../model/book_modal.dart';
+import '../../../../../../../model/cart_modal.dart';
 
 
 part 'list_book_state.dart';
