@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:exchange_book/data/ConstraintData.dart';
-import 'package:exchange_book/model/BookModal.dart';
-import 'package:exchange_book/model/TypeBookModal.dart';
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/model/book_modal.dart';
+import 'package:exchange_book/model/type_book_modal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 
 import '../../../../../../util/widget_text_field_area.dart';
 import '../../../../../../util/widget_text_field_custom.dart';

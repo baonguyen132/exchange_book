@@ -1,6 +1,6 @@
 import 'package:exchange_book/screens/dashboard/page/client/cubit/card_detail/card_detail_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 import 'package:exchange_book/theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

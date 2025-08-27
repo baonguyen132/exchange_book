@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../../../data/ConstraintData.dart';
-import '../../../../../../../model/BookModal.dart';
+import '../../../../../../../model/book_modal.dart';
 import '../../../../../../../util/widget_text_field_area.dart';
 import '../../../../../../../util/widget_text_field_custom.dart';
 

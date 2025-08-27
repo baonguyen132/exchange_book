@@ -15,7 +15,7 @@ class _ManageUserState extends State<ManageUser> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<ManageUserCubit>().loadData();
+    context.read<ManageUserCubit>().loading();
   }
 
   DataColumn cellTitleTable(String title) {
@@ -76,45 +76,48 @@ class _ManageUserState extends State<ManageUser> {
   
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ManageUserCubit , ManageUserState>(builder: (context, state) => LayoutBuilder(
-      builder: (context, constraints) => Container(
-        width: constraints.maxWidth,
-        height: constraints.maxHeight,
-        padding: const EdgeInsets.all(16),
-        color: Colors.white,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: constraints.maxWidth,
-              ),
-              child: DataTable(
-                headingRowColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.blue,
+    return BlocBuilder<ManageUserCubit , ManageUserState>(builder: (context, state) {
+      return context.read<ManageUserCubit>().state.maybeWhen(
+        orElse: () => const Center(child: CircularProgressIndicator()),
+        loaded: (list) => LayoutBuilder(
+            builder: (context, constraints) => Container(
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+              padding: const EdgeInsets.all(16),
+              color: Colors.white,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: constraints.maxWidth,
+                    ),
+                    child: DataTable(
+                      headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue,),
+                      columnSpacing: 24,
+                      dataRowHeight: 60,
+                      headingRowHeight: 60,
+                      columns: [
+                        cellTitleTable("ID"),
+                        cellTitleTable("Name"),
+                        cellTitleTable("Email"),
+                        cellTitleTable("Position"),
+                        cellTitleTable("CID"),
+                        cellTitleTable("Grant"),
+                        cellTitleTable("Delete"),
+                      ],
+                      rows: List.generate(list.length, (index) {
+                        return rowData(list[index]) ;
+                      }),
+                    ),
+                  ),
                 ),
-                columnSpacing: 24,
-                dataRowHeight: 60,
-                headingRowHeight: 60,
-                columns: [
-                  cellTitleTable("ID"),
-                  cellTitleTable("Name"),
-                  cellTitleTable("Email"),
-                  cellTitleTable("Position"),
-                  cellTitleTable("CID"),
-                  cellTitleTable("Grant"),
-                  cellTitleTable("Delete"),
-                ],
-                rows: List.generate(context.read<ManageUserCubit>().state.list.length, (index) {
-                  return rowData(context.read<ManageUserCubit>().state.list[index]) ;
-                }),
               ),
             ),
           ),
-        ),
-      ),
-    ),);
+      );
+    });
 
   }
 }

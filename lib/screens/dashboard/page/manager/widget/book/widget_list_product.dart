@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
-import '../../../../../../model/TypeBookModal.dart';
+import '../../../../../../model/type_book_modal.dart';
 import '../../../../../../util/widget_text_field_area.dart';
 import '../../../../../../util/widget_text_field_custom.dart';
 import 'cardbook/card_type_book.dart';

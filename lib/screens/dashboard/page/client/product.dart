@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:exchange_book/model/BookModal.dart';
-import 'package:exchange_book/model/DetailCartModal.dart';
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/model/book_modal.dart';
+import 'package:exchange_book/model/detail_cart_modal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 import 'package:exchange_book/screens/dashboard/page/client/card_detail.dart';
 
 import 'package:exchange_book/theme/theme.dart';
 
-import '../../../../model/CartModal.dart';
+import '../../../../model/cart_modal.dart';
 import 'cart.dart';
 
 class Product extends StatefulWidget {

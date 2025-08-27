@@ -1,7 +1,7 @@
 import 'package:exchange_book/screens/dashboard/page/client/widget/profile/user_profile_card_img.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/profile/user_profile_card_information.dart';
 import 'package:flutter/material.dart';
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 class UserProfileCard extends StatefulWidget {

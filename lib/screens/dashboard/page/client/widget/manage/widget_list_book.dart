@@ -5,10 +5,10 @@ import 'package:exchange_book/screens/dashboard/page/client/widget/manage/widget
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:exchange_book/model/BookModal.dart';
+import 'package:exchange_book/model/book_modal.dart';
 
-import '../../../../../../model/CartModal.dart';
-import '../../../../../../model/UserModal.dart';
+import '../../../../../../model/cart_modal.dart';
+import '../../../../../../model/user_modal.dart';
 import 'card_book.dart';
 import 'list_cart/widget_list_change.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../../model/CartModal.dart';
+import '../../../../../../../model/cart_modal.dart';
 
 part 'list_item_state.dart';
 part 'list_item_cubit.freezed.dart';

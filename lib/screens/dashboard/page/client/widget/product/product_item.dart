@@ -2,7 +2,7 @@ import 'package:exchange_book/screens/dashboard/page/client/widget/product/produ
 import 'package:exchange_book/screens/dashboard/page/client/widget/product/product_item_information.dart';
 import 'package:flutter/material.dart';
 import 'package:exchange_book/data/ConstraintData.dart';
-import 'package:exchange_book/model/BookModal.dart';
+import 'package:exchange_book/model/book_modal.dart';
 import 'package:exchange_book/screens/dashboard/widget/card/card_item.dart';
 
 class ProductItem extends StatefulWidget {

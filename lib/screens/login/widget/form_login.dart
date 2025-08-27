@@ -1,7 +1,7 @@
 import 'package:exchange_book/screens/login/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:exchange_book/model/UserModal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 import 'package:exchange_book/screens/login/widget/widget_button_login.dart';
 import 'package:exchange_book/screens/login/widget/widget_finger.dart';
 import 'package:exchange_book/screens/login/widget/widget_navigator_to_sign_up.dart';

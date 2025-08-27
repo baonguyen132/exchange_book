@@ -4,7 +4,7 @@ import 'package:exchange_book/screens/dashboard/page/manager/widget/home_admin/s
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-import '../../../../model/UserModal.dart';
+import '../../../../model/user_modal.dart';
 
 class HomeAdmin extends StatefulWidget {
 

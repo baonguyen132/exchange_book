@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../../../model/BookModal.dart';
+import '../../../../../../model/book_modal.dart';
 
 
 part 'product_state.dart';

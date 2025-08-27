@@ -1,6 +1,6 @@
 import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:exchange_book/model/MenuModal.dart';
+import 'package:exchange_book/model/menu_modal.dart';
 
 import 'widget/my_drawer.dart';
 
