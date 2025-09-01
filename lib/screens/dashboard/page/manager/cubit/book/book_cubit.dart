@@ -14,7 +14,9 @@ class BookCubit extends Cubit<BookState> {
 
   void loadData() async {
     final result = await TypeBookModal.exportTypeBook(() {},) ;
-    emit(state.copyWith(list: result));
+
+
+    emit(state.copyWith(list: result)) ;
   }
   void changeScreen() => emit(state.copyWith(frame: !state.frame)) ;
 
@@ -40,6 +42,12 @@ class BookCubit extends Cubit<BookState> {
     final newList = List<TypeBookModal>.from(state.list); // tạo bản sao
     newList.add(typeBookModal);
     emit(state.copyWith(list: newList));
+  }
+
+  void searchBook(String query) {
+    final list = List<TypeBookModal>.from(state.list);
+
+
   }
 
 }

@@ -7,8 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 import '../../../../model/user_modal.dart';
 
 class HomeAdmin extends StatefulWidget {
-
-  final UserModel user ;
+  final UserModel user;
   const HomeAdmin({super.key, required this.user});
 
   @override
@@ -19,32 +18,39 @@ class _HomeAdminState extends State<HomeAdmin> {
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 800;
+    final theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
-        child: isMobile
-            ? SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
+        child: SingleChildScrollView(
+          child: isMobile
+              ? Column(
+                children: [
+                  _buildLeftPanel(isMobile: isMobile),
+                  const SizedBox(height: 16),
+                ],
+              )
+              : Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildLeftPanel(isMobile: isMobile),
-              const SizedBox(height: 16),
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: _buildLeftPanel(isMobile: isMobile),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: _buildRightPanel(widget.user),
+                ),
+              ),
             ],
           ),
         )
-            : Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: _buildLeftPanel(isMobile: isMobile),
-              ),
-            ),
-            Expanded(flex: 2, child: _buildRightPanel(widget.user)),
-          ],
-        ),
       ),
     );
   }
@@ -53,10 +59,14 @@ class _HomeAdminState extends State<HomeAdmin> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
+            boxShadow: const [
+              BoxShadow(
+                  color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
+            ],
           ),
           child: Row(
             children: [
@@ -70,6 +80,14 @@ class _HomeAdminState extends State<HomeAdmin> {
                     hintStyle: TextStyle(color: Colors.black54),
                   ),
                 ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.camera_alt_outlined,
+                    color: Colors.black54),
+                onPressed: () {
+                  // Image-search action placeholder
+                },
+                tooltip: 'Image search',
               ),
               GestureDetector(
                 onTap: () {
@@ -105,125 +123,153 @@ class _HomeAdminState extends State<HomeAdmin> {
           ),
         ),
         const SizedBox(height: 16),
-        isMobile
-            ? const Column(
-          children: [
-            Row(
-              children: [
-                Expanded(child: SummaryCard(icon: Icons.person, label: "User", value: "105")),
-                SizedBox(width: 8),
-                Expanded(child: SummaryCard(icon: Icons.book_outlined, label: "Books", value: "86")),
-              ],
-            ),
-            SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(child: SummaryCard(icon: Icons.post_add, label: "Posts", value: "25")),
-                SizedBox(width: 8),
-                Expanded(child: SummaryCard(icon: Icons.feedback_outlined, label: "Feedback", value: "10")),
-              ],
-            ),
-          ],
-        )
-            : const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SummaryCard(icon: Icons.person, label: "User", value: "105"),
-            SummaryCard(icon: Icons.book_outlined, label: "Books", value: "86"),
-            SummaryCard(icon: Icons.post_add, label: "Posts", value: "25"),
-            SummaryCard(icon: Icons.feedback_outlined, label: "Feedback", value: "10"),
-          ],
-        ),
+        // Summary cards - responsive layout
+        LayoutBuilder(builder: (context, constraints) {
+          final crossAxisCount = constraints.maxWidth >= 1000 ? 4 : 2;
+          return GridView.count(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            childAspectRatio: 3.3,
+            children: const [
+              SummaryCard(icon: Icons.person, label: "User", value: "105"),
+              SummaryCard(icon: Icons.book_outlined, label: "Books", value: "86"),
+              SummaryCard(icon: Icons.post_add, label: "Posts", value: "25"),
+              SummaryCard(icon: Icons.feedback_outlined,label: "Feedback",value: "10"),
+            ],
+          );
+        }),
 
         const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF5F5F5),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          height: 280,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Overview", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              const SizedBox(height: 12),
-              Expanded(child: LineChart(lineChartData())),
-            ],
+        Card(
+          color: const Color(0xFFF9FBFF),
+          elevation: 0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            height: 280,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Overview",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const SizedBox(height: 12),
+                Expanded(child: LineChart(lineChartData())),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 16),
         isMobile
             ? Column(
-          children: [
-            buildSmallChart(title: "Activity Level", data: [4, 5, 4, 2, 2, 3], color: Colors.amber),
-            const SizedBox(height: 8),
-            buildSmallChart(title: "Nutrition of User", data: [3, 4, 3.5, 2.5, 2.5, 3], color: Colors.pinkAccent),
-            const SizedBox(height: 8),
-            buildSmallChart(title: "Post", data: [3, 4.5, 3.5, 2, 2, 4.5], color: Colors.lightBlue),
-          ],
-        )
+                children: [
+                  buildSmallChart(
+                      title: "Activity Level",
+                      data: [4, 5, 4, 2, 2, 3],
+                      color: Colors.amber),
+                  const SizedBox(height: 8),
+                  buildSmallChart(
+                      title: "Nutrition of User",
+                      data: [3, 4, 3.5, 2.5, 2.5, 3],
+                      color: Colors.pinkAccent),
+                  const SizedBox(height: 8),
+                  buildSmallChart(
+                      title: "Post",
+                      data: [3, 4.5, 3.5, 2, 2, 4.5],
+                      color: Colors.lightBlue),
+                ],
+              )
             : Row(
-          children: [
-            Expanded(
-              child: buildSmallChart(title: "Activity Level", data: [4, 5, 4, 2, 2, 3], color: Colors.amber),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: buildSmallChart(title: "Nutrition of User", data: [3, 4, 3.5, 2.5, 2.5, 3], color: Colors.pinkAccent),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: buildSmallChart(title: "Post", data: [3, 4.5, 3.5, 2, 2, 4.5], color: Colors.lightBlue),
-            ),
-          ],
-        ),
-
+                children: [
+                  Expanded(
+                    child: buildSmallChart(
+                        title: "Activity Level",
+                        data: [4, 5, 4, 2, 2, 3],
+                        color: Colors.amber),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: buildSmallChart(
+                        title: "Nutrition of User",
+                        data: [3, 4, 3.5, 2.5, 2.5, 3],
+                        color: Colors.pinkAccent),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: buildSmallChart(
+                        title: "Post",
+                        data: [3, 4.5, 3.5, 2, 2, 4.5],
+                        color: Colors.lightBlue),
+                  ),
+                ],
+              ),
       ],
     );
   }
 
   Widget _buildRightPanel(UserModel user) {
-    return Container(
-      color: const Color(0xFFEFEFEF),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          const CircleAvatar(
-            radius: 40,
-            backgroundImage: NetworkImage("https://i.pinimg.com/736x/8b/2a/4d/8b2a4d1dc4ddb8d49626d497768d661b.jpg"),
-          ),
-          const SizedBox(height: 8),
-          Text( user.name , style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          const Text("Edit profile", style: TextStyle(color: Colors.grey, fontSize: 12)),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              HealthInfo(title: "Email", value: user.email),
-              HealthInfo(title: "Address", value: user.address.split(",").last),
-            ],
-          ),
-          const SizedBox(height: 24),
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text("Scheduled", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          ),
-          const SizedBox(height: 12),
-          const ScheduleCard(title: "Check Posts", time: "Today, 9AM - 10AM"),
-          const ScheduleCard(title: "Update UI", time: "Tomorrow, 5PM - 6PM"),
-          const ScheduleCard(title: "View Books", time: "Wednesday, 9AM - 10AM"),
-        ],
+    return Card(
+      color: Colors.white,
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        color: Colors.white,
+        child: Column(
+          children: [
+            const CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(
+                  "https://i.pinimg.com/736x/8b/2a/4d/8b2a4d1dc4ddb8d49626d497768d661b.jpg"),
+            ),
+            const SizedBox(height: 8),
+            Text(user.name,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text("Edit profile",
+                style: TextStyle(color: Colors.grey, fontSize: 12)),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                HealthInfo(title: "Email", value: user.email),
+                HealthInfo(
+                    title: "Address", value: user.address.split(",").last),
+              ],
+            ),
+            const SizedBox(height: 24),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text("Scheduled",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 12),
+            const ScheduleCard(title: "Check Posts", time: "Today, 9AM - 10AM"),
+            const ScheduleCard(title: "Update UI", time: "Tomorrow, 5PM - 6PM"),
+            const ScheduleCard(
+                title: "View Books", time: "Wednesday, 9AM - 10AM"),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildSmallChart({required String title, required List<double> data, required Color color}) {
+  Widget buildSmallChart(
+      {required String title,
+      required List<double> data,
+      required Color color}) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 2))
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,13 +291,15 @@ class _HomeAdminState extends State<HomeAdmin> {
       titlesData: FlTitlesData(
         leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles:
+            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             getTitlesWidget: (value, _) {
               const days = ['M', 'T', 'W', 'T', 'F', 'S'];
-              return Text(days[value.toInt()], style: const TextStyle(fontSize: 10));
+              final idx = value.toInt().clamp(0, days.length - 1);
+              return Text(days[idx], style: const TextStyle(fontSize: 10));
             },
             interval: 1,
           ),
@@ -262,13 +310,16 @@ class _HomeAdminState extends State<HomeAdmin> {
         int index = entry.key;
         double val = entry.value;
         return BarChartGroupData(x: index, barRods: [
-          BarChartRodData(toY: val, color: color, width: 14, borderRadius: BorderRadius.circular(4)),
+          BarChartRodData(
+              toY: val,
+              color: color,
+              width: 14,
+              borderRadius: BorderRadius.circular(4)),
         ]);
       }).toList(),
     );
   }
 }
-
 
 LineChartData lineChartData() {
   return LineChartData(
@@ -283,8 +334,22 @@ LineChartData lineChartData() {
           showTitles: true,
           reservedSize: 32,
           getTitlesWidget: (value, _) {
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            return Text(months[value.toInt() % 12], style: const TextStyle(color: Colors.black54, fontSize: 10));
+            const months = [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec"
+            ];
+            return Text(months[value.toInt() % 12],
+                style: const TextStyle(color: Colors.black54, fontSize: 10));
           },
           interval: 1,
         ),
@@ -314,7 +379,3 @@ LineChartData lineChartData() {
     ],
   );
 }
-
-
-
-

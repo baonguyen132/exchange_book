@@ -78,7 +78,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           Container(
                             padding: const EdgeInsets.only(top: 15, bottom: 15 ,left: 15),
                             child: Text(
-                              "Project one",
+                              "Exchange Book",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,

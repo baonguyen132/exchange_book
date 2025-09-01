@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:exchange_book/model/user_modal.dart';
 import 'package:exchange_book/screens/dashboard/page/client/cubit/add_point/add_point_cubit.dart';
-import 'package:exchange_book/screens/dashboard/page/client/widget/manage_point/card_point.dart';
+import 'package:exchange_book/screens/dashboard/page/client/widget/home/card_point.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage_point/vn_pay.dart';
 import 'package:exchange_book/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -124,13 +124,6 @@ class _AddPointState extends State<AddPoint> {
                                 ),
                               ),
                             ),
-                            addPointCubit.state.path != "" ? Positioned(
-                              top: 60,
-                              left: 0,
-                              right: 0,
-                              child: CardPoint(userModel: addPointCubit.state.user, pathAva: addPointCubit.state.path),
-                            ): Container(),
-
                           ],
                         ),
                       ),

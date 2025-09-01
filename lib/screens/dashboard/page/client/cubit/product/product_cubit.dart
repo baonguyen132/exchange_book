@@ -15,10 +15,8 @@ class ProductCubit extends Cubit<ProductState> {
   ProductCubit() : super(const ProductState.initial(
       isLoading: true ,
       listProduct: [],
-      listProductBest: [],
-
       page: "list",
-      detailProduct: [])
+  )
   );
 
   void loadData(String id) async {
@@ -27,13 +25,11 @@ class ProductCubit extends Cubit<ProductState> {
 
     List<dynamic> data = await BookModal.exportBook(id) ;
 
-    emit(state.copyWith(listProduct: data , listProductBest:  data , isLoading: false));
+    emit(state.copyWith(listProduct: data , isLoading: false));
 
   }
 
-  void openDetailProduct(List<dynamic> detailProduct) {
-    emit(state.copyWith(page: "detail" , detailProduct: detailProduct));
-  }
+
 
   void handleFloatingButton() {
     if(state.page != "list" ) {emit(state.copyWith(page: "list"));}
@@ -50,7 +46,7 @@ class ProductCubit extends Cubit<ProductState> {
     if (pickedFile != null)  {
       File image = File(pickedFile.path);
       List<dynamic> data = (await BookModal.uploadImageScan(image,"/scan_books", id))! ;
-      emit(state.copyWith(listProductBest: data , listProduct: data));
+      emit(state.copyWith(listProduct: data));
     }
   }
 }

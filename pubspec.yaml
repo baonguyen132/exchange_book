@@ -45,16 +45,16 @@ dependencies:
   mime: ^1.0.4
   material_design_icons_flutter: ^7.0.7296
   cached_network_image: ^3.4.1
-  curved_navigation_bar:
   fluttertoast: ^8.2.2
   intl: ^0.18.1
   fl_chart: ^0.63.0
-
+  curved_navigation_bar:
   flutter_bloc:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
   webview_flutter: ^4.10.0
   barcode_widget: ^2.0.4
+  url_launcher:
 
 
 dev_dependencies:

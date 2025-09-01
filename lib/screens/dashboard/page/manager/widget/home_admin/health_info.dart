@@ -9,9 +9,12 @@ class HealthInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
-        Text(title, style: const TextStyle(fontSize: 12, color: Colors.black54)),
+        const SizedBox(height: 4),
+        Text(title,
+            style: const TextStyle(fontSize: 12, color: Colors.black54)),
       ],
     );
   }

@@ -1,4 +1,3 @@
-import 'package:exchange_book/main.dart';
 import 'package:exchange_book/screens/dashboard/page/manager/cubit/book/book_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/manager/widget/book/widget_form_insert_product.dart';
 import 'package:exchange_book/screens/dashboard/page/manager/widget/book/widget_list_product.dart';
@@ -16,55 +15,57 @@ class Book extends StatefulWidget {
 }
 
 class _BookState extends State<Book> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<BookCubit>().loadData() ;
+    context.read<BookCubit>().loadData();
   }
 
   Widget getFrame() {
-    if(context.read<BookCubit>().state.frame) {
+    if (context.read<BookCubit>().state.frame) {
+      final list = context.read<BookCubit>().state.list;
       return WidgetListProduct(
-        list: context.read<BookCubit>().state.list,
+        list: list,
         update: (typeBookModal) {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
-            "$location/updateTypeBook" ,
+            "$location/updateTypeBook",
             () {
               context.read<BookCubit>().updateTypeBook(typeBookModal);
-              toast("Cập nhật thành công");},
-            () {toast("Cập nhật bị lỗi");},
+              toast("Cập nhật thành công");
+            },
+            () {
+              toast("Cập nhật bị lỗi");
+            },
           );
         },
         delete: (typeBookModal) {
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
-            "$location/deleteTypeBook" ,
+            "$location/deleteTypeBook",
             () {
               context.read<BookCubit>().deleteTypeBook(typeBookModal);
               toast("Xoá thành công");
             },
-            () {toast("Không thể xoá được");},
+            () {
+              toast("Không thể xoá được");
+            },
           );
-
         },
       );
-    }
-    else {
+    } else {
       return WidgetFormInsertProduct(
         insert: (typeBookModal) {
-
           TypeBookModal.updateDatabaseTypeBook(
             typeBookModal,
             "$location/insertTypeBook",
             () {
               context.read<BookCubit>().addTypeBook(typeBookModal);
-              toast("Thêm thành công") ;
+              toast("Thêm thành công");
             },
             () {
-              toast("Thêm không thành công") ;
+              toast("Thêm không thành công");
             },
           );
         },
@@ -72,21 +73,27 @@ class _BookState extends State<Book> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookCubit , BookState>(builder: (context, state) => Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
+    return BlocBuilder<BookCubit, BookState>(builder: (context, state) {
+      return Scaffold(
+        body: Container(
           child: getFrame(),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {context.read<BookCubit>().changeScreen();},
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100),),
-        child: Icon(context.read<BookCubit>().state.frame ? Icons.add : Icons.arrow_back),
-      ),
-    ),);
+        floatingActionButton: BlocBuilder<BookCubit, BookState>(
+          builder: (context, state) {
+            return FloatingActionButton(
+              onPressed: () {
+                context.read<BookCubit>().changeScreen();
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Icon(state.frame ? Icons.add : Icons.arrow_back),
+            );
+          },
+        ),
+      );
+    });
   }
 }
