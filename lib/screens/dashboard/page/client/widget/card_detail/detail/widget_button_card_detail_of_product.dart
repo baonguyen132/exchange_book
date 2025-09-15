@@ -15,7 +15,7 @@ class _WidgetButtonCardDetailOfProductState extends State<WidgetButtonCardDetail
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {widget.change() ;},
+      onTap: () {print("i") ; widget.change() ;},
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(

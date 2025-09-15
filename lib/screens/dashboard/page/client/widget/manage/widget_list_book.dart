@@ -46,6 +46,21 @@ class _WidgetListBookState extends State<WidgetListBook> {
     }
   }
 
+  int tinhtuoisach(String tuoi)
+  {
+    DateTime ngayMua = DateTime.parse(tuoi);
+    DateTime hienTai = DateTime.now();
+
+    // Tính số năm tuổi sách
+    int tuoiSach = hienTai.year - ngayMua.year;
+    if (hienTai.month < ngayMua.month ||
+        (hienTai.month == ngayMua.month && hienTai.day < ngayMua.day)) {
+      tuoiSach--; // chưa tới ngày kỷ niệm => trừ đi 1
+    }
+
+    return tuoiSach ;
+  }
+
   Widget getListCart(int page, List<dynamic> list) {
     if (page == 1) {
       return LayoutBuilder(
@@ -64,6 +79,9 @@ class _WidgetListBookState extends State<WidgetListBook> {
           // Tính lại width cho đều
           double adjustedWidth =
               (maxWidth - ((crossAxisCount - 1) * spacing)) / crossAxisCount;
+
+
+
 
           return Wrap(
             spacing: spacing,
@@ -88,8 +106,9 @@ class _WidgetListBookState extends State<WidgetListBook> {
                                   ),
                                   WidgetText(
                                       icon: Icons.book,
-                                      title: "Ngày mua: ",
-                                      content: e[3]),
+                                      title: "Tuổi sách: ",
+                                      content: "${tinhtuoisach(e[3])} năm"
+                                  ),
                                   const SizedBox(height: 5,),
                                   WidgetText(
                                       icon: Icons.book,
@@ -152,12 +171,12 @@ class _WidgetListBookState extends State<WidgetListBook> {
       return WidgetListManage(
         list: list,
         stateButton: 2,
-        textButton: "Đã chuyển",
+        textButton: "Giao hàng",
         handleClick: (idCart, total) async {
           CartModal.updateStateCart(
             widget.user.id!,
             idCart,
-            "Đã chuyển",
+            "Đang giao",
             total.toString(),
             () {
               toast("Cập nhật trạng thái thành công");
@@ -184,7 +203,7 @@ class _WidgetListBookState extends State<WidgetListBook> {
             // Header: gradient (blue tint on left) with title on left and 4-option selector on the right
             LayoutBuilder(builder: (context, headerConstraints) {
               // Refined selector: grouped dropdown with nicer styling
-              final options = ['Sách', 'Đơn đổi', 'Danh sách hàng'];
+              final options = ['Sách của tôi', 'Đơn đã mua', 'Đơn đã bán'];
               final currentIndex = (listBookCubit.state.current >= 1 &&
                       listBookCubit.state.current <= 3)
                   ? listBookCubit.state.current

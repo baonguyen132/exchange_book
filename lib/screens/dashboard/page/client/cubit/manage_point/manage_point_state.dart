@@ -8,7 +8,7 @@ class ManagePointState with _$ManagePointState{
       {
         required List<dynamic> list,
         required List<int> listId ,
-        required List<int> listPoint ,
+        required int pointTotal ,
 
       }) = _Loaded ;
 }

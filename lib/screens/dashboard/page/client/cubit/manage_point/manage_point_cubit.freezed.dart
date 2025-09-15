@@ -21,7 +21,7 @@ mixin _$ManagePointState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)
+            List<dynamic> list, List<int> listId, int pointTotal)
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,8 +29,7 @@ mixin _$ManagePointState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -38,7 +37,7 @@ mixin _$ManagePointState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
     required TResult orElse(),
   }) =>
@@ -132,7 +131,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)
+            List<dynamic> list, List<int> listId, int pointTotal)
         loaded,
   }) {
     return initial();
@@ -143,8 +142,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
   }) {
     return initial?.call();
@@ -155,7 +153,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
     required TResult orElse(),
   }) {
@@ -248,7 +246,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)
+            List<dynamic> list, List<int> listId, int pointTotal)
         loaded,
   }) {
     return loading();
@@ -259,8 +257,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
   }) {
     return loading?.call();
@@ -271,7 +268,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
     required TResult orElse(),
   }) {
@@ -326,7 +323,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<dynamic> list, List<int> listId, List<int> listPoint});
+  $Res call({List<dynamic> list, List<int> listId, int pointTotal});
 }
 
 /// @nodoc
@@ -344,7 +341,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
   $Res call({
     Object? list = null,
     Object? listId = null,
-    Object? listPoint = null,
+    Object? pointTotal = null,
   }) {
     return _then(_$LoadedImpl(
       list: null == list
@@ -355,10 +352,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
           ? _value._listId
           : listId // ignore: cast_nullable_to_non_nullable
               as List<int>,
-      listPoint: null == listPoint
-          ? _value._listPoint
-          : listPoint // ignore: cast_nullable_to_non_nullable
-              as List<int>,
+      pointTotal: null == pointTotal
+          ? _value.pointTotal
+          : pointTotal // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -369,10 +366,9 @@ class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl(
       {required final List<dynamic> list,
       required final List<int> listId,
-      required final List<int> listPoint})
+      required this.pointTotal})
       : _list = list,
-        _listId = listId,
-        _listPoint = listPoint;
+        _listId = listId;
 
   final List<dynamic> _list;
   @override
@@ -390,17 +386,12 @@ class _$LoadedImpl implements _Loaded {
     return EqualUnmodifiableListView(_listId);
   }
 
-  final List<int> _listPoint;
   @override
-  List<int> get listPoint {
-    if (_listPoint is EqualUnmodifiableListView) return _listPoint;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_listPoint);
-  }
+  final int pointTotal;
 
   @override
   String toString() {
-    return 'ManagePointState.loaded(list: $list, listId: $listId, listPoint: $listPoint)';
+    return 'ManagePointState.loaded(list: $list, listId: $listId, pointTotal: $pointTotal)';
   }
 
   @override
@@ -410,8 +401,8 @@ class _$LoadedImpl implements _Loaded {
             other is _$LoadedImpl &&
             const DeepCollectionEquality().equals(other._list, _list) &&
             const DeepCollectionEquality().equals(other._listId, _listId) &&
-            const DeepCollectionEquality()
-                .equals(other._listPoint, _listPoint));
+            (identical(other.pointTotal, pointTotal) ||
+                other.pointTotal == pointTotal));
   }
 
   @override
@@ -419,7 +410,7 @@ class _$LoadedImpl implements _Loaded {
       runtimeType,
       const DeepCollectionEquality().hash(_list),
       const DeepCollectionEquality().hash(_listId),
-      const DeepCollectionEquality().hash(_listPoint));
+      pointTotal);
 
   /// Create a copy of ManagePointState
   /// with the given fields replaced by the non-null parameter values.
@@ -435,10 +426,10 @@ class _$LoadedImpl implements _Loaded {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)
+            List<dynamic> list, List<int> listId, int pointTotal)
         loaded,
   }) {
-    return loaded(list, listId, listPoint);
+    return loaded(list, listId, pointTotal);
   }
 
   @override
@@ -446,11 +437,10 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
   }) {
-    return loaded?.call(list, listId, listPoint);
+    return loaded?.call(list, listId, pointTotal);
   }
 
   @override
@@ -458,12 +448,12 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, List<int> listPoint)?
+    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
         loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(list, listId, listPoint);
+      return loaded(list, listId, pointTotal);
     }
     return orElse();
   }
@@ -507,11 +497,11 @@ abstract class _Loaded implements ManagePointState {
   const factory _Loaded(
       {required final List<dynamic> list,
       required final List<int> listId,
-      required final List<int> listPoint}) = _$LoadedImpl;
+      required final int pointTotal}) = _$LoadedImpl;
 
   List<dynamic> get list;
   List<int> get listId;
-  List<int> get listPoint;
+  int get pointTotal;
 
   /// Create a copy of ManagePointState
   /// with the given fields replaced by the non-null parameter values.

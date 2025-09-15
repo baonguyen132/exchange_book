@@ -205,8 +205,19 @@ class _ProductState extends State<Product> {
                     final item = products[i];
                     return BestItem(
                       item: item,
-                      openItem: (it) => Navigator.push(context , MaterialPageRoute(builder: (context) => CardDetail(item: item, list: state.listProduct),)) ,
+
+                      openItem: (item,) =>
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CardDetail(
+                                    item: item,
+                                    list: state.listProduct,
+                                ),
+                              )
+                          ),
                       order: (bookModal, nameBook) {
+                        toast("Đã thêm vào giỏ hàng");
                         DetailCartModal.saveDetail(
                           bookModal.id.toString(),
                           bookModal.id_user.toString(),
@@ -236,10 +247,10 @@ class _ProductState extends State<Product> {
             path,
             widget.userdata.id.toString(),
             () {
-              toast("Thêm giỏ hàng thành công");
+              toast("Đăng kí giỏ hàng thành công");
             },
             () {
-              toast("Lỗi khi thêm giỏ hàng");
+              toast("Đăng kí giỏ hàng không thành công");
             },
           );
           widget.userdata.point = "${int.parse(widget.userdata.point) - total}";

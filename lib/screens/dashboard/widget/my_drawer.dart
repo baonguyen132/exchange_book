@@ -78,7 +78,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           Container(
                             padding: const EdgeInsets.only(top: 15, bottom: 15 ,left: 15),
                             child: Text(
-                              "Exchange Book",
+                              "Book Swap",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -100,19 +100,18 @@ class _MyDrawerState extends State<MyDrawer> {
                         if (widget.state.user.id != "0") ...[
                           _buildMenuItem(2),
                           _buildMenuItem(3),
-                          _buildMenuItem(4),
-                          if (widget.state.user.status == "5") _buildMenuItem(5),
+                          if (widget.state.user.status == "5") _buildMenuItem(4),
                         ],
                       ],
                     )
                         : Column(
                       children: [
                         if(widget.isDesktop) ...[
+                          _buildMenuItem(5),
                           _buildMenuItem(6),
-                          _buildMenuItem(7),
                         ],
+                        _buildMenuItem(7),
                         _buildMenuItem(8),
-                        _buildMenuItem(9),
                       ],
                     ),
                   ],

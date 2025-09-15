@@ -190,10 +190,10 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                     const SizedBox(width: 12),
                     // Action button
                     if ((widget.stateButton == 2 &&
-                            widget.item[1] == "Đã xác nhận" &&
+                            widget.item[1] == "Xác nhận đơn" &&
                             !listItemCubit.state.stateClick) ||
                         (widget.stateButton == 1 &&
-                            widget.item[1] == "Đã chuyển" &&
+                            widget.item[1] == "Đang giao" &&
                             !listItemCubit.state.stateClick))
                       SizedBox(
                         height: 40,
@@ -202,9 +202,9 @@ class _WidgetListItemManageState extends State<WidgetListItemManage> {
                             if (!listItemCubit.state.stateClick) {
                               widget.handleClick(
                                   widget.item[0].toString(), widget.item[3]);
-                              if (widget.item[1] == "Đã xác nhận") {
-                                listItemCubit.exchangeState("Đã chuyển");
-                              } else if (widget.item[1] == "Đã chuyển") {
+                              if (widget.item[1] == "Xác nhận đơn") {
+                                listItemCubit.exchangeState("Đang giao");
+                              } else if (widget.item[1] == "Đang giao") {
                                 listItemCubit.exchangeState("Đã nhận");
                               }
                             }

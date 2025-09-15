@@ -73,14 +73,34 @@ class TransactionModel {
   }
 
 
-  static Future<void> transfer({required String listId , required  listPoint , required String idUser , required Function () successful , required Function () fail}) async {
+  static Future<void> transfer({required String listId , required int totalPoint , required String idUser , required Function () successful , required Function () fail}) async {
 
     final response = await http.post(
       Uri.parse("$location/transfer"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "listId": listId,
-        "listPoint": listPoint,
+        "totalPoint": totalPoint,
+        "idUser": idUser,
+      }), // Chuyển đổi model thành JSON
+    );
+
+    if (response.statusCode == 200) {
+      successful() ;
+    } else {
+      fail();
+      print("Lỗi: ${response.body}");
+    }
+  }
+
+  static Future<void> transferOnePerson({required String receiverId , required String totalPoint , required String idUser , required Function () successful , required Function () fail}) async {
+
+    final response = await http.post(
+      Uri.parse("$location/transferOnePerson"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "receiverId": receiverId,
+        "totalPoint": totalPoint,
         "idUser": idUser,
       }), // Chuyển đổi model thành JSON
     );

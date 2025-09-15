@@ -4,7 +4,8 @@ class WidgetNavigatorToSignUp extends StatefulWidget {
   const WidgetNavigatorToSignUp({super.key});
 
   @override
-  State<WidgetNavigatorToSignUp> createState() => _WidgetNavigatorToSignUpState();
+  State<WidgetNavigatorToSignUp> createState() =>
+      _WidgetNavigatorToSignUpState();
 }
 
 class _WidgetNavigatorToSignUpState extends State<WidgetNavigatorToSignUp> {
@@ -21,18 +22,21 @@ class _WidgetNavigatorToSignUpState extends State<WidgetNavigatorToSignUp> {
               fontSize: 13,
             ),
           ),
-          const SizedBox(width: 10,),
+          const SizedBox(
+            width: 10,
+          ),
           GestureDetector(
-            onTap: () {Navigator.pushNamed(context, "/signup");},
+            onTap: () {
+              Navigator.pushNamed(context, "/signup");
+            },
             child: const MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Text(
                 "Sign up",
                 style: TextStyle(
                     fontSize: 13,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           )

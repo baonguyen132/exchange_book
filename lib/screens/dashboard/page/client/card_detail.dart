@@ -3,12 +3,17 @@ import 'package:exchange_book/screens/dashboard/page/client/widget/card_detail/d
 import 'package:exchange_book/screens/dashboard/page/client/widget/card_detail/widget_item_information_change.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../data/ConstraintData.dart';
+import '../../../../model/book_modal.dart';
+import '../../../../model/detail_cart_modal.dart';
+
 class CardDetail extends StatefulWidget {
   final List<dynamic> item;
-
   final List<dynamic> list;
 
-  const CardDetail({super.key, required this.item, required this.list});
+
+
+  const CardDetail({super.key, required this.item, required this.list, });
 
   @override
   State<CardDetail> createState() => _CardDetailState();
@@ -30,7 +35,9 @@ class _CardDetailState extends State<CardDetail> {
           child: WidgetItemProduct(
             width: double.infinity,
             item: widget.list[i],
-            openItem: (item) {},
+            openItem: (item) {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CardDetail(item: item, list: widget.list),));
+            },
           ),
         ),
       ),
@@ -55,7 +62,31 @@ class _CardDetailState extends State<CardDetail> {
                     WidgetItemInformationChange(
                       item: widget.item,
                       widgetButton:
-                          WidgetButtonCardDetailOfProduct(change: () {}),
+                          WidgetButtonCardDetailOfProduct(change: () {
+                            toast("Đã thêm vào giỏ hàng");
+
+                            final detailCart = DetailCartModal(
+                              bookModal: BookModal(
+                                id: widget.item[0].toString(),
+                                date_purchase: widget.item[3],
+                                price: widget.item[4].toString(),
+                                description: widget.item[5],
+                                status: widget.item[9].toString(),
+                                image: widget.item[6],
+                                quantity: widget.item[10].toString(),
+                                id_user: widget.item[7].toString(),
+                                id_type_book: widget.item[8].toString(),
+                              ),
+                              quantity: 1,
+                              nameBook: widget.item[1].toString(),
+                            );
+
+                            DetailCartModal.saveDetail(
+                              widget.item[0].toString(), // id sách
+                              widget.item[7].toString(), // id user
+                              detailCart,
+                            );
+                          }),
                     ),
                     const SizedBox(height: 16),
                     Card(
@@ -92,8 +123,33 @@ class _CardDetailState extends State<CardDetail> {
                         padding: const EdgeInsets.only(right: 20.0),
                         child: WidgetItemInformationChange(
                           item: widget.item,
-                          widgetButton:
-                              WidgetButtonCardDetailOfProduct(change: () {}),
+                          widgetButton: WidgetButtonCardDetailOfProduct(
+                            change: () {
+                              toast("Đã thêm vào giỏ hàng");
+
+                              final detailCart = DetailCartModal(
+                                bookModal: BookModal(
+                                  id: widget.item[0].toString(),
+                                  date_purchase: widget.item[3],
+                                  price: widget.item[4].toString(),
+                                  description: widget.item[5],
+                                  status: widget.item[9].toString(),
+                                  image: widget.item[6],
+                                  quantity: widget.item[10].toString(),
+                                  id_user: widget.item[7].toString(),
+                                  id_type_book: widget.item[8].toString(),
+                                ),
+                                quantity: 1,
+                                nameBook: widget.item[1].toString(),
+                              );
+
+                              DetailCartModal.saveDetail(
+                                widget.item[0].toString(), // id sách
+                                widget.item[7].toString(), // id user
+                                detailCart,
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),

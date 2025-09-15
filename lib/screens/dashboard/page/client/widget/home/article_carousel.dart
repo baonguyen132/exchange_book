@@ -13,29 +13,31 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
   // Sample articles (replace with real links)
   final List<Map<String, String>> _articles = [
     {
-      'title': 'Lợi ích của trao đổi sách',
+      'title': 'SGK dùng 1 lần liệu có lãng phí?',
+      'images': 'assets/images/anhsach1.jpeg',
       'desc': 'Giảm lãng phí và chia sẻ tri thức trong cộng đồng.',
-      'url': 'https://www.facebook.com/'
+      'url':
+          'https://vnexpress.net/sach-giao-khoa-bi-lang-phi-nhu-the-nao-4465784.html'
     },
     {
-      'title': 'Cách tổ chức góc trao đổi sách',
+      'title': 'Hưởng ứng trao đổi sách',
+      'images': 'assets/images/anhsach2.jpeg',
       'desc': 'Hướng dẫn nhỏ để bắt đầu một điểm trao đổi sách.',
-      'url': 'https://example.com/article2'
+      'url':
+          'https://www.neu.edu.vn/vi/ban-tin-neu/ngay-hoi-trao-doi-sach-mo-hinh-hoat-dong-doan-tiep-tuc-duoc-vinh-danh-trong-hoat-dong-doan-tp-ha-noi-nam-2012'
     },
     {
       'title': 'Câu chuyện cộng đồng',
+      'images': 'assets/images/anhsach3.jpeg',
       'desc': 'Những câu chuyện truyền cảm hứng từ việc trao đổi sách.',
-      'url': 'https://example.com/article3'
+      'url':
+          'https://cuoituan.tuoitre.vn/noi-niem-sach-cu-20250117103534957.htm'
     },
     {
-      'title': 'Tiết kiệm khi đọc sách',
+      'title': 'Các điểm tập kết sách cũ',
+      'images': 'assets/images/anhsach4.jpeg',
       'desc': 'Mẹo để tiếp cận nhiều sách với chi phí thấp.',
-      'url': 'https://example.com/article4'
-    },
-    {
-      'title': 'Ý tưởng hoạt động sách',
-      'desc': 'Sự kiện và hoạt động kết nối bằng sách.',
-      'url': 'https://example.com/article5'
+      'url': 'https://khamphadanang.vn/tiem-sach-cu-da-nang/'
     },
   ];
 
@@ -76,11 +78,13 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
                         topLeft: Radius.circular(12),
                         bottomLeft: Radius.circular(12),
                       ),
-                      color: theme.primaryColor.withOpacity(0.08),
+                      image: DecorationImage(
+                        image: AssetImage(
+                            a['images'] ?? 'assets/images/anhsach1.jpeg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     alignment: Alignment.center,
-                    child: Icon(Icons.article,
-                        color: theme.primaryColor, size: 36),
                   ),
                   // text
                   Expanded(
@@ -97,6 +101,7 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w700,
+                              fontSize: 16,
                               color: Colors.black87,
                             ),
                           ),
@@ -124,7 +129,8 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
 class ArticleWebView extends StatefulWidget {
   final String url;
   final String title;
-  const ArticleWebView({required this.url, required this.title, Key? key}): super(key: key);
+  const ArticleWebView({required this.url, required this.title, Key? key})
+      : super(key: key);
 
   @override
   State<ArticleWebView> createState() => _ArticleWebViewState();

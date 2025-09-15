@@ -21,6 +21,22 @@ class _WidgetItemInformationChangeState
   late CardDetailCubit cardDetailCubit;
   bool _expanded = false;
 
+  int tinhtuoisach(String tuoi)
+  {
+    DateTime ngayMua = DateTime.parse(tuoi);
+    DateTime hienTai = DateTime.now();
+
+    // Tính số năm tuổi sách
+    int tuoiSach = hienTai.year - ngayMua.year;
+    if (hienTai.month < ngayMua.month ||
+        (hienTai.month == ngayMua.month && hienTai.day < ngayMua.day)) {
+      tuoiSach--; // chưa tới ngày kỷ niệm => trừ đi 1
+    }
+
+    return tuoiSach ;
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -257,7 +273,7 @@ class _WidgetItemInformationChangeState
                   const Icon(Icons.calendar_today,
                       size: 14, color: Colors.black54),
                   const SizedBox(width: 6),
-                  Text(widget.item[3]?.toString() ?? '')
+                  Text("Tuổi sách: ${tinhtuoisach(widget.item[3] ?? '2000-01-01')}"),
                 ]),
               ),
               Chip(
@@ -266,7 +282,7 @@ class _WidgetItemInformationChangeState
                 label: Row(mainAxisSize: MainAxisSize.min, children: [
                   const Icon(Icons.info, size: 14, color: Colors.black54),
                   const SizedBox(width: 6),
-                  Text('SKU: ${widget.item[7]?.toString() ?? ''}')
+                  Text('Còn lại: ${widget.item[7]?.toString() ?? ''}')
                 ]),
               ),
             ],

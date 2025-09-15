@@ -27,10 +27,11 @@ class _BestItemState extends State<BestItem> {
     final priceRaw = widget.item[4]?.toString() ?? '';
     final priceLabel = priceRaw.isNotEmpty ? '$priceRaw ₫' : '';
     final status = widget.item[9]?.toString() ?? '';
-    final isAvailable = status == '1' || status.toLowerCase() == 'available';
 
     return GestureDetector(
-      onTap: () => widget.openItem(widget.item),
+      onTap: () => widget.openItem(
+        widget.item ,
+      ),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(
@@ -150,7 +151,7 @@ class _BestItemState extends State<BestItem> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            onPressed: () => widget.openItem(widget.item),
+                            onPressed: () => widget.openItem(widget.item,),
                             icon:
                                 const Icon(Icons.visibility_outlined, size: 16),
                             label: const Text('Xem',

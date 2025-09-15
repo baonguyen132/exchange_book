@@ -45,7 +45,5 @@ class AddPointCubit extends Cubit<AddPointState> {
     }
   }
 
-  void exChangeID(String value) {
-    emit(state.copyWith(idPurchasePoint: value));
-  }
+
 }
