@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 class TranferForUser extends StatefulWidget {
   final String id;
-  final String idUser ;
+  final String idUser;
   const TranferForUser({super.key, required this.id, required this.idUser});
 
   @override
@@ -15,6 +15,8 @@ class TranferForUser extends StatefulWidget {
 class _TranferForUserState extends State<TranferForUser> {
   final TextEditingController _pointsController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+
   @override
   void dispose() {
     _pointsController.dispose();
@@ -23,21 +25,34 @@ class _TranferForUserState extends State<TranferForUser> {
 
   void _handleTransfer(String totalPoint) async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
       // Simulate API call
-      String result = "" ;
-      TransactionModel.transferOnePerson(receiverId: widget.id, totalPoint: totalPoint, idUser: widget.idUser, successful: () {
-        result = "Chuyển tiền thành công" ;
-        // Show success dialog
 
-        toast(result);
-      }, fail: () {
+      TransactionModel.transferOnePerson(
+        receiverId: widget.id,
+        totalPoint: totalPoint,
+        idUser: widget.idUser,
+        successful: () {
+          setState(() {
+            _isLoading = false;
+          });
 
-        result = "Chuyển tiền không thành công" ;
+          // Show success dialog
+          toast("Chuyển tiền thành công");
 
-        toast(result);
-      },);
-
-
+          Navigator.pop(context);
+        },
+        fail: () {
+          setState(() {
+            _isLoading = false;
+          });
+          toast("Lỗi");
+          Navigator.pop(context);
+        },
+      );
     }
   }
 
@@ -318,9 +333,9 @@ class _TranferForUserState extends State<TranferForUser> {
                         height: 56,
                         child: ElevatedButton(
                           onPressed: () {
-                            _handleTransfer(_pointsController.text);
-                            Navigator.pop(context) ;
-
+                            if (_isLoading != null) {
+                              _handleTransfer(_pointsController.text);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.shade600,
@@ -331,23 +346,34 @@ class _TranferForUserState extends State<TranferForUser> {
                             ),
                             disabledBackgroundColor: Colors.grey.shade300,
                           ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.send_rounded,
-                                size: 24,
-                              ),
-                              SizedBox(width: 12),
-                              Text(
-                                'Chuyển Điểm',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
+                          child: _isLoading
+                              ? const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.send_rounded,
+                                      size: 24,
+                                    ),
+                                    SizedBox(width: 12),
+                                    Text(
+                                      'Chuyển Điểm',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
                         ),
                       ),
 

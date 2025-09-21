@@ -12,9 +12,9 @@ class BottomNavBar extends StatefulWidget {
 
   const BottomNavBar(
       {super.key,
-        required this.handle,
-        required this.openDraw,
-        required this.state});
+      required this.handle,
+      required this.openDraw,
+      required this.state});
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -78,7 +78,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     // choose which menu indexes to display based on state
-    menuIndexes = widget.state.status == 0 ? [0, 1] : [5, 6];
+    menuIndexes = widget.state.status == 0 ? [0, 1] : [6, 7];
 
     int validSelectionIndex = menuIndexes
         .indexWhere((i) => listmenu[i].id == widget.state.indexScreen);
@@ -93,9 +93,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         padding: const EdgeInsets.fromLTRB(14, 10, 14, 8),
         child: Container(
           // slightly smaller height to ensure BottomNavigationBar contents fit
-          height: 64,
+          height: 70,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(16),
             gradient: LinearGradient(
               colors: [
                 Theme.of(context).colorScheme.mainColor.withOpacity(0.95),
@@ -113,7 +113,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(16),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               currentIndex: validSelectionIndex,
@@ -124,7 +124,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               showSelectedLabels: true,
               showUnselectedLabels: false,
               selectedLabelStyle:
-              const TextStyle(fontWeight: FontWeight.w500, fontSize: 9),
+                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               unselectedLabelStyle: const TextStyle(fontSize: 0),
               onTap: (index) {
                 // the last item is always the menu button

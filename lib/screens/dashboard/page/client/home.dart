@@ -1,10 +1,13 @@
 import 'package:exchange_book/data/ConstraintData.dart';
 import 'package:exchange_book/data/SideMenuData.dart';
 import 'package:exchange_book/model/user_modal.dart';
+import 'package:exchange_book/screens/dashboard/page/client/assistant.dart';
 import 'package:exchange_book/screens/dashboard/page/client/manage_point.dart';
+import 'package:exchange_book/screens/dashboard/page/client/question.dart';
 import 'package:exchange_book/screens/dashboard/page/client/tranfer_for_user.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/home/article_carousel.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/home/card_point.dart';
+import 'package:exchange_book/screens/dashboard/page/client/contribute_ideas.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/home/information_user.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/home/why_exchange.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage/widget_sign_up_book.dart';
@@ -42,14 +45,10 @@ class _HomeState extends State<Home> {
     userModel = context.read<DashboardCubit>().state.user;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final headerHeight = 260.0;
-
-
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -141,55 +140,136 @@ class _HomeState extends State<Home> {
                           _miniFeatureButton(
                             icon: Icons.book_outlined,
                             label: 'Đăng sách',
-                            color: Colors.blue,
+                            color:
+                                Colors.indigo, // Đổi sang màu xanh đậm hiện đại
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => WidgetSignUpBook(
-                                user: userModel,
-                                insert: (bookModal) {
-                                  BookModal.updateDatabaseBook(
-                                    bookModal,
-                                    "$location/insertBook",
-                                        () {
-                                          toast("Thêm thành công");
-                                          context.read<DashboardCubit>().exchange( listmenu[2] , true ) ;
+                              if (userModel.id != null) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => WidgetSignUpBook(
+                                        user: userModel,
+                                        insert: (bookModal) {
+                                          BookModal.updateDatabaseBook(
+                                            bookModal,
+                                            "$location/insertBook",
+                                            () {
+                                              toast("Thêm thành công");
+                                              context
+                                                  .read<DashboardCubit>()
+                                                  .exchange(listmenu[2], true);
+                                            },
+                                            () {
+                                              toast("Thêm không thành công");
+                                            },
+                                          );
                                         },
-                                        () {toast("Thêm không thành công");},
-                                  );
-                                },),)
-                              );
+                                      ),
+                                    ));
+                              }
                             },
                           ),
                           _miniFeatureButton(
                             icon: Icons.qr_code_scanner,
                             label: 'Quét mã',
-                            color: Colors.green,
+                            color: Colors.teal, // Đổi sang màu teal tươi sáng
                             onTap: () async {
-                              String data = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ScanQrCode(),));
-                              String result = await Navigator.push(context, MaterialPageRoute(builder: (context) => TranferForUser(id: data, idUser: userModel.id.toString(),),));
-                              toast(result);
-                              },
+                              if (userModel.id != null) {
+                                String data = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const ScanQrCode(),
+                                    ));
+                                String result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TranferForUser(
+                                        id: data,
+                                        idUser: userModel.id.toString(),
+                                      ),
+                                    ));
+                                toast(result);
+                              }
+                            },
                           ),
                           _miniFeatureButton(
                             icon: Icons.swap_horiz,
                             label: 'Quản lý ví',
-                            color: Colors.orange,
+                            color:
+                                Colors.deepOrange, // Đổi sang cam đậm nổi bật
+                            onTap: () {
+                              if (userModel.id != null) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ManagePoint(userModel: userModel),
+                                    ));
+                              }
+                            },
+                          ),
+                          _miniFeatureButton(
+                            icon: Icons.chat,
+                            label: 'Đóng góp ý kiến ',
+                            color:
+                            Colors.purple, // Đổi sang tím pastel nhẹ nhàng
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        ManagePoint(userModel: userModel),
+                                    builder: (context) => const ContributeIdeas(),
+                                  ));
+                            },
+                          ),
+
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 10,),
+                    SizedBox(
+                      height:
+                      110, // fixed height to avoid layout/overflow issues
+                      child: GridView(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 0.85,
+                        ),
+                        children: [
+                          _miniFeatureButton(
+                            icon: Icons.chat,
+                            label: 'Trợ lý tri thức',
+                            color:
+                            Colors.purple, // Đổi sang tím pastel nhẹ nhàng
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Assistant(),
                                   ));
                             },
                           ),
                           _miniFeatureButton(
-                            icon: Icons.more_horiz,
-                            label: 'Khác',
-                            color: Colors.grey,
+                            icon: Icons.chat,
+                            label: 'Hỏi đáp',
+                            color:
+                            Colors.purple, // Đổi sang tím pastel nhẹ nhàng
                             onTap: () {
-                              // TODO: Thêm chức năng khác
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Question(),
+                                  ));
                             },
                           ),
+
+
                         ],
                       ),
                     ),
@@ -224,6 +304,7 @@ class _HomeState extends State<Home> {
                     const SizedBox(height: 14),
                     const ArticleCarousel(),
                     const SizedBox(height: 18),
+
                   ],
                 ),
               ),
