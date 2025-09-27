@@ -258,7 +258,7 @@ class _TranferForUserState extends State<TranferForUser> {
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
-                                  "Số Điểm Chuyển",
+                                  "Số Tiền Chuyển",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
@@ -275,14 +275,14 @@ class _TranferForUserState extends State<TranferForUser> {
                                 FilteringTextInputFormatter.digitsOnly,
                               ],
                               decoration: InputDecoration(
-                                labelText: 'Nhập số điểm',
+                                labelText: 'Nhập số tiền',
                                 labelStyle: TextStyle(color: Colors.grey[600]),
                                 hintText: 'VD: 1000',
                                 prefixIcon: Icon(
                                   Icons.account_balance_wallet_rounded,
                                   color: Colors.blue.shade600,
                                 ),
-                                suffixText: 'điểm',
+                                suffixText: 'vnd',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey[600],
                                   fontWeight: FontWeight.w500,
@@ -309,11 +309,11 @@ class _TranferForUserState extends State<TranferForUser> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Vui lòng nhập số điểm';
+                                  return 'Vui lòng nhập số tiền';
                                 }
                                 final points = int.tryParse(value);
                                 if (points == null || points <= 0) {
-                                  return 'Số điểm phải lớn hơn 0';
+                                  return 'Số tiền phải lớn hơn 0';
                                 }
                                 return null;
                               },
@@ -366,7 +366,7 @@ class _TranferForUserState extends State<TranferForUser> {
                                     ),
                                     SizedBox(width: 12),
                                     Text(
-                                      'Chuyển Điểm',
+                                      'Chuyển Tiền',
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,

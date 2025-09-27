@@ -75,7 +75,7 @@ class _SearchSectionState extends State<SearchSection> {
                 child: WidgetTextFieldCustom(
                   controller: pointController,
                   textInputType: TextInputType.text,
-                  hint: "Nhập số điểm",
+                  hint: "Nhập số tiền",
                   iconData: Icons.stars_rounded,
                   onChange: (value) {
                     widget.exchangeListPoint(value);
@@ -112,7 +112,7 @@ class _SearchSectionState extends State<SearchSection> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      "Mỗi người nhận: ${widget.pointOnePerson} điểm",
+                      "Mỗi người nhận: ${widget.pointOnePerson} vnd",
                       style: TextStyle(
                         color: Colors.amber[700],
                         fontWeight: FontWeight.w600,

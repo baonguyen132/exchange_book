@@ -29,7 +29,7 @@ class _GradeSelectionScreenState extends State<GradeSelectionScreen> {
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
         title: const Text(
-          'Câu hỏi ôn tập',
+          'Quiz',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -82,7 +82,7 @@ class _GradeSelectionScreenState extends State<GradeSelectionScreen> {
 
                 // Title
                 Text(
-                  'Chào mừng đến với\nCâu hỏi ôn tập AI!',
+                  'Chào mừng đến với trò chơi\nSách chờ AI NHANH',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

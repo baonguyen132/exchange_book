@@ -133,7 +133,7 @@ class _UserCardState extends State<UserCard> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  "${widget.point} điểm",
+                                  "${widget.point} vnd",
                                   style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,

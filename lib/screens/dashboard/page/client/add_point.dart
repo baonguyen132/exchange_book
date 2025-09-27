@@ -49,10 +49,10 @@ class _AddPointState extends State<AddPoint> {
         state: true,
         id_user: widget.userModel.id.toString(),
         successful: () {
-          toast("Thêm điểm thành công");
+          toast("Thêm tiền thành công");
         },
         fail: () {
-          toast("Thêm điểm thành công");
+          toast("Thêm tiền thành công");
         },
       );
       print("Payment success");

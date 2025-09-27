@@ -33,7 +33,7 @@ class _TransferButtonState extends State<TransferButton> {
             Icon(Icons.send_rounded, size: 20),
             SizedBox(width: 8),
             Text(
-              "Chuyển điểm",
+              "Chuyển tiền",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,

@@ -116,7 +116,7 @@ Color getAnswerColor(String option , bool showAnswer , String? selectedAnswer , 
                 backgroundColor: Colors.grey.shade50,
                 appBar: AppBar(
                   title: Text(
-                    'Câu hỏi AI - Lớp $selectedGrade',
+                    'Quiz - Lớp $selectedGrade',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
