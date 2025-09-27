@@ -323,7 +323,7 @@ class _HomeState extends State<Home> {
         final double cellSize = constraints.maxWidth - (internalPadding * 5);
 
         // Tính toán kích thước các thành phần dựa trên kích thước mới của nút
-        final double iconSize = cellSize * 0.38;
+        final double iconSize = cellSize * 0.30;
         final double fontSize = cellSize * 0.1 ;
         final double borderRadius = cellSize * 0.15;
         final double contentPadding = cellSize * 0.08;
