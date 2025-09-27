@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../data/ConstraintData.dart';
+
 Future<void> chatWithAI(
   String message,
   Function(String reply) handleSuccessful, // callback nhận dữ liệu
@@ -8,7 +10,7 @@ Future<void> chatWithAI(
 ) async {
   try {
     final response = await http.post(
-      Uri.parse("https://e50ab2dbfd14.ngrok-free.app/api/chat"),
+      Uri.parse("$apiAI/api/chat"),
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true"
@@ -38,7 +40,7 @@ Future<void> createQuestion(
     ) async {
   try {
     final response = await http.post(
-      Uri.parse("https://e50ab2dbfd14.ngrok-free.app/api/create_question"),
+      Uri.parse("$apiAI/api/create_question"),
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true"
