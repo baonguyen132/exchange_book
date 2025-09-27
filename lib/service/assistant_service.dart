@@ -8,7 +8,7 @@ Future<void> chatWithAI(
 ) async {
   try {
     final response = await http.post(
-      Uri.parse("https://a489f16978b5.ngrok-free.app/api/chat"),
+      Uri.parse("https://6f2811f33a1c.ngrok-free.app/api/chat"),
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true"
@@ -38,7 +38,7 @@ Future<void> createQuestion(
     ) async {
   try {
     final response = await http.post(
-      Uri.parse("https://a489f16978b5.ngrok-free.app/api/create_question"),
+      Uri.parse("https://6f2811f33a1c.ngrok-free.app/api/create_question"),
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true"

@@ -260,12 +260,20 @@ class _HomeState extends State<Home> {
                             label: 'Hỏi đáp',
                             color:
                             Colors.purple, // Đổi sang tím pastel nhẹ nhàng
-                            onTap: () {
-                              Navigator.push(
+                            onTap: () async {
+                              final result = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Question(),
+                                    builder: (context) => Question(userModel: userModel,),
                                   ));
+
+                              if(result != null){
+                                setState(()  {
+                                  userModel.point = result.toString() ;
+                                });
+                              }
+
+
                             },
                           ),
 

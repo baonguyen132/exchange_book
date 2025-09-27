@@ -112,4 +112,22 @@ class TransactionModel {
       print("Lỗi: ${response.body}");
     }
   }
+
+  static Future<void> addPoint({required String  idUser, required int countCorrect, required Function (dynamic response) successful , required Function () fail}) async {
+
+    final response = await http.post(
+      Uri.parse("$location/addPoint"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "idUser": idUser,
+        "countCorrect": countCorrect,
+      }), // Chuyển đổi model thành JSON
+    );
+    if (response.statusCode == 200) {
+      successful(jsonDecode(response.body)) ;
+    } else {
+      fail();
+      print("Lỗi: ${response.body}");
+    }
+  }
 }
