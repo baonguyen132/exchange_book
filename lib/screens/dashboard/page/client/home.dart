@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                 height: headerHeight,
                 width: double.infinity,
                 padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
               // Quick actions and content
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -129,33 +129,21 @@ class _HomeState extends State<Home> {
                       builder: (context, constraints) {
                         final screenWidth = MediaQuery.of(context).size.width;
                         int crossAxisCount;
-                        double childAspectRatio;
 
-                        if (screenWidth > 1024) {
-                          // Desktop
+                        if (screenWidth > 768) {
+                          // Desktop & Tablet: 1 hàng 6 item
                           crossAxisCount = 6;
-                          childAspectRatio = 0.9;
-                        } else if (screenWidth > 768) {
-                          // Tablet
-                          crossAxisCount = 5;
-                          childAspectRatio = 0.85;
-                        } else if (screenWidth > 600) {
-                          // Large mobile
-                          crossAxisCount = 4;
-                          childAspectRatio = 0.8;
                         } else {
-                          // Small mobile
-                          crossAxisCount = 4;
-                          childAspectRatio = 0.75;
+                          // Mobile: 2 hàng, mỗi hàng 3 item
+                          crossAxisCount = 3;
                         }
 
                         return GridView.count(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           crossAxisCount: crossAxisCount,
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8,
-                          childAspectRatio: childAspectRatio,
+                          mainAxisSpacing: 12, // Tăng khoảng cách
+                          crossAxisSpacing: 12,
                           children: [
                             _miniFeatureButton(
                               icon: Icons.book_outlined,
@@ -172,14 +160,14 @@ class _HomeState extends State<Home> {
                                             BookModal.updateDatabaseBook(
                                               bookModal,
                                               "$location/insertBook",
-                                                  () {
+                                              () {
                                                 toast("Thêm thành công");
                                                 context
                                                     .read<DashboardCubit>()
                                                     .exchange(
-                                                    listmenu[2], true);
+                                                        listmenu[2], true);
                                               },
-                                                  () {
+                                              () {
                                                 toast("Thêm không thành công");
                                               },
                                             );
@@ -199,7 +187,7 @@ class _HomeState extends State<Home> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                        const ScanQrCode(),
+                                            const ScanQrCode(),
                                       ));
                                   String result = await Navigator.push(
                                       context,
@@ -237,7 +225,7 @@ class _HomeState extends State<Home> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                      const ContributeIdeas(),
+                                          const ContributeIdeas(),
                                     ));
                               },
                             ),
@@ -284,9 +272,9 @@ class _HomeState extends State<Home> {
                     Text(
                       'Tại sao nên trao đổi sách?',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
                     ),
                     const SizedBox(height: 14),
                     const WhyExchange(),
@@ -300,10 +288,10 @@ class _HomeState extends State<Home> {
                     Text(
                       'Một nét bút chì ngàn cuốn sách được trao',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Theme.of(context).primaryColor,
+                          ),
                     ),
                     const SizedBox(height: 14),
                     const ArticleCarousel(),
@@ -318,7 +306,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // Helper: mini feature button for quick actions grid
   Widget _miniFeatureButton({
     required IconData icon,
     required String label,
@@ -327,112 +314,78 @@ class _HomeState extends State<Home> {
   }) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Responsive values based on available width
-        final availableWidth = constraints.maxWidth;
-        final screenWidth = MediaQuery.of(context).size.width;
+        final isMobile = MediaQuery.of(context).size.width <= 768;
 
-        // Responsive dimensions
-        double iconSize;
-        double fontSize;
-        double borderRadius;
-        double padding;
-        int maxLines;
+        // Thêm một khoảng đệm bên trong để thu nhỏ nút, đặc biệt trên mobile
+        final double internalPadding = isMobile ? 4.0 : 2.0;
 
-        if (screenWidth > 1024) {
-          // Desktop
-          iconSize = min(28, availableWidth * 0.25);
-          fontSize = min(11, availableWidth * 0.08);
-          borderRadius = 14;
-          padding = 8;
-          maxLines = 2;
-        } else if (screenWidth > 768) {
-          // Tablet
-          iconSize = min(24, availableWidth * 0.25);
-          fontSize = min(10, availableWidth * 0.08);
-          borderRadius = 12;
-          padding = 6;
-          maxLines = 2;
-        } else {
-          // Mobile
-          iconSize = min(20, availableWidth * 0.25);
-          fontSize = min(9, availableWidth * 0.08);
-          borderRadius = 10;
-          padding = 4;
-          maxLines = 2;
-        }
+        // Kích thước thực tế của nút sẽ nhỏ hơn ô GridView một chút
+        final double cellSize = constraints.maxWidth - (internalPadding * 5);
 
-        return Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
+        // Tính toán kích thước các thành phần dựa trên kích thước mới của nút
+        final double iconSize = cellSize * 0.38;
+        final double fontSize = cellSize * 0.1 ;
+        final double borderRadius = cellSize * 0.15;
+        final double contentPadding = cellSize * 0.08;
+
+        return Padding(
+          padding: EdgeInsets.all(internalPadding),
+          child: Material(
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(borderRadius),
-            splashColor: color.withOpacity(0.2),
-            highlightColor: color.withOpacity(0.1),
-            child: Container(
-              width: double.infinity,
-              constraints: BoxConstraints(
-                minHeight: constraints.maxHeight * 0.8,
-              ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    color.withOpacity(0.15),
-                    color.withOpacity(0.08),
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(borderRadius),
+              splashColor: color.withOpacity(0.2),
+              highlightColor: color.withOpacity(0.1),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white,
+                      Colors.grey.shade50,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  border: Border.all(
+                    color: Colors.grey.shade200,
+                    width: 1.5,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.08),
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(borderRadius),
-                border: Border.all(
-                  color: color.withOpacity(0.2),
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: color.withOpacity(0.1),
-                    spreadRadius: 0,
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.all(padding),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Icon with container
-                  Container(
-                    padding: EdgeInsets.all(padding / 2),
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Icon(
+                padding: EdgeInsets.all(contentPadding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
                       icon,
                       color: color,
                       size: iconSize,
                     ),
-                  ),
-
-                  SizedBox(height: padding / 2),
-
-                  // Label with responsive text
-                  Flexible(
-                    child: Text(
+                    SizedBox(height: cellSize * 0.07),
+                    Text(
                       label,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: color.withOpacity(0.9),
+                        color: Colors.grey.shade800,
                         fontWeight: FontWeight.w600,
                         fontSize: fontSize,
-                        height: 1.1,
+                        height: 1.2,
                       ),
-                      maxLines: maxLines,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
