@@ -255,7 +255,7 @@ class _HomeState extends State<Home> {
                             ),
                             _miniFeatureButton(
                               icon: Icons.quiz_rounded,
-                              label: 'Hỏi đáp',
+                              label: 'Quiz',
                               color: Colors.amber.shade700,
                               onTap: () async {
                                 final result = await Navigator.push(
