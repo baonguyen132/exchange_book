@@ -243,7 +243,7 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
           // Rank badge
           Container(
             width: 20,
-            height: 20,
+            height: 30,
             decoration: BoxDecoration(
               color: _getRankColor(rank),
               shape: BoxShape.circle,
