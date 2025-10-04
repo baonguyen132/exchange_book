@@ -37,7 +37,7 @@ class _ProductProfileState extends State<ProductProfile> {
           const Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              "Project one",
+              "Sách",
               style: TextStyle(
                 fontSize: 22,
                 color: Colors.blue,

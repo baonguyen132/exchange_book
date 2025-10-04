@@ -45,17 +45,23 @@ dependencies:
   mime: ^1.0.4
   material_design_icons_flutter: ^7.0.7296
   cached_network_image: ^3.4.1
-  curved_navigation_bar:
   fluttertoast: ^8.2.2
   intl: ^0.18.1
   fl_chart: ^0.63.0
-
+  curved_navigation_bar:
   flutter_bloc:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
   webview_flutter: ^4.10.0
   barcode_widget: ^2.0.4
+  url_launcher:
+  flutter_launcher_icons: ^0.13.1
+  qr_flutter: ^4.1.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.jpg"
 
 dev_dependencies:
   flutter_test:
@@ -84,9 +90,12 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+     - assets/images/anhsach1.jpeg
+     - assets/images/anhsach2.jpeg
+     - assets/images/anhsach3.jpeg
+     - assets/images/anhsach4.jpeg
+     - assets/images/logo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

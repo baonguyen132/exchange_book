@@ -6,11 +6,9 @@ class ProductState with _$ProductState{
       {
         required bool isLoading ,
 
-        required List<dynamic> listProductBest ,
         required List<dynamic> listProduct ,
         required String page,
 
-        required List<dynamic> detailProduct ,
 
       }) = _Initial;
 }

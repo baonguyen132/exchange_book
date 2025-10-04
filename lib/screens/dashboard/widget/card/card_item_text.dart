@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:exchange_book/theme/theme.dart';
 
 class CardItemText extends StatefulWidget {
-  final String text ;
-  final FontWeight fontWeight ;
+  final String text;
+  final FontWeight fontWeight;
 
-  const CardItemText({super.key , required this.text , required this.fontWeight});
+  const CardItemText({super.key, required this.text, required this.fontWeight});
 
   @override
   State<CardItemText> createState() => _CardItemTextState();
@@ -14,24 +13,27 @@ class CardItemText extends StatefulWidget {
 class _CardItemTextState extends State<CardItemText> {
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: widget.text, // Phần có màu mặc định
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: widget.fontWeight,
-                  color: Theme.of(context).colorScheme.maintext, // Đổi màu tùy theo theme nếu cần
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ],
-          ),
+    final theme = Theme.of(context);
+    final color = theme.textTheme.bodyLarge?.color ?? Colors.black87;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.background,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        widget.text,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: widget.fontWeight,
+          color: color,
+          decoration: TextDecoration.none,
+          height: 1.2,
         ),
-      ],
+      ),
     );
   }
 }

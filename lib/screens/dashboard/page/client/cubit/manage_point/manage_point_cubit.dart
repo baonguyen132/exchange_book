@@ -11,37 +11,60 @@ part 'manage_point_cubit.freezed.dart';
 class ManagePointCubit extends Cubit<ManagePointState> {
   ManagePointCubit() : super(const ManagePointState.initial());
 
-  void loading() async {
+  void loading(String idUser) async {
     emit(const ManagePointState.loading());
-    List<dynamic> data = await UserModel.loadDataUser() ;
-    emit(ManagePointState.loaded(list: data , listId: [] , listPoint: []));
+    List<dynamic> data = await UserModel.loadDataUser(idUser) ;
+
+    final newsListId = data.map((entry) {
+      return int.tryParse(entry[0].toString()) ?? -1;
+    }).where((id) => id != -1).toList();
+
+    emit(ManagePointState.loaded(list: data , listId: newsListId , pointTotal: 0));
   }
 
-  void exchangeListId(String newsListIdText)  {
+  void exchangeListId(String address) {
     state.whenOrNull(
-      loaded: (list, listId ,listPoint) {
-        if (newsListIdText.trim() == "") {
-          emit(ManagePointState.loaded(list: list, listId: [], listPoint: listPoint));
-        }
-        else {
-          // Chuyển listId thành danh sách số nguyên
-          List<int> newsListId = newsListIdText.split(' ').map((e) => int.tryParse(e) ?? -1).toList();
-          emit(ManagePointState.loaded(list: list, listId: newsListId , listPoint: listPoint));
+      loaded: (list, listId, pointTotal) {
+        if (address.trim().isEmpty) {
+
+          final newsListId = list.map((entry) {
+            return int.tryParse(entry[0].toString()) ?? -1;
+          }).where((id) => id != -1).toList();
+
+          emit(ManagePointState.loaded(list: list,listId: newsListId,pointTotal: pointTotal,));
+        } else {
+          // Lọc danh sách theo địa chỉ
+          final filtered = list.where((entry) {
+            final addressOfUser =
+            (entry.length > 9 ? entry[9]?.toString() ?? '' : '').toLowerCase();
+            final addressSearch = address.trim().toLowerCase();
+            return entry.isEmpty || addressOfUser.contains(addressSearch);
+          }).toList();
+
+          // Lấy listId từ cột đầu tiên (entry[0]) và convert sang int
+          final newsListId = filtered.map((entry) {
+            return int.tryParse(entry[0].toString()) ?? -1;
+          }).where((id) => id != -1).toList();
+
+          emit(ManagePointState.loaded(
+            list: list,
+            listId: newsListId,
+            pointTotal: pointTotal,
+          ));
         }
       },
     );
   }
 
+
   void exchangeListPoint(String newsListPointText)  {
     state.whenOrNull(
-      loaded: (list, listId ,listPoint) {
+      loaded: (list, listId ,pointTotal) {
         if (newsListPointText.trim() == "") {
-          emit(ManagePointState.loaded(list: list, listId: listId, listPoint: []));
+          emit(ManagePointState.loaded(list: list, listId: listId, pointTotal: 0));
         }
         else {
-          // Chuyển listId thành danh sách số nguyên
-          List<int> newsListPoint = newsListPointText.split(' ').map((e) => int.tryParse(e) ?? -1).toList();
-          emit(ManagePointState.loaded(list: list, listId: listId , listPoint: newsListPoint));
+          emit(ManagePointState.loaded(list: list, listId: listId , pointTotal: int.parse(newsListPointText)));
         }
       },
     );

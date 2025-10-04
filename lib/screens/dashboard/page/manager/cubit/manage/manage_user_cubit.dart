@@ -12,7 +12,7 @@ class ManageUserCubit extends Cubit<ManageUserState> {
 
   void loading() async {
     emit(const ManageUserState.loading());
-    List<dynamic> data = await UserModel.loadDataUser() ;
+    List<dynamic> data = await UserModel.loadDataUser("0") ;
     emit(ManageUserState.loaded(list: data));
 
   }

@@ -18,20 +18,19 @@ class _CardTypeBookInformationState extends State<CardTypeBookInformation> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-
       padding: const EdgeInsets.symmetric(horizontal: 5), // Thêm padding cho nội dung
       child: Column(
-
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start, // Căn trái
         children: [
           CardItemText(text: widget.typeBookModal.name_book, fontWeight: FontWeight.bold),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           CardItemText(text: widget.typeBookModal.type_book, fontWeight: FontWeight.bold),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           CardItemText(text: widget.typeBookModal.price, fontWeight: FontWeight.normal),
-          const SizedBox(height: 10,),
+          const SizedBox(height: 5,),
           CardItemText(text: widget.typeBookModal.description, fontWeight: FontWeight.normal),
-          const SizedBox(height: 20,),
+          const SizedBox(height: 5 ,),
         ],
       ),
     );

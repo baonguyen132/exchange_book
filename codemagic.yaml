@@ -7,6 +7,13 @@ workflows:
     scripts:
       # Build Android APK (release)
       - flutter build apk --release
+      
+      # Build iOS IPA (release)
+      # (sẽ cần chứng chỉ & provisioning profile hợp lệ)
+      - flutter build ipa --release --no-codesign
     artifacts:
       # Android artifact
       - build/app/outputs/flutter-apk/app-release.apk
+
+      # iOS artifact (IPA)
+      - build/ios/ipa/*.ipa
