@@ -2,7 +2,7 @@ import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:exchange_book/screens/dashboard/widget/bottom_nav_bar.dart';
 
-import '../../model/MenuModal.dart';
+import '../../model/menu_modal.dart';
 import 'widget/my_drawer.dart';
 
 class DashboardMobile extends StatefulWidget {

@@ -1,5 +1,3 @@
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,11 +15,11 @@ class SignUpCubit extends Cubit<SignUpState> {
     dob: "",
     numberId: "",
     address: "",
-
     gender: "Male",
 
-    scanQRCode: false,
-
+    scanQRCode: true,
+    isVisibility: false,
+    isVisibilityCheckPassword: false
   ));
 
   void handleQRCode(String data) {
@@ -31,7 +29,9 @@ class SignUpCubit extends Cubit<SignUpState> {
       fullName: arrayData[2],
       dob:  formatIDToDate(arrayData[3]),
       gender: arrayData[4] == "Nam" ? "Male" : "Female",
-      address:  arrayData[5]
+      address:  arrayData[5],
+
+      scanQRCode: false
     ));
   }
 
@@ -70,6 +70,14 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   void toggleQRCodeScan(bool value) {
     emit(state.copyWith(scanQRCode: value));
+  }
+
+  void changeIsVisibility() {
+    emit(state.copyWith(isVisibility: !state.isVisibility));
+  }
+
+  void changeIsVisibilityCheckPassword() {
+    emit(state.copyWith(isVisibilityCheckPassword: !state.isVisibilityCheckPassword));
   }
 
 }

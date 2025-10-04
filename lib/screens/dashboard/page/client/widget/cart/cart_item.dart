@@ -2,21 +2,21 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:exchange_book/data/ConstraintData.dart';
-import 'package:exchange_book/model/DetailCartModal.dart';
+import 'package:exchange_book/model/detail_cart_modal.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../widget/card/card_item_image.dart';
 import '../../../../widget/card/card_item_text.dart';
 
-
 class CartItem extends StatefulWidget {
-  String detailCartModal ;
-  Function (String idItem , String idUser, int value) update ;
-  Function (String idItem , String idUser) delete ;
-  CartItem({super.key,
+  final String detailCartModal;
+  final Function(String idItem, String idUser, int value) update;
+  final Function(String idItem, String idUser) delete;
+  const CartItem({
+    super.key,
     required this.detailCartModal,
-    required this.update , required
-    this.delete,
+    required this.update,
+    required this.delete,
   });
 
   @override
@@ -24,124 +24,142 @@ class CartItem extends StatefulWidget {
 }
 
 class _CartItemState extends State<CartItem> {
-
-
-
   @override
   Widget build(BuildContext context) {
-    DetailCartModal detailCartModal = DetailCartModal.fromJson(jsonDecode(widget.detailCartModal));
-    TextEditingController quantity = TextEditingController(text: detailCartModal.quantity.toString());
+    DetailCartModal detailCartModal =
+        DetailCartModal.fromJson(jsonDecode(widget.detailCartModal));
+    TextEditingController quantity =
+        TextEditingController(text: detailCartModal.quantity.toString());
+
+    String _fmt(int v) => v
+        .toString()
+        .replaceAllMapped(RegExp(r"\B(?=(\d{3})+(?!\d))"), (m) => ',');
+
+    final total =
+        detailCartModal.quantity * int.parse(detailCartModal.bookModal.price);
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(horizontal: 20 , vertical:10),
-      padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-
-          color: Theme.of(context).colorScheme.mainCard
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        color: Theme.of(context).colorScheme.mainCard,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CardItemImage(
-            width: 120,
-            height: 120,
-            borderRadius: 10,
+            width: 80,
+            height: 80,
+            borderRadius: 8,
             heart: false,
             link: "$location/${detailCartModal.bookModal.image}",
           ),
-          SizedBox(width: 20,),
+          const SizedBox(width: 12),
           Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5), // Thêm padding cho nội dung
-                    child: Column(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CardItemText(
+                    text: detailCartModal.nameBook,
+                    fontWeight: FontWeight.bold),
+                const SizedBox(height: 6),
+                Text('Số lượng: ${detailCartModal.quantity}',
+                    style: Theme.of(context).textTheme.bodySmall),
+                const SizedBox(height: 4),
+                Text('${_fmt(total)} VND',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w600)),
+              ],
+            ),
+          ),
 
-                      crossAxisAlignment: CrossAxisAlignment.start, // Căn trái
-                      children: [
-                        CardItemText(text: detailCartModal.name_book, fontWeight: FontWeight.bold),
-                        SizedBox(height: 10),
-                        CardItemText(text: "- Số lượng: ${detailCartModal.quantity}", fontWeight: FontWeight.normal),
-                        SizedBox(height: 10),
-                        CardItemText(text: "- Tổng: ${detailCartModal.quantity * int.parse(detailCartModal.bookModal.price)}vnd", fontWeight: FontWeight.normal),
-                      ],
+          // Compact controls: minus / qty / plus and delete
+          SizedBox(
+            width: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            side: BorderSide(
+                                color: Theme.of(context).dividerColor)),
+                        onPressed: () {
+                          final cur = int.tryParse(quantity.text) ??
+                              detailCartModal.quantity;
+                          final next = (cur - 1) < 0 ? 0 : cur - 1;
+                          quantity.text = next.toString();
+                          widget.update(
+                              detailCartModal.bookModal.id.toString(),
+                              detailCartModal.bookModal.id_user.toString(),
+                              next);
+                        },
+                        child: const Icon(Icons.remove, size: 18),
+                      ),
                     ),
-                  ),),
-                  SizedBox(width: 50,),
-                  Container(
-                    width: 50,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: quantity,
-                          keyboardType: TextInputType.number, // Đúng hơn là number thay vì text
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.all(20),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                            ),
-                          ),
-                          onChanged: (value) async {
-                            int? newQuantity = int.tryParse(value);
-                            if (newQuantity != null && newQuantity >= 0) {
-                              // Cập nhật vào SharedPreferences
-                              widget.update(
-                                detailCartModal.bookModal.id.toString(),
-                                detailCartModal.bookModal.id_user.toString(),
-                                newQuantity,
-                              );
-
-                              // Cập nhật lại giao diện
-
-                            }
-                          },
-                        ),
-
-                        SizedBox(height: 20,),
-                        GestureDetector(
-                          onTap: () async {
-                            widget.delete(
-                                detailCartModal.bookModal.id.toString(),
-                                detailCartModal.bookModal.id_user.toString()
-                            );
-                          },
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 2,
-                                    spreadRadius: 1,
-                                    offset: Offset(0, 1),
-                                  )
-                                ],
-                              ),
-                              height: 50,
-                              alignment: Alignment.center,
-                              child: Icon(Icons.close, color: Colors.white,),
-                            ),
-                          ),
-                        )
-
-                      ],
+                    const SizedBox(width: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(quantity.text,
+                          style: Theme.of(context).textTheme.bodyMedium),
                     ),
-                  )
-                  
-                  
-                ],
-              )
-          )
+                    const SizedBox(width: 6),
+                    SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            side: BorderSide(
+                                color: Theme.of(context).dividerColor)),
+                        onPressed: () {
+                          final cur = int.tryParse(quantity.text) ??
+                              detailCartModal.quantity;
+                          final next = cur + 1;
+                          quantity.text = next.toString();
+                          widget.update(
+                              detailCartModal.bookModal.id.toString(),
+                              detailCartModal.bookModal.id_user.toString(),
+                              next);
+                        },
+                        child: const Icon(Icons.add, size: 18),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                InkWell(
+                  onTap: () => widget.delete(
+                      detailCartModal.bookModal.id.toString(),
+                      detailCartModal.bookModal.id_user.toString()),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Icon(Icons.delete_outline,
+                        color: Colors.redAccent, size: 20),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

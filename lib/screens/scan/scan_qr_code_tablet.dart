@@ -4,10 +4,10 @@ import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 import 'widget/form_scan_qr.dart';
 
 class ScanQrCodeTablet extends StatefulWidget {
-  GlobalKey qrkey ;
-  QRViewController? controller;
+  final GlobalKey qrKey ;
+  final QRViewController? controller;
 
-  ScanQrCodeTablet({super.key , required this.qrkey , this.controller});
+  const ScanQrCodeTablet({super.key , required this.qrKey , this.controller});
 
   @override
   State<ScanQrCodeTablet> createState() => _ScanQrCodeTabletState();
@@ -16,6 +16,6 @@ class ScanQrCodeTablet extends StatefulWidget {
 class _ScanQrCodeTabletState extends State<ScanQrCodeTablet> {
   @override
   Widget build(BuildContext context) {
-    return FormScanQr(qrkey: widget.qrkey , controller: widget.controller,) ;
+    return FormScanQr(qrKey: widget.qrKey , controller: widget.controller,) ;
   }
 }

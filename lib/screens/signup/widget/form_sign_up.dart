@@ -1,14 +1,15 @@
 import 'dart:math';
 
 import 'package:exchange_book/screens/signup/cubit/sign_up_cubit.dart';
+import 'package:exchange_book/screens/signup/widget/widget_choose_gender.dart';
 import 'package:flutter/material.dart';
 import 'package:exchange_book/screens/signup/widget/widget_button_sign_up.dart';
 import 'package:exchange_book/screens/signup/widget/widget_scan_qr_code.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../model/UserModal.dart';
-import '../../../util/widget_textfield_password_custome.dart';
-import '../../../util/wiget_textfield_custome.dart';
+import '../../../model/user_modal.dart';
+import '../../../util/widget_text_field_password_custom.dart';
+import '../../../util/widget_text_field_custom.dart';
 import '../../checkopt/check_otp.dart';
 
 
@@ -82,7 +83,7 @@ class _FormSignUpState extends State<FormSignUp> {
 
         },),
         const SizedBox(height: 25),
-        WigetTextfieldCustome(
+        WidgetTextFieldCustom(
           controller: fullNameController,
           textInputType: TextInputType.name,
           hint: "FullName",
@@ -90,7 +91,7 @@ class _FormSignUpState extends State<FormSignUp> {
           onChange: (value) => context.read<SignUpCubit>().changeFullName(value),
         ),
         const SizedBox(height: 25),
-        WigetTextfieldCustome(
+        WidgetTextFieldCustom(
           controller: emailController,
           textInputType: TextInputType.emailAddress,
           hint: "Email",
@@ -98,15 +99,21 @@ class _FormSignUpState extends State<FormSignUp> {
           onChange: (value) => context.read<SignUpCubit>().changeEmail(value),
         ),
         const SizedBox(height: 25),
-        WidgetTextfieldPasswordCustome(
+        WidgetTextFieldPasswordCustom(
           controller: passwordController,
           onChange: (value) => context.read<SignUpCubit>().changePassword(value),
+
+          isVisibility: context.read<SignUpCubit>().state.isVisibility,
+          changeVisibility:() {context.read<SignUpCubit>().changeIsVisibility();},
         ),
         const SizedBox(height: 25),
-        WidgetTextfieldPasswordCustome(
+        WidgetTextFieldPasswordCustom(
           controller: checkPasswordController,
           hint: "Check Password",
           onChange: (value) => context.read<SignUpCubit>().changeCheckPassword(value),
+
+          isVisibility: context.read<SignUpCubit>().state.isVisibilityCheckPassword,
+          changeVisibility:() {context.read<SignUpCubit>().changeIsVisibilityCheckPassword();},
         ),
         const SizedBox(height: 25),
         Row(
@@ -115,7 +122,7 @@ class _FormSignUpState extends State<FormSignUp> {
             Expanded(
               child: Column(
                 children: [
-                  WigetTextfieldCustome(
+                  WidgetTextFieldCustom(
                     controller: dobController,
                     textInputType: TextInputType.datetime,
                     hint: "DDMMYYYY",
@@ -127,7 +134,7 @@ class _FormSignUpState extends State<FormSignUp> {
                     },
                   ),
                   const SizedBox(height: 25),
-                  WigetTextfieldCustome(
+                  WidgetTextFieldCustom(
                     controller: numberIdController,
                     textInputType: TextInputType.number,
                     hint: "Number Id",
@@ -139,31 +146,15 @@ class _FormSignUpState extends State<FormSignUp> {
             ),
             const SizedBox(width: 20),
 
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Gender",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Icon(context.read<SignUpCubit>().state.gender == "Femail" ? Icons.female : Icons.male),
-                      const SizedBox(width: 10,),
-                      Text(context.read<SignUpCubit>().state.gender) ,
-                    ],
-                  )
-                ]
-            )
+            WidgetChooseGender(
+              currentOption: context.read<SignUpCubit>().state.gender,
+              handle: (data) => context.read<SignUpCubit>().changeGender(data),
+            ),
 
           ],
         ),
         const SizedBox(height: 25),
-        WigetTextfieldCustome(
+        WidgetTextFieldCustom(
           controller: addressController,
           textInputType: TextInputType.streetAddress,
           hint: "Address",
@@ -191,9 +182,7 @@ class _FormSignUpState extends State<FormSignUp> {
                 address: addressController.text,
                 point: '50000',
               );
-              UserModel.registerUser(newUser ,() {
-                Navigator.pop(context);
-              },) ;
+              UserModel.registerUser(newUser ,() {Navigator.pop(context);},) ;
             }
           },
         ),

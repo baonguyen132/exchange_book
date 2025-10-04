@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WidgetFinger extends StatefulWidget {
-  Function () handle ;
-  WidgetFinger({super.key , required this.handle});
+  final Function () handle ;
+  const WidgetFinger({super.key , required this.handle});
 
   @override
   State<WidgetFinger> createState() => _WidgetFingerState();

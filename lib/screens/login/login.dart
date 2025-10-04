@@ -1,59 +1,35 @@
+import 'package:exchange_book/screens/login/cubit/login_cubit.dart';
+import 'package:exchange_book/screens/login/widget/form_login.dart';
 import 'package:flutter/material.dart';
 import 'package:exchange_book/screens/login/login_desktop.dart';
 import 'package:exchange_book/screens/login/login_mobile.dart';
 import 'package:exchange_book/screens/login/login_tablet.dart';
 import 'package:exchange_book/util/responsive.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Login extends StatefulWidget {
-  TextEditingController _emailController = TextEditingController() ;
-  TextEditingController _passwordController = TextEditingController() ;
-  bool _isSaveFinger = false ;
-
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
 
-  }
+
   @override
   Widget build(BuildContext context) {
 
-    return Responsive(
-        desktop: LoginDesktop(
-          emailController: widget._emailController,
-          passwordController: widget._passwordController ,
-          isSaveFinger: widget._isSaveFinger ,
-          changeSaveFinger: () {
-            setState(() {
-              widget._isSaveFinger = !widget._isSaveFinger ;
-            });
-          },
-        ),
-        mobile: LoginMobile(
-          emailController: widget._emailController,
-          passwordController: widget._passwordController ,
-          isSaveFinger: widget._isSaveFinger ,
-          changeSaveFinger: () {
-            setState(() {
-              widget._isSaveFinger = !widget._isSaveFinger ;
-            });
-        },),
-        tablet: LoginTablet(
-          emailController: widget._emailController,
-          passwordController: widget._passwordController ,
-          isSaveFinger: widget._isSaveFinger,
-          changeSaveFinger: () {
-            setState(() {
-              widget._isSaveFinger = !widget._isSaveFinger ;
-            });
-        },)
+    return BlocProvider(
+      create: (context) => LoginCubit(),
+      lazy: true,
+      child: BlocBuilder<LoginCubit , LoginState>(builder: (context, state) {
+        return Responsive(
+            desktop: LoginDesktop(formLogin: FormLogin(isDesktop: true,),),
+            mobile:  LoginMobile(formLogin: FormLogin(),),
+            tablet:  LoginTablet(formLogin: FormLogin(),)
+        );
+      },),
     );
   }
 }

@@ -1,54 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../../../data/ConstraintData.dart';
 import '../../../../widget/card/card_item_image.dart';
 
-
 class CardBook extends StatefulWidget {
+  final String link;
+  final Widget child;
+  final double width;
 
-   String link ;
-   Widget child ;
-   double width ;
-
-   CardBook({super.key, required this.width , required this.link , required this.child});
+  const CardBook(
+      {super.key,
+      required this.width,
+      required this.link,
+      required this.child});
 
   @override
   State<CardBook> createState() => _CardBookState();
 }
 
 class _CardBookState extends State<CardBook> {
+  bool _hover = false;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.width ,
-      padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOut,
+        width: widget.width,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          // use surface color to keep card bright and readable; slightly lifted with a subtle gradient
+          color: Theme.of(context).colorScheme.surface,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Theme.of(context).colorScheme.surface,
+              Theme.of(context).colorScheme.surface,
+            ],
+          ),
+          border: Border.all(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.04)),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.2),
-              offset: Offset(0, 3), // Bóng dịch xuống một chút
-              blurRadius: 10, // Làm mềm bóng hơn
-              spreadRadius: 2, // Giảm độ lan để giữ rõ viền bo
-            )
+              color: Colors.black.withOpacity(_hover ? 0.06 : 0.02),
+              offset: Offset(0, _hover ? 6 : 3),
+              blurRadius: _hover ? 10 : 6,
+            ),
           ],
-          color: Theme.of(context).colorScheme.mainCard
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CardItemImage(
-            width: 120,
-            height: 120,
-            borderRadius: 10,
-            heart: false,
-            link: "${location}/${widget.link}",
-          ),
-          SizedBox(width: 20,),
-          Expanded(child: widget.child)
-        ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: CardItemImage(
+                width: 96,
+                height: 128,
+                borderRadius: 8,
+                heart: false,
+                link: "$location/${widget.link}",
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyMedium ??
+                    const TextStyle(fontSize: 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // keep user's provided child but ensure spacing is tidy if it's a Column
+                    SizedBox(
+                      width: double.infinity,
+                      child: widget.child,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

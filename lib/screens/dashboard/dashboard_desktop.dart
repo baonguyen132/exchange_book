@@ -1,19 +1,19 @@
 import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:exchange_book/model/MenuModal.dart';
+import 'package:exchange_book/model/menu_modal.dart';
 
 import 'widget/my_drawer.dart';
 
 class DashboardDesktop extends StatefulWidget {
 
   final DashboardState state ;
-  final Function (MenuModal item)  hanlde ;
+  final Function (MenuModal item)  handle ;
   final Widget child ;
 
 
   const DashboardDesktop({
     super.key ,
-    required this.hanlde ,
+    required this.handle ,
     required this.child,
     required this.state,
 
@@ -38,7 +38,7 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                 flex: 2,
                 child: MyDrawer(
                   handle: (item) {
-                    widget.hanlde(item) ;
+                    widget.handle(item) ;
                   },
                   state: widget.state,
                   isDesktop: true,

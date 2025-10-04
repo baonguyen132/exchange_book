@@ -1,4 +1,8 @@
 import 'package:exchange_book/screens/dashboard/cubit/dashboard_cubit.dart';
+import 'package:exchange_book/screens/dashboard/page/client/cubit/product/product_cubit.dart';
+import 'package:exchange_book/screens/dashboard/page/client/cubit/profile/profile_cubit.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/cubit/book/book_cubit.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/cubit/manage/manage_user_cubit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,16 +34,20 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          BlocProvider.value(value: _dashboardCubit)
-
+          BlocProvider.value(value: _dashboardCubit),
+          BlocProvider(create: (context) => ManageUserCubit(), lazy: true,),
+          BlocProvider(create: (context) => BookCubit(), lazy: true,),
+          BlocProvider(create: (context) => ProfileCubit(), lazy: true,),
+          BlocProvider(create: (context) => ProductCubit(), lazy: true,),
         ],
       child: BlocBuilder<DashboardCubit, DashboardState >(
         builder: (context, state) {
           return state.isLoading ? const Center(child: CircularProgressIndicator()): Responsive(
               desktop: DashboardDesktop(
                 state: state,
-                hanlde: (item) {context.read<DashboardCubit>().exchange(item, false) ;},
+                handle: (item) {context.read<DashboardCubit>().exchange(item, false) ;},
                 child:  state.screen,
+
               ),
               mobile: DashboardMobile(
                 state: state,

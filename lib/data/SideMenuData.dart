@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../model/MenuModal.dart';
+import '../model/menu_modal.dart';
 
 
 final List<MenuModal> listmenu = [

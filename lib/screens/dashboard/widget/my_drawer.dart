@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../data/SideMenuData.dart';
-import '../../../model/MenuModal.dart';
-import '../../../model/UserModal.dart';
+import '../../../model/menu_modal.dart';
+import '../../../model/user_modal.dart';
 import 'dark_light_mode.dart';
 import 'side_menu_widget.dart';
 
@@ -78,7 +78,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           Container(
                             padding: const EdgeInsets.only(top: 15, bottom: 15 ,left: 15),
                             child: Text(
-                              "Project one",
+                              "Book Swap",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,

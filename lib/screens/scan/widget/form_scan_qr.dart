@@ -5,10 +5,10 @@ import 'package:exchange_book/screens/scan/widget/widget_build_result.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class FormScanQr extends StatefulWidget {
-  GlobalKey qrkey ;
+  final GlobalKey qrKey ;
   QRViewController? controller;
 
-  FormScanQr({super.key , required this.qrkey , this.controller });
+  FormScanQr({super.key , required this.qrKey , this.controller });
 
   @override
   State<FormScanQr> createState() => _FormScanQrState();
@@ -22,7 +22,7 @@ class _FormScanQrState extends State<FormScanQr> {
         alignment: Alignment.center,
         children: [
           buildViewQR(context),
-          Positioned(bottom: 10,child: WidgetBuildResult() ,),
+          const Positioned(bottom: 10,child: WidgetBuildResult() ,),
           Positioned(top: 10 , child: buildControllerButtons(),)
         ],
       ),
@@ -30,8 +30,8 @@ class _FormScanQrState extends State<FormScanQr> {
   }
 
   Widget buildControllerButtons() => Container(
-    padding: EdgeInsets.symmetric(horizontal: 16),
-    decoration: BoxDecoration(
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         color: Colors.white24
     ),
@@ -72,7 +72,7 @@ class _FormScanQrState extends State<FormScanQr> {
               future: widget.controller?.getCameraInfo(),
               builder: (context, snapshot) {
                 if(snapshot.data != null){
-                  return Icon(Icons.switch_camera) ;
+                  return const Icon(Icons.switch_camera) ;
                 }
                 else {
                   return Container() ;
@@ -85,7 +85,7 @@ class _FormScanQrState extends State<FormScanQr> {
   );
 
   Widget buildViewQR(BuildContext context) => QRView(
-    key: widget.qrkey,
+    key: widget.qrKey,
     onQRViewCreated: onQRViewCreated,
     overlay: QrScannerOverlayShape(
         cutOutSize: min(200, MediaQuery.of(context).size.width * 0.8) ,
