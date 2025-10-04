@@ -189,7 +189,7 @@ class _HomeState extends State<Home> {
                                         builder: (context) =>
                                             const ScanQrCode(),
                                       ));
-                                  String result = await Navigator.push(
+                                  final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => TranferForUser(
@@ -197,7 +197,16 @@ class _HomeState extends State<Home> {
                                           idUser: userModel.id.toString(),
                                         ),
                                       ));
-                                  toast(result);
+
+                                  if(result) {
+                                    int? currentPoint = await UserModel.loadPointData();
+
+                                    setState(() {
+                                      userModel.point = currentPoint.toString() ;
+                                    });
+
+                                  }
+
                                 }
                               },
                             ),
@@ -205,14 +214,24 @@ class _HomeState extends State<Home> {
                               icon: Icons.swap_horiz,
                               label: 'Quản lý ví',
                               color: Colors.deepOrange,
-                              onTap: () {
+                              onTap: () async {
                                 if (userModel.id != null) {
-                                  Navigator.push(
+                                  final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             ManagePoint(userModel: userModel),
                                       ));
+
+                                  if(result) {
+                                    int? currentPoint = await UserModel.loadPointData();
+
+                                    setState(() {
+                                      userModel.point = currentPoint.toString() ;
+                                    });
+
+                                  }
+
                                 }
                               },
                             ),
@@ -258,6 +277,7 @@ class _HomeState extends State<Home> {
                                   setState(() {
                                     userModel.point = result.toString();
                                   });
+                                  UserModel.savePointData(result) ;
                                 }
                               },
                             ),

@@ -94,7 +94,7 @@ class _HeaderState extends State<Header> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Thêm Điểm",
+                              "Nạp tiền",
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.w800,
@@ -104,7 +104,7 @@ class _HeaderState extends State<Header> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              "Mua điểm cho tài khoản của bạn",
+                              "Nạp tiền cho tài khoản của bạn",
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.white.withOpacity(0.9),

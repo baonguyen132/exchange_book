@@ -3,6 +3,8 @@ import 'package:exchange_book/model/transaction_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../model/user_modal.dart';
+
 class TranferForUser extends StatefulWidget {
   final String id;
   final String idUser;
@@ -35,22 +37,25 @@ class _TranferForUserState extends State<TranferForUser> {
         receiverId: widget.id,
         totalPoint: totalPoint,
         idUser: widget.idUser,
-        successful: () {
+        successful: () async {
           setState(() {
             _isLoading = false;
           });
 
+          int? currentPoint = await UserModel.loadPointData() ;
+          currentPoint = (currentPoint! - int.parse(totalPoint)) ;
+          UserModel.savePointData(currentPoint);
           // Show success dialog
           toast("Chuyển tiền thành công");
 
-          Navigator.pop(context);
+          Navigator.pop(context , true);
         },
         fail: () {
           setState(() {
             _isLoading = false;
           });
           toast("Lỗi");
-          Navigator.pop(context);
+          Navigator.pop(context , false);
         },
       );
     }
@@ -90,7 +95,7 @@ class _TranferForUserState extends State<TranferForUser> {
                       children: [
                         // Back Button
                         GestureDetector(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => Navigator.pop(context , false),
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(

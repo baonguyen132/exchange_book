@@ -48,11 +48,16 @@ class _AddPointState extends State<AddPoint> {
         price: amount,
         state: true,
         id_user: widget.userModel.id.toString(),
-        successful: () {
-          toast("Thêm tiền thành công");
+        successful: () async {
+
+          int? currentPoint = await UserModel.loadPointData() ;
+          currentPoint = currentPoint! + int.parse(amount);
+          UserModel.savePointData(currentPoint);
+
+          toast("Nạp tiền thành công");
         },
         fail: () {
-          toast("Thêm tiền thành công");
+          toast("Nạp tiền thành công");
         },
       );
       print("Payment success");
@@ -94,7 +99,7 @@ class _AddPointState extends State<AddPoint> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Purchase Details",
+            "Nạp tiền",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -108,7 +113,7 @@ class _AddPointState extends State<AddPoint> {
               WidgetTextFieldCustom(
                 controller: pointController,
                 textInputType: TextInputType.number,
-                hint: "Points Amount",
+                hint: "Số tiền cần nạp",
                 iconData: Icons.stars_outlined,
                 onChange: (value) => addPointCubit.exchangePoint(int.parse(value)),
               ),
@@ -151,7 +156,7 @@ class _AddPointState extends State<AddPoint> {
           // Purchase Button
           GestureDetector(
             onTap: () {
-              if (addPointCubit.state.errorAmout.isEmpty) {
+              if (addPointCubit.state.errorAmout.isEmpty && addPointCubit.state.amout > 0) {
                 makePayment(
                   context,
                   addPointCubit.state.idPurchasePoint,
@@ -164,7 +169,7 @@ class _AddPointState extends State<AddPoint> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: addPointCubit.state.errorAmout.isEmpty
+                  colors: addPointCubit.state.errorAmout.isEmpty && addPointCubit.state.amout > 0
                       ? [
                           Colors.blue.shade600,
                           Colors.blue.shade700,
@@ -175,7 +180,7 @@ class _AddPointState extends State<AddPoint> {
                         ],
                 ),
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: addPointCubit.state.errorAmout.isEmpty
+                boxShadow: addPointCubit.state.errorAmout.isEmpty && addPointCubit.state.amout > 0
                     ? [
                         BoxShadow(
                           color: Colors.blue.withOpacity(0.3),
@@ -196,7 +201,7 @@ class _AddPointState extends State<AddPoint> {
                   ),
                   SizedBox(width: 12),
                   Text(
-                    "Purchase Points",
+                    "Nạp tiền",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

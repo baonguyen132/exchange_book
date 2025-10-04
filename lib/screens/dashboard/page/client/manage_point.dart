@@ -26,7 +26,7 @@ class _ManagePointState extends State<ManagePoint> {
   void initState() {
     super.initState();
     addPointCubit = ManagePointCubit();
-    addPointCubit.loading();
+    addPointCubit.loading(widget.userModel.id.toString());
   }
 
   @override
@@ -44,7 +44,10 @@ class _ManagePointState extends State<ManagePoint> {
       listId: listId.join("_"),
       totalPoint: totalPoint,
       idUser: widget.userModel.id.toString(),
-      successful: () {
+      successful: () async {
+        int? currentPoint = await UserModel.loadPointData() ;
+        currentPoint = (currentPoint! - totalPoint) ;
+        UserModel.savePointData(currentPoint);
         toast("Chuyển tiền thành công!");
       },
       fail: () {
@@ -128,7 +131,12 @@ class _ManagePointState extends State<ManagePoint> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    Header(userModel: widget.userModel),
+                    Header(
+                      userModel: widget.userModel,
+                      back: () {
+                        Navigator.pop(context , true);
+                      },
+                    ),
                     SearchSection(
                       pointOnePerson:
                           (totalPoint / filteredList.length).round(),

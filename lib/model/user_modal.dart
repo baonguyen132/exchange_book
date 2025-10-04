@@ -126,10 +126,11 @@ class UserModel {
   }
 
 
-  static Future<List<dynamic>> loadDataUser() async {
-    final response = await http.get(
+  static Future<List<dynamic>> loadDataUser(String id) async {
+    final response = await http.post(
       Uri.parse("$location/loadDataUser"),
       headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"id_user": id})
     );
 
     if (response.statusCode == 200) {
@@ -202,6 +203,31 @@ class UserModel {
     }
     return null;
   }
+
+  static Future<void> savePointData(int point) async {
+    UserModel? userModel = await loadUserData();
+    userModel?.point = point.toString() ;
+    saveUserData(userModel!);
+  }
+
+  static Future<int?> loadPointData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? jsonString = preferences.getString("user_data");
+    if (jsonString != null) {
+      try {
+        Map<String, dynamic> jsonData = jsonDecode(jsonString);
+        UserModel userModel = UserModel.fromJsons(jsonData) ;
+        return int.parse(userModel.point); // Chuyển đổi JSON thành UserModel
+      } catch (e) {
+        print("Lỗi khi parse JSON: $e");
+        return null;
+      }
+    }
+    return null;
+  }
+
+
+
 
 
   // Hàm xoá dữ liêuj

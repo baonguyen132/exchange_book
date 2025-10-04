@@ -5,7 +5,7 @@ var mainLightDarkMode = true ;
 
 const location = "https://steady-sharply-ibex.ngrok-free.app" ;
 // const location = "http://192.168.1.12:5000" ;
-const apiAI = "https://7e31e2dd036c.ngrok-free.app" ;
+const apiAI = "https://474cd0a01254.ngrok-free.app" ;
 
 // Hàm chuyển số CCCD thành ngày tháng năm
 String formatIDToDate(String idNumber) {

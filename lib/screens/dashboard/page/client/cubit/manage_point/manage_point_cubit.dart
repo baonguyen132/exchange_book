@@ -11,9 +11,9 @@ part 'manage_point_cubit.freezed.dart';
 class ManagePointCubit extends Cubit<ManagePointState> {
   ManagePointCubit() : super(const ManagePointState.initial());
 
-  void loading() async {
+  void loading(String idUser) async {
     emit(const ManagePointState.loading());
-    List<dynamic> data = await UserModel.loadDataUser() ;
+    List<dynamic> data = await UserModel.loadDataUser(idUser) ;
 
     final newsListId = data.map((entry) {
       return int.tryParse(entry[0].toString()) ?? -1;

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class Header extends StatefulWidget {
   final UserModel userModel;
-  const Header({super.key, required this.userModel});
+  final Function () back ;
+  const Header({super.key, required this.userModel, required this.back});
 
   @override
   State<Header> createState() => _HeaderState();
@@ -43,16 +44,19 @@ class _HeaderState extends State<Header> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.account_balance_wallet_outlined,
-                  color: Colors.white,
-                  size: 28,
+              GestureDetector(
+                onTap: widget.back,
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_circle_left,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),

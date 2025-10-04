@@ -37,7 +37,7 @@ class AddPointCubit extends Cubit<AddPointState> {
   }
 
   void exchangePoint(int value) {
-    if (value < 10000) {
+    if (value < 20000) {
       emit(state.copyWith(
           amout: value, errorAmout: "Giá trị phải hơn hoặc bằng 10.000"));
     } else {

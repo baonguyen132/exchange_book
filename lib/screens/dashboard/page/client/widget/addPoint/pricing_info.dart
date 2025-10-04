@@ -38,7 +38,7 @@ class _PricingInfoState extends State<PricingInfo> {
               ),
               const SizedBox(width: 8),
               Text(
-                "Thông Tin Giá",
+                "Thông Tin",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -49,7 +49,7 @@ class _PricingInfoState extends State<PricingInfo> {
           ),
           const SizedBox(height: 12),
           Text(
-            "• Mua tối thiểu: 10.000 VND\n• Thanh toán an toàn qua VNPay\n• Điểm được cộng ngay sau khi thanh toán",
+            "• Nạp tối thiểu: 20.000 VND\n• Thanh toán an toàn qua VNPay\n• Điểm được cộng ngay sau khi thanh toán",
             style: TextStyle(
               fontSize: 14,
               color: Colors.amber[700],
