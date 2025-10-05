@@ -10,20 +10,26 @@ Future<void> chatWithAI(
 ) async {
   try {
     final response = await http.post(
-      Uri.parse("$apiAI/api/chat"),
+      Uri.parse(apiAI),
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true"
       },
-      body: jsonEncode({"message": message}),
+      body: jsonEncode(
+          {
+            "link": "chat",
+            "message": message,
+            "sessionId": "898387123"
+          }
+      ),
     );
 
 
+
     if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      // Thay đổi để lấy đúng field từ response
-      final Map<String , dynamic> dataMessage = jsonDecode(data["gemini_reply"]);
-      handleSuccessful(dataMessage["message"] ?? "Không có dữ liệu từ server");
+
+      final List<dynamic> data = jsonDecode(response.body);
+      handleSuccessful(data[0]["output"] ?? "Không có dữ liệu từ server");
     } else {
       handleFail("Lỗi server: ${response.statusCode}");
     }
@@ -40,20 +46,25 @@ Future<void> createQuestion(
     ) async {
   try {
     final response = await http.post(
-      Uri.parse("$apiAI/api/create_question"),
+      Uri.parse(apiAI),
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true"
       },
-      body: jsonEncode({"message": message}),
+      body: jsonEncode(
+          {
+            "link": "question",
+            "message": "Hãy tạo 5 câu hỏi trắc nghiệm các môn học lớp $message. Tuyết đối không được có ```json trong kết quả trả về",
+          }
+      ),
     );
 
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      // Thay đổi để lấy đúng field từ response
-      final Map<String , dynamic> dataMessage = jsonDecode(data["gemini_reply"]);
-      String dataQuestionString = dataMessage["message"] ;
+      final List<dynamic> data = jsonDecode(response.body);
+      
+      String dataQuestionString = data[0]["output"] ;
+      print(dataQuestionString);
       handleSuccessful(dataQuestionString ?? "");
     } else {
       handleFail("Lỗi server: ${response.statusCode}");
