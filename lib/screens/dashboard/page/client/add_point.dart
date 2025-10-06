@@ -36,7 +36,6 @@ class _AddPointState extends State<AddPoint> {
     );
 
     final payUrl = response.body;
-
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => VnPayScreen(paymentUrl: payUrl)),
