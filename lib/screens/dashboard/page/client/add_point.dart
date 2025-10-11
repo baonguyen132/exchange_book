@@ -43,7 +43,6 @@ class _AddPointState extends State<AddPoint> {
 
     if (result == '00') {
       TransactionModel.updateHistoryTransaction(
-        point: amount,
         price: amount,
         state: true,
         id_user: widget.userModel.id.toString(),

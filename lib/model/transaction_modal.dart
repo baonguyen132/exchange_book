@@ -51,13 +51,12 @@ class TransactionModel {
     };
   }
 
-  static Future<void> updateHistoryTransaction({required String point , required String price , required bool state , required String id_user , required Function () successful , required Function () fail}) async {
+  static Future<void> updateHistoryTransaction({required String price , required bool state , required String id_user , required Function () successful , required Function () fail}) async {
 
     final response = await http.post(
       Uri.parse("$location/add-transaction"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "point": point,
         "price": price,
         "state": state,
         "id_user": id_user,
