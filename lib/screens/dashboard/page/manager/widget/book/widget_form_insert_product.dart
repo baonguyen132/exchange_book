@@ -35,11 +35,13 @@ class _WidgetFormInsertProductState extends State<WidgetFormInsertProduct> {
     if (pickedFile != null) {
       path = "";
       _image = File(pickedFile.path);
-      List<String> data = (await TypeBookModal.uploadImageScan(_image!))!;
+      Map<String, dynamic>? data = await TypeBookModal.ScanImage(_image!);
+      String dataPath = await TypeBookModal.uploadImage(_image!);
       setState(() {
-        path = data[0];
-        nameBook.text = "${data[1]} ${data[2]}";
-        typeBook.text = "Sách lớp ${data[2]}";
+        path = dataPath ;
+        nameBook.text = "${data?["name_book"]}";
+        typeBook.text = "Sách lớp ${data?["class"]}";
+        description.text = data?["description"];
         icon = Icons.check;
         color = Colors.green;
       });

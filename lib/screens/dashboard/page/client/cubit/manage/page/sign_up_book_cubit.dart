@@ -32,7 +32,8 @@ class SignUpBookCubit extends Cubit<SignUpBookState> {
 
     if (pickedFile != null)  {
       image = File(pickedFile.path);
-      var  jsonResponse = (await BookModal.uploadImageScan(image, "/upload_image_book", "0"))! ;
+      String name_book = await BookModal.scanImage(image) ;
+      var  jsonResponse = (await BookModal.uploadImageAndExportTypeBook(image, name_book))! ;
 
       var data = jsonResponse["data"];
 

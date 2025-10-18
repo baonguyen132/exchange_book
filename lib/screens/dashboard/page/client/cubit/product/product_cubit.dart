@@ -45,7 +45,9 @@ class ProductCubit extends Cubit<ProductState> {
     final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null)  {
       File image = File(pickedFile.path);
-      List<dynamic> data = (await BookModal.uploadImageScan(image,"/scan_books", id))! ;
+      String name_book = await BookModal.scanImage(image);
+      List<dynamic> data = (await BookModal.scanBooks(id, name_book))! ;
+      print(data);
       emit(state.copyWith(listProduct: data));
     }
   }
