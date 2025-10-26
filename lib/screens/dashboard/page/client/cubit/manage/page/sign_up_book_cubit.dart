@@ -25,7 +25,7 @@ class SignUpBookCubit extends Cubit<SignUpBookState> {
     quantity: ""
   ));
 
-  void pickImage(ImageSource source) async {
+  void pickImage(ImageSource source , Function () handleFail) async {
     final ImagePicker picker = ImagePicker();
     File? image;
     final pickedFile = await picker.pickImage(source: source);
@@ -36,16 +36,22 @@ class SignUpBookCubit extends Cubit<SignUpBookState> {
       var  jsonResponse = (await BookModal.uploadImageAndExportTypeBook(image, name_book))! ;
 
       var data = jsonResponse["data"];
-
-      TypeBookModal typeBookModal = TypeBookModal(
-          id: data[0].toString(),
-          name_book: data[1],
-          type_book: data[2],
-          price: data[3].toString(),
-          description: data[5],
-          image: data[4]
-      ) ;
-      emit(state.copyWith(typeBookModal: typeBookModal , path: jsonResponse["path"]));
+      print("ss");
+      print(name_book);
+      if(data != null) {
+        TypeBookModal typeBookModal = TypeBookModal(
+            id: data[0].toString(),
+            name_book: data[1],
+            type_book: data[2],
+            price: data[3].toString(),
+            description: data[5],
+            image: data[4]
+        ) ;
+        emit(state.copyWith(typeBookModal: typeBookModal , path: jsonResponse["path"]));
+      }
+      else {
+        handleFail() ;
+      }
 
     }
   }
