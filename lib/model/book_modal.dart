@@ -99,10 +99,43 @@ class BookModal {
     }
   }
 
-  static Future<dynamic> scanBook(File _image) async {
+  static Future<String> scanImage(File image) async {
+    try {
+      var uri = Uri.parse(apiAI); // Đổi IP nếu cần
+      var request = http.MultipartRequest('POST', uri);
+
+      var mimeType = lookupMimeType(image.path) ?? 'image/jpeg';
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        image.path,
+        contentType: MediaType.parse(mimeType),
+      ));
+      request.fields.addAll({"link": "scanTypeBook"});
+
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(responseBody);
+        final data = jsonDecode(jsonResponse[0]["data"]) ;
+        return data["name_book"];
+
+      } else {
+        print("Upload thất bại! Mã lỗi: ${response.statusCode}");
+        return "";
+      }
+    } catch (e) {
+      print("Lỗi khi upload ảnh: $e");
+      return "";
+    }
+  }
+
+
+  static Future<dynamic> uploadImageAndExportTypeBook(File _image, String name_book) async {
     try {
 
-      var uri = Uri.parse("$location/scan_book");
+      var uri = Uri.parse("$location/upload_image_book"); // Đổi IP nếu cần
       var request = http.MultipartRequest('POST', uri);
 
       var mimeType = lookupMimeType(_image.path) ?? 'image/jpeg';
@@ -112,6 +145,7 @@ class BookModal {
         _image.path,
         contentType: MediaType.parse(mimeType),
       ));
+      request.fields['name_book'] = name_book ;
 
       var response = await request.send();
       var responseBody = await response.stream.bytesToString();
@@ -130,36 +164,36 @@ class BookModal {
     }
   }
 
-
-  static Future<dynamic> uploadImageScan(File _image, String path, String id) async {
+  static Future<dynamic> scanBooks(String id, String nameBook) async {
     try {
+      final uri = Uri.parse('$location/scan_books'); // Địa chỉ API
+      final request = http.MultipartRequest('POST', uri);
 
-      var uri = Uri.parse(location+path); // Đổi IP nếu cần
-      var request = http.MultipartRequest('POST', uri);
+      // Gửi dữ liệu dạng form
+      request.fields['id'] = id;
+      request.fields['name_book'] = nameBook.trim();
 
-      var mimeType = lookupMimeType(_image.path) ?? 'image/jpeg';
+      // Gửi yêu cầu
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
 
-      request.files.add(await http.MultipartFile.fromPath(
-        'image',
-        _image.path,
-        contentType: MediaType.parse(mimeType),
-      ));
-      if(id != "") {
-        request.fields['id'] = id;
-      }
-      var response = await request.send();
-      var responseBody = await response.stream.bytesToString();
-
+      // Kiểm tra mã trạng thái phản hồi
       if (response.statusCode == 200) {
-
-        return json.decode(responseBody);
-
+        try {
+          final data = json.decode(responseBody);
+          return data;
+        } catch (e) {
+          print('Lỗi khi parse JSON: $e');
+          print('Nội dung phản hồi: $responseBody');
+          return null;
+        }
       } else {
-        print("Upload thất bại! Mã lỗi: ${response.statusCode}");
+        print('Yêu cầu thất bại! Mã lỗi: ${response.statusCode}');
+        print('Nội dung phản hồi: $responseBody');
         return null;
       }
     } catch (e) {
-      print("Lỗi khi upload ảnh: $e");
+      print('Lỗi khi gọi API scanTypeBook: $e');
       return null;
     }
   }
