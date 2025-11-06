@@ -12,9 +12,16 @@ class ManageUserCubit extends Cubit<ManageUserState> {
 
   void loading() async {
     emit(const ManageUserState.loading());
-    List<dynamic> data = await UserModel.loadDataUser("0") ;
-    emit(ManageUserState.loaded(list: data));
+    List<dynamic> data = await UserModel.loadDataUserFromServe(0 , 1) ;
+    emit(ManageUserState.loaded(page: 1, list: data));
+  }
 
+  void change(String status , int currentPage) async {
+    emit(const ManageUserState.loading());
+    if(status == "+") {currentPage++ ;}
+    else {currentPage-- ;}
+    List<dynamic> data = await UserModel.loadDataUserFromServe(0, currentPage) ;
+    emit(ManageUserState.loaded(page: currentPage, list: data));
   }
 
 

@@ -21,7 +21,7 @@ mixin _$ManagePointState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, int pointTotal)
+            int page, List<dynamic> list, String address, int point)
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,7 +29,7 @@ mixin _$ManagePointState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult? Function(int page, List<dynamic> list, String address, int point)?
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ mixin _$ManagePointState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult Function(int page, List<dynamic> list, String address, int point)?
         loaded,
     required TResult orElse(),
   }) =>
@@ -131,7 +131,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, int pointTotal)
+            int page, List<dynamic> list, String address, int point)
         loaded,
   }) {
     return initial();
@@ -142,7 +142,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult? Function(int page, List<dynamic> list, String address, int point)?
         loaded,
   }) {
     return initial?.call();
@@ -153,7 +153,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult Function(int page, List<dynamic> list, String address, int point)?
         loaded,
     required TResult orElse(),
   }) {
@@ -246,7 +246,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, int pointTotal)
+            int page, List<dynamic> list, String address, int point)
         loaded,
   }) {
     return loading();
@@ -257,7 +257,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult? Function(int page, List<dynamic> list, String address, int point)?
         loaded,
   }) {
     return loading?.call();
@@ -268,7 +268,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult Function(int page, List<dynamic> list, String address, int point)?
         loaded,
     required TResult orElse(),
   }) {
@@ -323,7 +323,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<dynamic> list, List<int> listId, int pointTotal});
+  $Res call({int page, List<dynamic> list, String address, int point});
 }
 
 /// @nodoc
@@ -339,22 +339,27 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? page = null,
     Object? list = null,
-    Object? listId = null,
-    Object? pointTotal = null,
+    Object? address = null,
+    Object? point = null,
   }) {
     return _then(_$LoadedImpl(
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
       list: null == list
           ? _value._list
           : list // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      listId: null == listId
-          ? _value._listId
-          : listId // ignore: cast_nullable_to_non_nullable
-              as List<int>,
-      pointTotal: null == pointTotal
-          ? _value.pointTotal
-          : pointTotal // ignore: cast_nullable_to_non_nullable
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      point: null == point
+          ? _value.point
+          : point // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -364,12 +369,14 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
 class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl(
-      {required final List<dynamic> list,
-      required final List<int> listId,
-      required this.pointTotal})
-      : _list = list,
-        _listId = listId;
+      {required this.page,
+      required final List<dynamic> list,
+      required this.address,
+      required this.point})
+      : _list = list;
 
+  @override
+  final int page;
   final List<dynamic> _list;
   @override
   List<dynamic> get list {
@@ -378,20 +385,14 @@ class _$LoadedImpl implements _Loaded {
     return EqualUnmodifiableListView(_list);
   }
 
-  final List<int> _listId;
   @override
-  List<int> get listId {
-    if (_listId is EqualUnmodifiableListView) return _listId;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_listId);
-  }
-
+  final String address;
   @override
-  final int pointTotal;
+  final int point;
 
   @override
   String toString() {
-    return 'ManagePointState.loaded(list: $list, listId: $listId, pointTotal: $pointTotal)';
+    return 'ManagePointState.loaded(page: $page, list: $list, address: $address, point: $point)';
   }
 
   @override
@@ -399,18 +400,15 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
+            (identical(other.page, page) || other.page == page) &&
             const DeepCollectionEquality().equals(other._list, _list) &&
-            const DeepCollectionEquality().equals(other._listId, _listId) &&
-            (identical(other.pointTotal, pointTotal) ||
-                other.pointTotal == pointTotal));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.point, point) || other.point == point));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_list),
-      const DeepCollectionEquality().hash(_listId),
-      pointTotal);
+  int get hashCode => Object.hash(runtimeType, page,
+      const DeepCollectionEquality().hash(_list), address, point);
 
   /// Create a copy of ManagePointState
   /// with the given fields replaced by the non-null parameter values.
@@ -426,10 +424,10 @@ class _$LoadedImpl implements _Loaded {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<dynamic> list, List<int> listId, int pointTotal)
+            int page, List<dynamic> list, String address, int point)
         loaded,
   }) {
-    return loaded(list, listId, pointTotal);
+    return loaded(page, list, address, point);
   }
 
   @override
@@ -437,10 +435,10 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult? Function(int page, List<dynamic> list, String address, int point)?
         loaded,
   }) {
-    return loaded?.call(list, listId, pointTotal);
+    return loaded?.call(page, list, address, point);
   }
 
   @override
@@ -448,12 +446,12 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list, List<int> listId, int pointTotal)?
+    TResult Function(int page, List<dynamic> list, String address, int point)?
         loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(list, listId, pointTotal);
+      return loaded(page, list, address, point);
     }
     return orElse();
   }
@@ -495,13 +493,15 @@ class _$LoadedImpl implements _Loaded {
 
 abstract class _Loaded implements ManagePointState {
   const factory _Loaded(
-      {required final List<dynamic> list,
-      required final List<int> listId,
-      required final int pointTotal}) = _$LoadedImpl;
+      {required final int page,
+      required final List<dynamic> list,
+      required final String address,
+      required final int point}) = _$LoadedImpl;
 
+  int get page;
   List<dynamic> get list;
-  List<int> get listId;
-  int get pointTotal;
+  String get address;
+  int get point;
 
   /// Create a copy of ManagePointState
   /// with the given fields replaced by the non-null parameter values.

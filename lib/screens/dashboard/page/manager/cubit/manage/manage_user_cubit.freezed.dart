@@ -20,21 +20,21 @@ mixin _$ManageUserState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<dynamic> list) loaded,
+    required TResult Function(int page, List<dynamic> list) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list)? loaded,
+    TResult? Function(int page, List<dynamic> list)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list)? loaded,
+    TResult Function(int page, List<dynamic> list)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,7 +126,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<dynamic> list) loaded,
+    required TResult Function(int page, List<dynamic> list) loaded,
   }) {
     return initial();
   }
@@ -136,7 +136,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list)? loaded,
+    TResult? Function(int page, List<dynamic> list)? loaded,
   }) {
     return initial?.call();
   }
@@ -146,7 +146,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list)? loaded,
+    TResult Function(int page, List<dynamic> list)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -237,7 +237,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<dynamic> list) loaded,
+    required TResult Function(int page, List<dynamic> list) loaded,
   }) {
     return loading();
   }
@@ -247,7 +247,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list)? loaded,
+    TResult? Function(int page, List<dynamic> list)? loaded,
   }) {
     return loading?.call();
   }
@@ -257,7 +257,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list)? loaded,
+    TResult Function(int page, List<dynamic> list)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -311,7 +311,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<dynamic> list});
+  $Res call({int page, List<dynamic> list});
 }
 
 /// @nodoc
@@ -327,9 +327,14 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? page = null,
     Object? list = null,
   }) {
     return _then(_$LoadedImpl(
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
       list: null == list
           ? _value._list
           : list // ignore: cast_nullable_to_non_nullable
@@ -341,8 +346,11 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl({required final List<dynamic> list}) : _list = list;
+  const _$LoadedImpl({required this.page, required final List<dynamic> list})
+      : _list = list;
 
+  @override
+  final int page;
   final List<dynamic> _list;
   @override
   List<dynamic> get list {
@@ -353,7 +361,7 @@ class _$LoadedImpl implements _Loaded {
 
   @override
   String toString() {
-    return 'ManageUserState.loaded(list: $list)';
+    return 'ManageUserState.loaded(page: $page, list: $list)';
   }
 
   @override
@@ -361,12 +369,13 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
+            (identical(other.page, page) || other.page == page) &&
             const DeepCollectionEquality().equals(other._list, _list));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_list));
+  int get hashCode => Object.hash(
+      runtimeType, page, const DeepCollectionEquality().hash(_list));
 
   /// Create a copy of ManageUserState
   /// with the given fields replaced by the non-null parameter values.
@@ -381,9 +390,9 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<dynamic> list) loaded,
+    required TResult Function(int page, List<dynamic> list) loaded,
   }) {
-    return loaded(list);
+    return loaded(page, list);
   }
 
   @override
@@ -391,9 +400,9 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<dynamic> list)? loaded,
+    TResult? Function(int page, List<dynamic> list)? loaded,
   }) {
-    return loaded?.call(list);
+    return loaded?.call(page, list);
   }
 
   @override
@@ -401,11 +410,11 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<dynamic> list)? loaded,
+    TResult Function(int page, List<dynamic> list)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(list);
+      return loaded(page, list);
     }
     return orElse();
   }
@@ -446,8 +455,11 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements ManageUserState {
-  const factory _Loaded({required final List<dynamic> list}) = _$LoadedImpl;
+  const factory _Loaded(
+      {required final int page,
+      required final List<dynamic> list}) = _$LoadedImpl;
 
+  int get page;
   List<dynamic> get list;
 
   /// Create a copy of ManageUserState

@@ -4,13 +4,12 @@ import '../../../../../../util/widget_text_field_custom.dart';
 
 class SearchSection extends StatefulWidget {
   final int pointOnePerson;
-  final Function(String address) exchangeListId;
-  final Function(String value) exchangeListPoint;
+  final String address ;
+  final Function(String address) exchangeAddress;
+  final Function(String value) exchangePoint;
   const SearchSection({
     super.key,
-    required this.exchangeListId,
-    required this.exchangeListPoint,
-    required this.pointOnePerson,
+    required this.pointOnePerson, required this.exchangeAddress, required this.exchangePoint, required this.address,
   });
 
   @override
@@ -24,8 +23,8 @@ class _SearchSectionState extends State<SearchSection> {
   @override
   void initState() {
     super.initState();
-    searchController = TextEditingController();
-    pointController = TextEditingController();
+    searchController = TextEditingController(text: widget.address);
+    pointController = TextEditingController(text: widget.pointOnePerson.toString());
   }
 
   @override
@@ -66,7 +65,7 @@ class _SearchSectionState extends State<SearchSection> {
                   hint: "Tìm kiếm theo địa chỉ",
                   iconData: Icons.search_rounded,
                   onChange: (address) {
-                    widget.exchangeListId(address);
+                    widget.exchangeAddress(address);
                   },
                 ),
               ),
@@ -78,7 +77,7 @@ class _SearchSectionState extends State<SearchSection> {
                   hint: "Nhập số tiền",
                   iconData: Icons.stars_rounded,
                   onChange: (value) {
-                    widget.exchangeListPoint(value);
+                    widget.exchangePoint(value);
                   },
                 ),
               ),

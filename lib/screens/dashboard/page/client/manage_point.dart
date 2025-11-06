@@ -2,6 +2,7 @@ import 'package:exchange_book/data/ConstraintData.dart';
 import 'package:exchange_book/model/transaction_modal.dart';
 import 'package:exchange_book/model/user_modal.dart';
 import 'package:exchange_book/screens/dashboard/page/client/add_point.dart';
+import 'package:exchange_book/screens/dashboard/page/client/cubit/add_point/add_point_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage_point/header.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage_point/search_section.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage_point/transfer_button.dart';
@@ -9,6 +10,7 @@ import 'package:exchange_book/screens/dashboard/page/client/widget/manage_point/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widget/pagination.dart';
 import 'cubit/manage_point/manage_point_cubit.dart';
 
 class ManagePoint extends StatefulWidget {
@@ -20,35 +22,31 @@ class ManagePoint extends StatefulWidget {
 }
 
 class _ManagePointState extends State<ManagePoint> {
-  late ManagePointCubit addPointCubit;
+  late ManagePointCubit managePointCubit;
 
   @override
   void initState() {
     super.initState();
-    addPointCubit = ManagePointCubit();
-    addPointCubit.loading(widget.userModel.id.toString());
+    managePointCubit = ManagePointCubit();
+    managePointCubit.loading(int.parse(widget.userModel.id.toString()));
   }
 
   @override
   void dispose() {
-    addPointCubit.close();
+    managePointCubit.close();
     super.dispose();
   }
 
-  bool _isUserInFilteredList(List<int> listId, int userId) {
-    return listId.contains(userId);
-  }
 
-  void _handleTransfer(List<int> listId, int totalPoint) {
+  void _handleTransfer(String address, int point) {
     TransactionModel.transfer(
-      listId: listId.join("_"),
-      totalPoint: totalPoint,
+      address: address,
+      point: point,
       idUser: widget.userModel.id.toString(),
-      successful: () async {
-        int? currentPoint = await UserModel.loadPointData() ;
-        currentPoint = (currentPoint! - totalPoint) ;
-        UserModel.savePointData(currentPoint);
-        toast("Chuyển tiền thành công!");
+      successful: (message, point) async {
+        print(message + "-" + point) ;
+        UserModel.savePointData(int.parse(point));
+        toast(message);
       },
       fail: () {
         toast("Chuyển tiền thất bại. Vui lòng thử lại.");
@@ -56,52 +54,13 @@ class _ManagePointState extends State<ManagePoint> {
     );
   }
 
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.search_off_rounded,
-            size: 64,
-            color: Colors.grey[400],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            "Không tìm thấy người dùng",
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          Text(
-            "Hãy thử điều chỉnh tiêu chí tìm kiếm",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[500],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildUsersList(List<dynamic> filteredList, int totalPoint) {
-    if (filteredList.isEmpty) {
-      return _buildEmptyState();
-    }
-
-    final pointPerUser = (totalPoint / filteredList.length).round();
-
-    return Column(
-      children: filteredList.map((userData) {
-        return UserCard(
-          userData: userData,
-          point: pointPerUser,
-        );
-      }).toList(),
-    );
+  Widget _buildUsersList(List<dynamic> filteredList, int point) {
+    return Column(children: filteredList.map((userData) {
+      return UserCard(
+        userData: userData,
+        point: point,
+      );
+    }).toList(),);
   }
 
   Widget _buildLoadingState() {
@@ -117,17 +76,12 @@ class _ManagePointState extends State<ManagePoint> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: BlocBuilder<ManagePointCubit, ManagePointState>(
-        bloc: addPointCubit,
+        bloc: managePointCubit,
         builder: (context, state) {
-          return addPointCubit.state.maybeWhen(
+          return managePointCubit.state.maybeWhen(
             orElse: () => _buildLoadingState(),
-            loaded: (list, listId, totalPoint) {
-              final filteredList = listId.isNotEmpty
-                  ? list
-                      .where((element) =>
-                          _isUserInFilteredList(listId, element[0]))
-                      .toList()
-                  : list;
+            loaded: (page, list, address, point) {
+
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -138,21 +92,46 @@ class _ManagePointState extends State<ManagePoint> {
                       },
                     ),
                     SearchSection(
-                      pointOnePerson:
-                          (totalPoint / filteredList.length).round(),
-                      exchangeListId: (address) =>
-                          addPointCubit.exchangeListId(address),
-                      exchangeListPoint: (value) =>
-                          addPointCubit.exchangeListPoint(value),
+                      pointOnePerson: point,
+                      address: address,
+                      exchangeAddress: (address) => managePointCubit.exchangeAddress(address),
+                      exchangePoint: (value) =>  managePointCubit.exchangePoint(value),
                     ),
                     const SizedBox(height: 8),
                     TransferButton(
-                      handleClick: () => _handleTransfer(listId, totalPoint),
+                      handleClick: () {
+                        if(point > 0) {
+                          _handleTransfer(address, point);
+                          return ;
+                        }
+                        managePointCubit.searchUser(int.parse(widget.userModel.id!));
+
+                      },
+                      title: point > 0 ? "Chuyển tiền" : "Search" ,
+                      icon: point > 0 ? Icons.send_rounded: Icons.search ,
                     ),
                     const SizedBox(height: 16),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: _buildUsersList(filteredList, totalPoint),
+                      child: Column(
+                        children: [
+                          _buildUsersList(list, point),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 48,
+                                child: Pagination(
+                                  indexCurrent: page,
+                                  back: () {if(page != 1) {managePointCubit.change("-", int.parse(widget.userModel.id.toString()));}},
+                                  next: () {if(list.isNotEmpty){managePointCubit.change("+",int.parse(widget.userModel.id.toString()));}},
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30,)
+                        ],
+                      ),
                     ),
                   ],
                 ),
