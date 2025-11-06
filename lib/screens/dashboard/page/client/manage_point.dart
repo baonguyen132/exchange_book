@@ -44,7 +44,6 @@ class _ManagePointState extends State<ManagePoint> {
       point: point,
       idUser: widget.userModel.id.toString(),
       successful: (message, point) async {
-        print(message + "-" + point) ;
         UserModel.savePointData(int.parse(point));
         toast(message);
       },
