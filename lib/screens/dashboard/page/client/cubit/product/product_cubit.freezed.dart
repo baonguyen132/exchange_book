@@ -18,23 +18,26 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ProductState {
   bool get isLoading => throw _privateConstructorUsedError;
   List<dynamic> get listProduct => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
   String get page => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            bool isLoading, List<dynamic> listProduct, String page)
+    required TResult Function(bool isLoading, List<dynamic> listProduct,
+            int currentPage, String page)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool isLoading, List<dynamic> listProduct, String page)?
+    TResult? Function(bool isLoading, List<dynamic> listProduct,
+            int currentPage, String page)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isLoading, List<dynamic> listProduct, String page)?
+    TResult Function(bool isLoading, List<dynamic> listProduct, int currentPage,
+            String page)?
         initial,
     required TResult orElse(),
   }) =>
@@ -69,7 +72,11 @@ abstract class $ProductStateCopyWith<$Res> {
           ProductState value, $Res Function(ProductState) then) =
       _$ProductStateCopyWithImpl<$Res, ProductState>;
   @useResult
-  $Res call({bool isLoading, List<dynamic> listProduct, String page});
+  $Res call(
+      {bool isLoading,
+      List<dynamic> listProduct,
+      int currentPage,
+      String page});
 }
 
 /// @nodoc
@@ -89,6 +96,7 @@ class _$ProductStateCopyWithImpl<$Res, $Val extends ProductState>
   $Res call({
     Object? isLoading = null,
     Object? listProduct = null,
+    Object? currentPage = null,
     Object? page = null,
   }) {
     return _then(_value.copyWith(
@@ -100,6 +108,10 @@ class _$ProductStateCopyWithImpl<$Res, $Val extends ProductState>
           ? _value.listProduct
           : listProduct // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
       page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -116,7 +128,11 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, List<dynamic> listProduct, String page});
+  $Res call(
+      {bool isLoading,
+      List<dynamic> listProduct,
+      int currentPage,
+      String page});
 }
 
 /// @nodoc
@@ -134,6 +150,7 @@ class __$$InitialImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? listProduct = null,
+    Object? currentPage = null,
     Object? page = null,
   }) {
     return _then(_$InitialImpl(
@@ -145,6 +162,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._listProduct
           : listProduct // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
       page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -159,6 +180,7 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required this.isLoading,
       required final List<dynamic> listProduct,
+      required this.currentPage,
       required this.page})
       : _listProduct = listProduct;
 
@@ -173,11 +195,13 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
+  final int currentPage;
+  @override
   final String page;
 
   @override
   String toString() {
-    return 'ProductState.initial(isLoading: $isLoading, listProduct: $listProduct, page: $page)';
+    return 'ProductState.initial(isLoading: $isLoading, listProduct: $listProduct, currentPage: $currentPage, page: $page)';
   }
 
   @override
@@ -189,12 +213,14 @@ class _$InitialImpl implements _Initial {
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
                 .equals(other._listProduct, _listProduct) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
             (identical(other.page, page) || other.page == page));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading,
-      const DeepCollectionEquality().hash(_listProduct), page);
+      const DeepCollectionEquality().hash(_listProduct), currentPage, page);
 
   /// Create a copy of ProductState
   /// with the given fields replaced by the non-null parameter values.
@@ -207,31 +233,33 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            bool isLoading, List<dynamic> listProduct, String page)
+    required TResult Function(bool isLoading, List<dynamic> listProduct,
+            int currentPage, String page)
         initial,
   }) {
-    return initial(isLoading, listProduct, page);
+    return initial(isLoading, listProduct, currentPage, page);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool isLoading, List<dynamic> listProduct, String page)?
+    TResult? Function(bool isLoading, List<dynamic> listProduct,
+            int currentPage, String page)?
         initial,
   }) {
-    return initial?.call(isLoading, listProduct, page);
+    return initial?.call(isLoading, listProduct, currentPage, page);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isLoading, List<dynamic> listProduct, String page)?
+    TResult Function(bool isLoading, List<dynamic> listProduct, int currentPage,
+            String page)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(isLoading, listProduct, page);
+      return initial(isLoading, listProduct, currentPage, page);
     }
     return orElse();
   }
@@ -269,12 +297,15 @@ abstract class _Initial implements ProductState {
   const factory _Initial(
       {required final bool isLoading,
       required final List<dynamic> listProduct,
+      required final int currentPage,
       required final String page}) = _$InitialImpl;
 
   @override
   bool get isLoading;
   @override
   List<dynamic> get listProduct;
+  @override
+  int get currentPage;
   @override
   String get page;
 

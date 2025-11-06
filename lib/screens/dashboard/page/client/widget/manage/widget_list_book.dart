@@ -8,6 +8,7 @@ import '../../../../../../data/ConstraintData.dart';
 import '../../../../../../model/book_modal.dart';
 import '../../../../../../model/cart_modal.dart';
 import '../../../../../../model/user_modal.dart';
+import '../../../../widget/pagination.dart';
 import 'card_book.dart';
 import 'widget_button_card_detail_of_history.dart';
 import 'list_cart/widget_list_manage.dart';
@@ -30,7 +31,7 @@ class _WidgetListBookState extends State<WidgetListBook> {
     // TODO: implement initState
     super.initState();
     listBookCubit = ListBookCubit();
-    listBookCubit.loadData(1, widget.user.id!);
+    listBookCubit.loadData(1, int.parse(widget.user.id!), 1);
   }
 
   // small helper to show toast messages (used by cart update callbacks)
@@ -81,8 +82,6 @@ class _WidgetListBookState extends State<WidgetListBook> {
               (maxWidth - ((crossAxisCount - 1) * spacing)) / crossAxisCount;
 
 
-
-
           return Wrap(
             spacing: spacing,
             runSpacing: 20,
@@ -126,14 +125,14 @@ class _WidgetListBookState extends State<WidgetListBook> {
                                     editItem: (bookModal) {BookModal.updateDatabaseBook(
                                       bookModal,
                                       "$location/updateBook",
-                                      () {toast("Cập nhật thành công");listBookCubit.loadData(1, widget.user.id!);},
-                                      () {toast("Cập nhật không thành công");listBookCubit.loadData(1, widget.user.id!);},
+                                      () {toast("Cập nhật thành công");listBookCubit.loadData(1, int.parse(widget.user.id!), 1);},
+                                      () {toast("Cập nhật không thành công");listBookCubit.loadData(1, int.parse(widget.user.id!), 1);},
                                     );},
                                     deleteItem: (bookModal) {
                                       BookModal.updateDatabaseBook(
                                         bookModal, "$location/deleteBook",
-                                        () {toast("Xoá thành công");listBookCubit.loadData(1, widget.user.id!);},
-                                        () {toast("Không thể xoá được");listBookCubit.loadData(1, widget.user.id!);},
+                                        () {toast("Xoá thành công");listBookCubit.loadData(1, int.parse(widget.user.id!), 1);},
+                                        () {toast("Không thể xoá được");listBookCubit.loadData(1, int.parse(widget.user.id!), 1);},
                                       );
                                     },
                                   )
@@ -241,7 +240,7 @@ class _WidgetListBookState extends State<WidgetListBook> {
                         ),
                         onChanged: (i) {
                           if (i != null) {
-                            listBookCubit.loadData(i, widget.user.id!);
+                            listBookCubit.loadData(i, int.parse(widget.user.id!), 1);
                           }
                         },
                         icon: Icon(Icons.keyboard_arrow_down,
@@ -303,6 +302,20 @@ class _WidgetListBookState extends State<WidgetListBook> {
                 ? const Center(child: CircularProgressIndicator())
                 : getListCart(
                     listBookCubit.state.current, listBookCubit.state.list),
+
+            const SizedBox(height: 20,),
+
+            listBookCubit.state.list.isNotEmpty ||  listBookCubit.state.currentPage > 1 ? SizedBox(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [Pagination(
+                      back: () {if(listBookCubit.state.currentPage != 1) {listBookCubit.change("-",listBookCubit.state.current , int.parse(widget.user.id!) );}},
+                      next: () {if(listBookCubit.state.list.isNotEmpty){listBookCubit.change("+",listBookCubit.state.current,int.parse(widget.user.id!));}},
+                      indexCurrent: listBookCubit.state.currentPage
+                  ),],
+                )
+            ) : Container()
           ],
         );
       },

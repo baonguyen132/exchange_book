@@ -70,26 +70,20 @@ class BookModal {
     }
   }
 
-  static Future<List<dynamic>> exporUserBook(String id) async {
-    final respone = await http.post(
-      Uri.parse("$location/exportMyBook"),
+  static Future<List<dynamic>> exportUserBook(int idUser, int page) async {
+    final response = await http.get(
+      Uri.parse("$location/exportMyBook/$idUser/$page"),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "id_user": id,
-      }),
     ) ;
 
-    List<dynamic> data = jsonDecode(respone.body) ;
+    List<dynamic> data = jsonDecode(response.body) ;
     return data ;
   }
 
-  static Future<List<dynamic>> exportBook(String id) async {
-    final response = await http.post(
-      Uri.parse("$location/exportBook"),
+  static Future<List<dynamic>> exportBook(int idUser, int currentPage) async {
+    final response = await http.get(
+      Uri.parse("$location/exportBook/$idUser/$currentPage"),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "id_user": id,
-      }),
     ) ;
 
     if (response.statusCode == 200) {

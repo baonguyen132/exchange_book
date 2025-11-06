@@ -1,9 +1,12 @@
 import 'package:exchange_book/screens/dashboard/page/manager/widget/book/card_type_book_mobile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../model/type_book_modal.dart';
 import '../../../../../../util/widget_text_field_area.dart';
 import '../../../../../../util/widget_text_field_custom.dart';
+import '../../../../widget/pagination.dart';
+import '../../cubit/book/book_cubit.dart';
 
 class WidgetListProduct extends StatefulWidget {
   final Function(TypeBookModal typeBookModal) update;
@@ -253,108 +256,125 @@ class _WidgetListProductState extends State<WidgetListProduct> {
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
       child: SingleChildScrollView(
-
         child: Column(
           children: [
-            LayoutBuilder(builder: (context, constraints) {
-              return Container(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: const Alignment(0.95, 0.95), // subtle bottom-right
-                    radius: 1.0,
-                    colors: [
-                      Colors.white,
-                      Colors.blue.withOpacity(0.5),
-                    ],
-                    stops: const [0.9, 1.0],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 6,
-                        offset: Offset(0, 2)),
-                  ],
-                ),
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Các loại sách',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          'Quản lý, thêm, sửa hoặc xóa loại sách',
-                          style: TextStyle(
-                              fontSize: 13, color: Colors.black54),
-                        ),
-                        const SizedBox(height: 10),
-                        TextField(
-                          controller: _searchController,
-                          onChanged: (value) {
-                            setState(() {
-                              _query = value ;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            contentPadding:
-                            const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 10),
-                            hintText: 'Tìm theo tên loại sách',
-                            prefixIcon:
-                            const Icon(Icons.search, size: 20),
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.clear, size: 20),
-                              onPressed: () {
-                                _searchController.clear();
+            Column(
+              children: [
+                LayoutBuilder(builder: (context, constraints) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        center: const Alignment(0.95, 0.95), // subtle bottom-right
+                        radius: 1.0,
+                        colors: [
+                          Colors.white,
+                          Colors.blue.withOpacity(0.5),
+                        ],
+                        stops: const [0.9, 1.0],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 6,
+                            offset: Offset(0, 2)),
+                      ],
+                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Các loại sách',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 6),
+                            const Text(
+                              'Quản lý, thêm, sửa hoặc xóa loại sách',
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.black54),
+                            ),
+                            const SizedBox(height: 10),
+                            TextField(
+                              controller: _searchController,
+                              onChanged: (value) {
                                 setState(() {
-                                  _query = '' ;
+                                  _query = value ;
                                 });
                               },
+                              decoration: InputDecoration(
+                                contentPadding:
+                                const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
+                                hintText: 'Tìm theo tên loại sách',
+                                prefixIcon:
+                                const Icon(Icons.search, size: 20),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.clear, size: 20),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    setState(() {
+                                      _query = '' ;
+                                    });
+                                  },
+                                ),
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(8),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: const Color(0xFFF5F7FA),
+                              ),
                             ),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.circular(8),
-                                borderSide: BorderSide.none),
-                            filled: true,
-                            fillColor: const Color(0xFFF5F7FA),
-                          ),
-                        ),
-                      ],
-                    )
-                ),
-              );
-            }),
-            const SizedBox(height: 12,),
-            Wrap(
-              alignment: WrapAlignment.spaceAround,
-              children: List.generate(
-                filtered.length,
-                (index) => CardTypeBookMobile(
-                  typeBookModal: filtered[index],
-                  edit: (typeBookModal) {
-                    showEditProductDialog(
-                      context,
-                      typeBookModal,
-                      (typeBookModal) {
-                        widget.update(typeBookModal);
+                          ],
+                        )
+                    ),
+                  );
+                }),
+                const SizedBox(height: 12,),
+                Wrap(
+                  alignment: WrapAlignment.spaceAround,
+                  children: List.generate(
+                    filtered.length,
+                        (index) => CardTypeBookMobile(
+                      typeBookModal: filtered[index],
+                      edit: (typeBookModal) {
+                        showEditProductDialog(
+                          context,
+                          typeBookModal,
+                              (typeBookModal) {
+                            widget.update(typeBookModal);
+                          },
+                        );
                       },
-                    );
-                  },
-                  delete: (typeBookModal) {
-                    widget.delete(typeBookModal);
-                  },
+                      delete: (typeBookModal) {
+                        widget.delete(typeBookModal);
+                      },
+                    ),
+                  ),
                 ),
-              ),
+
+
+              ],
             ),
+            const SizedBox(height: 20,),
+            SizedBox(
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [Pagination(
+                    back: () {if(context.read<BookCubit>().state.currentPage != 1) {context.read<BookCubit>().change("-");}},
+                    next: () {if(widget.list.isNotEmpty){context.read<BookCubit>().change("+");}},
+                    indexCurrent: context.read<BookCubit>().state.currentPage
+                ),],
+              )
+            )
           ],
-        ),
+        )
       ),
     );
   }

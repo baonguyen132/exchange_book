@@ -58,11 +58,10 @@ class CartModal {
     }
   }
 
-  static Future<List<dynamic>> exportCartPurchase(String id_user) async {
-    final response = await http.post(
-      Uri.parse("$location/export_cart_purchase"),
+  static Future<List<dynamic>> exportCartPurchase(int idUser, int currentPage) async {
+    final response = await http.get(
+      Uri.parse("$location/export_cart_purchase/$idUser/$currentPage"),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"id_user": id_user})
     ) ;
 
     if (response.statusCode == 200) {
@@ -72,11 +71,10 @@ class CartModal {
     }
   }
 
-  static Future<List<dynamic>> exportCartSeller(String id_user) async {
-    final response = await http.post(
-        Uri.parse("$location/export_cart_seller"),
+  static Future<List<dynamic>> exportCartSeller(int idUser, int currentPage) async {
+    final response = await http.get(
+        Uri.parse("$location/export_cart_seller/$idUser/$currentPage"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"id_user": id_user})
     ) ;
 
     if (response.statusCode == 200) {

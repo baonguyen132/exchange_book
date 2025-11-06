@@ -6,5 +6,7 @@ class ListBookState with _$ListBookState{
     required List<dynamic> list ,
     required bool isLoading ,
     required int current ,
+
+    required int currentPage,
   }) = _Initial;
 }
