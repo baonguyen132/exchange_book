@@ -73,3 +73,38 @@ Future<void> createQuestion(
     handleFail("Lỗi kết nối: $e");
   }
 }
+
+
+Future<void> postFaceBook(
+    String title,
+    String description,
+    Function() handleSuccessful, // callback nhận dữ liệu
+    Function(String error) handleFail,
+    ) async {
+  try {
+    final response = await http.post(
+      Uri.parse(apiAI),
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true"
+      },
+      body: jsonEncode(
+          {
+            "link": "postFacebook",
+            "title": title,
+            "description": description,
+          }
+      ),
+    );
+
+
+    if (response.statusCode == 200) {
+
+      handleSuccessful();
+    } else {
+      handleFail("Lỗi server: ${response.statusCode}");
+    }
+  } catch (e) {
+    handleFail("Lỗi kết nối: $e");
+  }
+}

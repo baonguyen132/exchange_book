@@ -5,7 +5,7 @@ var mainLightDarkMode = true ;
 
 const location = "https://steady-sharply-ibex.ngrok-free.app" ;
 // const location = "http://localhost:5000" ;
-const apiAI = "https://391edfbb6a8e.ngrok-free.app/webhook/bookswap" ;
+const apiAI = "https://b0313c7f2b38.ngrok-free.app/webhook/bookswap" ;
 
 // Hàm chuyển số CCCD thành ngày tháng năm
 String formatIDToDate(String idNumber) {
