@@ -19,20 +19,26 @@ mixin _$ListBookState {
   List<dynamic> get list => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   int get current => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> list, bool isLoading, int current)
+    required TResult Function(
+            List<dynamic> list, bool isLoading, int current, int currentPage)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<dynamic> list, bool isLoading, int current)? initial,
+    TResult? Function(
+            List<dynamic> list, bool isLoading, int current, int currentPage)?
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> list, bool isLoading, int current)? initial,
+    TResult Function(
+            List<dynamic> list, bool isLoading, int current, int currentPage)?
+        initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -66,7 +72,7 @@ abstract class $ListBookStateCopyWith<$Res> {
           ListBookState value, $Res Function(ListBookState) then) =
       _$ListBookStateCopyWithImpl<$Res, ListBookState>;
   @useResult
-  $Res call({List<dynamic> list, bool isLoading, int current});
+  $Res call({List<dynamic> list, bool isLoading, int current, int currentPage});
 }
 
 /// @nodoc
@@ -87,6 +93,7 @@ class _$ListBookStateCopyWithImpl<$Res, $Val extends ListBookState>
     Object? list = null,
     Object? isLoading = null,
     Object? current = null,
+    Object? currentPage = null,
   }) {
     return _then(_value.copyWith(
       list: null == list
@@ -101,6 +108,10 @@ class _$ListBookStateCopyWithImpl<$Res, $Val extends ListBookState>
           ? _value.current
           : current // ignore: cast_nullable_to_non_nullable
               as int,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -113,7 +124,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<dynamic> list, bool isLoading, int current});
+  $Res call({List<dynamic> list, bool isLoading, int current, int currentPage});
 }
 
 /// @nodoc
@@ -132,6 +143,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? list = null,
     Object? isLoading = null,
     Object? current = null,
+    Object? currentPage = null,
   }) {
     return _then(_$InitialImpl(
       list: null == list
@@ -146,6 +158,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.current
           : current // ignore: cast_nullable_to_non_nullable
               as int,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -156,7 +172,8 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {required final List<dynamic> list,
       required this.isLoading,
-      required this.current})
+      required this.current,
+      required this.currentPage})
       : _list = list;
 
   final List<dynamic> _list;
@@ -171,10 +188,12 @@ class _$InitialImpl implements _Initial {
   final bool isLoading;
   @override
   final int current;
+  @override
+  final int currentPage;
 
   @override
   String toString() {
-    return 'ListBookState.initial(list: $list, isLoading: $isLoading, current: $current)';
+    return 'ListBookState.initial(list: $list, isLoading: $isLoading, current: $current, currentPage: $currentPage)';
   }
 
   @override
@@ -185,12 +204,18 @@ class _$InitialImpl implements _Initial {
             const DeepCollectionEquality().equals(other._list, _list) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.current, current) || other.current == current));
+            (identical(other.current, current) || other.current == current) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_list), isLoading, current);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_list),
+      isLoading,
+      current,
+      currentPage);
 
   /// Create a copy of ListBookState
   /// with the given fields replaced by the non-null parameter values.
@@ -203,28 +228,33 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> list, bool isLoading, int current)
+    required TResult Function(
+            List<dynamic> list, bool isLoading, int current, int currentPage)
         initial,
   }) {
-    return initial(list, isLoading, current);
+    return initial(list, isLoading, current, currentPage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<dynamic> list, bool isLoading, int current)? initial,
+    TResult? Function(
+            List<dynamic> list, bool isLoading, int current, int currentPage)?
+        initial,
   }) {
-    return initial?.call(list, isLoading, current);
+    return initial?.call(list, isLoading, current, currentPage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> list, bool isLoading, int current)? initial,
+    TResult Function(
+            List<dynamic> list, bool isLoading, int current, int currentPage)?
+        initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(list, isLoading, current);
+      return initial(list, isLoading, current, currentPage);
     }
     return orElse();
   }
@@ -262,7 +292,8 @@ abstract class _Initial implements ListBookState {
   const factory _Initial(
       {required final List<dynamic> list,
       required final bool isLoading,
-      required final int current}) = _$InitialImpl;
+      required final int current,
+      required final int currentPage}) = _$InitialImpl;
 
   @override
   List<dynamic> get list;
@@ -270,6 +301,8 @@ abstract class _Initial implements ListBookState {
   bool get isLoading;
   @override
   int get current;
+  @override
+  int get currentPage;
 
   /// Create a copy of ListBookState
   /// with the given fields replaced by the non-null parameter values.

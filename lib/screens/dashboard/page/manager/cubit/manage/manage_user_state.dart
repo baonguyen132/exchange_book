@@ -6,6 +6,7 @@ class ManageUserState with _$ManageUserState{
   const factory ManageUserState.loading() = _Loading ;
   const factory ManageUserState.loaded(
       {
+        required int page ,
         required List<dynamic> list
       }) = _Loaded ;
 }

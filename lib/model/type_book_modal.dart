@@ -49,15 +49,15 @@ class TypeBookModal {
     }
   }
 
-  static Future<List<TypeBookModal>> exportTypeBook(Function () handle) async {
+  static Future<List<TypeBookModal>> exportTypeBook(Function () handle, int page) async {
     List<TypeBookModal> list = [] ;
     
-    final respone = await http.get(
-      Uri.parse("$location/exportTypeBook"),
+    final response = await http.get(
+      Uri.parse("$location/exportTypeBook/$page"),
       headers: {"Content-Type": "application/json"},
     ) ;
 
-    List<dynamic> data = jsonDecode(respone.body) ;
+    List<dynamic> data = jsonDecode(response.body) ;
     for(var item in data) {
       list.add(TypeBookModal(id: item[0].toString() , name_book: item[1], type_book: item[2], price: item[3].toString() ,image: item[4] , description:item[5], ));
     }

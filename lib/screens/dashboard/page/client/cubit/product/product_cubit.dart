@@ -16,14 +16,15 @@ class ProductCubit extends Cubit<ProductState> {
       isLoading: true ,
       listProduct: [],
       page: "list",
+      currentPage: 1,
   )
   );
 
-  void loadData(String id) async {
+  void loadData(int id) async {
 
     emit(state.copyWith(isLoading: true));
 
-    List<dynamic> data = await BookModal.exportBook(id) ;
+    List<dynamic> data = await BookModal.exportBook(id , state.currentPage) ;
 
     emit(state.copyWith(listProduct: data , isLoading: false));
 
@@ -51,4 +52,15 @@ class ProductCubit extends Cubit<ProductState> {
       emit(state.copyWith(listProduct: data));
     }
   }
+
+  void change(String status, int id) async {
+    int currentPage = state.currentPage ;
+    if(status == "+") {currentPage++ ;}
+    else {currentPage-- ;}
+
+    emit(state.copyWith(isLoading: true));
+    List<dynamic> data = await BookModal.exportBook(id , currentPage) ;
+    emit(state.copyWith(listProduct: data, currentPage: currentPage , isLoading: false));
+  }
+
 }

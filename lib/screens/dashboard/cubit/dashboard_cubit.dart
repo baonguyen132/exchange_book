@@ -1,5 +1,6 @@
 
 import 'package:exchange_book/model/user_modal.dart';
+import 'package:exchange_book/screens/dashboard/page/manager/post_facebook.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -64,6 +65,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     else if(newIndexScreen == 6) {newScreen = HomeAdmin(user: state.user,);}
     else if(newIndexScreen == 7) {newScreen = Book();}
     else if(newIndexScreen == 8) {newScreen = const ManageUser();}
+    else if(newIndexScreen == 9) {newScreen = const PostFacebook();}
 
 
     emit(state.copyWith(indexScreen: newIndexScreen, status: newIndexStatus, screen: newScreen));

@@ -1,4 +1,5 @@
 import 'package:exchange_book/screens/dashboard/page/manager/cubit/manage/manage_user_cubit.dart';
+import 'package:exchange_book/screens/dashboard/widget/pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:exchange_book/theme/theme.dart';
@@ -79,41 +80,53 @@ class _ManageUserState extends State<ManageUser> {
     return BlocBuilder<ManageUserCubit , ManageUserState>(builder: (context, state) {
       return context.read<ManageUserCubit>().state.maybeWhen(
         orElse: () => const Center(child: CircularProgressIndicator()),
-        loaded: (list) => LayoutBuilder(
-            builder: (context, constraints) => Container(
-              width: constraints.maxWidth,
-              height: constraints.maxHeight,
-              padding: const EdgeInsets.all(16),
-              color: Colors.white,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: constraints.maxWidth,
-                    ),
-                    child: DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue,),
-                      columnSpacing: 24,
-                      dataRowHeight: 60,
-                      headingRowHeight: 60,
-                      columns: [
-                        cellTitleTable("ID"),
-                        cellTitleTable("Name"),
-                        cellTitleTable("Email"),
-                        cellTitleTable("Position"),
-                        cellTitleTable("CID"),
-                        cellTitleTable("Grant"),
-                        cellTitleTable("Delete"),
-                      ],
-                      rows: List.generate(list.length, (index) {
-                        return rowData(list[index]) ;
-                      }),
+        loaded: (page, list) => LayoutBuilder(
+            builder: (context, constraints) => Column(
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.white,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: constraints.maxWidth,
+                        ),
+                        child: DataTable(
+                          headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue,),
+                          columnSpacing: 24,
+                          dataRowHeight: 60,
+                          headingRowHeight: 60,
+                          columns: [
+                            cellTitleTable("ID"),
+                            cellTitleTable("Name"),
+                            cellTitleTable("Email"),
+                            cellTitleTable("Position"),
+                            cellTitleTable("CID"),
+                            cellTitleTable("Grant"),
+                            cellTitleTable("Delete"),
+                          ],
+                          rows: List.generate(list.length, (index) {
+                            return rowData(list[index]) ;
+                          }),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                )),
+                SizedBox(
+                  height: 50,
+                  width: constraints.maxWidth,
+                  child: Pagination(
+                    back: () {if(page != 1) {context.read<ManageUserCubit>().change("-", page);}},
+                    next: () {if(list.isNotEmpty){context.read<ManageUserCubit>().change("+", page);}},
+                    indexCurrent: page,
+                  ),
+                )
+              ],
             ),
           ),
       );

@@ -9,15 +9,15 @@ part 'book_cubit.freezed.dart';
 class BookCubit extends Cubit<BookState> {
   BookCubit() : super(const BookState.initial(
     list: [],
-    frame: true
+    frame: true,
+    currentPage: 1 ,
   ));
 
   void loadData() async {
-    final result = await TypeBookModal.exportTypeBook(() {},) ;
-
-
+    final result = await TypeBookModal.exportTypeBook(() {},state.currentPage) ;
     emit(state.copyWith(list: result)) ;
   }
+
   void changeScreen() => emit(state.copyWith(frame: !state.frame)) ;
 
   void updateTypeBook(TypeBookModal typeBookModal) {
@@ -44,10 +44,19 @@ class BookCubit extends Cubit<BookState> {
     emit(state.copyWith(list: newList));
   }
 
-  void searchBook(String query) {
-    final list = List<TypeBookModal>.from(state.list);
+  void change(String status) async {
+    int currentPage = state.currentPage ;
+    if(status == "+") {currentPage++ ;}
+    else {currentPage-- ;}
 
-
+    final result = await TypeBookModal.exportTypeBook(() {},currentPage) ;
+    emit(state.copyWith(list: result, currentPage: currentPage)) ;
   }
+
+  // void searchBook(String query) {
+  //   final list = List<TypeBookModal>.from(state.list);
+  //
+  //
+  // }
 
 }
