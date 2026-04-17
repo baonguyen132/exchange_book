@@ -8,6 +8,9 @@ class CardPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
@@ -76,7 +79,7 @@ class CardPoint extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: theme.colorScheme.inversePrimary,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
@@ -108,7 +111,7 @@ class CardPoint extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.grey[600],
+                                color: theme.colorScheme.tertiary.withOpacity(0.7),
                               ),
                             ),
                           ],
@@ -128,7 +131,7 @@ class CardPoint extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 9,
                             fontWeight: FontWeight.w500,
-                            color: Colors.grey[500],
+                            color: theme.colorScheme.tertiary.withOpacity(0.5),
                             fontFamily: 'monospace',
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -143,10 +146,10 @@ class CardPoint extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade50,
+                      color: isDarkMode ? Colors.white.withOpacity(0.1) : Colors.grey.shade50,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: Colors.grey.shade200,
+                        color: isDarkMode ? Colors.white.withOpacity(0.1) : Colors.grey.shade200,
                         width: 1,
                       ),
                     ),
@@ -155,7 +158,7 @@ class CardPoint extends StatelessWidget {
                       version: QrVersions.auto,
                       size: 75,
                       backgroundColor: Colors.transparent,
-                      foregroundColor: Colors.black87,
+                      foregroundColor: isDarkMode ? Colors.white : Colors.black87,
                       errorCorrectionLevel: QrErrorCorrectLevel.M,
                     ),
                   ),

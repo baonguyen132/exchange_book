@@ -1,146 +1,111 @@
 import 'package:flutter/material.dart';
 import 'package:exchange_book/screens/dashboard/widget/card/card_item.dart';
 import 'package:exchange_book/theme/theme.dart';
-
 import '../../../../../../data/ConstraintData.dart';
 
-
-
-class ProductProfile extends StatefulWidget {
-  final List<dynamic> list ;
+class ProductProfile extends StatelessWidget {
+  final List<dynamic> list;
   const ProductProfile({super.key, required this.list});
 
   @override
-  State<ProductProfile> createState() => _ProductProfileState();
-}
-
-class _ProductProfileState extends State<ProductProfile> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.mainCard,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1), // Màu bóng
-            blurRadius: 10, // Độ mờ của bóng
-            spreadRadius: 2, // Độ lan rộng của bóng
-            offset: const Offset(0, 4), // Vị trí bóng (x, y)
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
+    if (list.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 40),
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Icon(Icons.auto_stories_outlined, size: 64, color: colorScheme.primary.withOpacity(0.2)),
+            const SizedBox(height: 16),
+            Text(
+              "Chưa có sách nào được đăng",
+              style: TextStyle(color: colorScheme.onBackground.withOpacity(0.5)),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            "Sách đã đăng",
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: colorScheme.onBackground,
+            ),
           ),
-        ],
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
+        ),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: isMobile ? 1 : 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: isMobile ? 1.5 : 1.2,
+          ),
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            final book = list[index];
+            return _buildBookCard(context, book);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBookCard(BuildContext context, dynamic book) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return CardItem(
+      width: double.infinity,
+      heart: true,
+      link: "$location/${book[6]}",
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              "Sách",
-              style: TextStyle(
-                fontSize: 22,
-                color: Colors.blue,
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w600,
-              ),
+          Text(
+            book[1],
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: colorScheme.primary,
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 500,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0).copyWith(bottom: 20),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.list.length,
-              itemBuilder: (context, index) => CardItem(
-                width: 300,
-                heart: true,
-                link: "$location/${widget.list[index][6]}",
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: "📖 Sách: ",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue, // hoặc tùy thuộc vào theme
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.list[index][1],
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              color: Theme.of(context).colorScheme.maintext,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: "Còn lại: ",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "${widget.list[index][10]}",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Theme.of(context).colorScheme.maintext,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: "💰 Giá: ",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "${widget.list[index][4]} VND",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Theme.of(context).colorScheme.maintext,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          const SizedBox(height: 8),
+          _buildInfoRow(context, Icons.inventory_2_outlined, "Số lượng: ${book[10]}"),
+          const SizedBox(height: 4),
+          _buildInfoRow(context, Icons.payments_outlined, "${book[4]} VND"),
         ],
-      )
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(BuildContext context, IconData icon, String text) {
+    return Row(
+      children: [
+        Icon(icon, size: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+        const SizedBox(width: 8),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 13,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+          ),
+        ),
+      ],
     );
   }
 }
+
