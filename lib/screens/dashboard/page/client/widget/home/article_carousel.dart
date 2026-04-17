@@ -63,9 +63,9 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
             child: Container(
               width: 260,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: theme.colorScheme.inversePrimary,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: theme.dividerColor),
               ),
               child: Row(
                 children: [
@@ -101,8 +101,8 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              color: Colors.black87,
+                              fontSize: 14, // Giảm 1 tí cho cân
+                              color: theme.colorScheme.tertiary,
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -110,7 +110,7 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodySmall
-                                  ?.copyWith(color: Colors.black54)),
+                                  ?.copyWith(color: theme.colorScheme.tertiary.withOpacity(0.7))),
                         ],
                       ),
                     ),

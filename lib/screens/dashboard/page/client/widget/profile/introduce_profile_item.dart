@@ -22,104 +22,87 @@ class _IntroduceProfileItemState extends State<IntroduceProfileItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: GestureDetector(
-          onTap: widget.link != null ? () => _launchUrl(widget.link!) : null,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: _isHovered ? Colors.blue.shade50 : Colors.grey.shade50,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: _isHovered ? Colors.blue.shade200 : Colors.grey.shade200,
-                width: 1,
-              ),
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.link != null ? () => _launchUrl(widget.link!) : null,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: _isHovered ? colorScheme.primary.withOpacity(0.05) : colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: _isHovered ? colorScheme.primary.withOpacity(0.3) : colorScheme.onSurface.withOpacity(0.05),
+              width: 1,
             ),
-            child: Row(
-              children: [
-                // Platform icon
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 0,
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      widget.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(
-                            Icons.link,
-                            color: Colors.grey.shade600,
-                            size: 24,
-                          ),
-                        );
-                      },
+          ),
+          child: Row(
+            children: [
+              // Platform icon
+              Container(
+                width: 40,
+                height: 40,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
+                  ],
                 ),
+                child: Image.network(
+                  widget.imageUrl,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.link, color: colorScheme.primary, size: 20);
+                  },
+                ),
+              ),
 
-                const SizedBox(width: 16),
+              const SizedBox(width: 16),
 
-                // Platform name and link
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.text,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blue.shade800,
-                          fontWeight: FontWeight.w600,
-                        ),
+              // Platform name and link
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
                       ),
-                      if (widget.link != null) ...[
-                        const SizedBox(height: 4),
-                        Text(
-                          widget.link!,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.blue.shade600,
-                          ),
-                          overflow: TextOverflow.ellipsis,
+                    ),
+                    if (widget.link != null)
+                      Text(
+                        widget.link!,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurface.withOpacity(0.5),
                         ),
-                      ],
-                    ],
-                  ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
                 ),
+              ),
 
-                // Arrow icon
-                if (widget.link != null)
-                  Icon(
-                    Icons.launch,
-                    size: 20,
-                    color: _isHovered
-                        ? Colors.blue.shade600
-                        : Colors.grey.shade500,
-                  ),
-              ],
-            ),
+              // Launch icon
+              if (widget.link != null)
+                Icon(
+                  Icons.open_in_new_rounded,
+                  size: 18,
+                  color: _isHovered ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.2),
+                ),
+            ],
           ),
         ),
       ),
@@ -127,8 +110,10 @@ class _IntroduceProfileItemState extends State<IntroduceProfileItem> {
   }
 
   Future<void> _launchUrl(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     }
   }
 }
+

@@ -1,14 +1,9 @@
-import 'dart:math';
-
 import 'package:exchange_book/screens/dashboard/page/client/cubit/profile/profile_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/profile/introduce_profile.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/profile/product_profile.dart';
-import 'package:exchange_book/screens/dashboard/page/client/widget/profile/user_profile_card.dart';
 import 'package:flutter/material.dart';
-import 'package:exchange_book/theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../model/user_modal.dart';
+import 'package:exchange_book/model/user_modal.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -19,7 +14,6 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   late TabController _tabController;
-
   String newPath = "";
 
   void loadImage() async {
@@ -47,372 +41,280 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 768;
-    final isTablet = screenWidth >= 768 && screenWidth < 1024;
 
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Colors.blue.shade50, // Blue background
-          body: CustomScrollView(
-            slivers: [
-              // App Bar with Cover Photo
-              _buildSliverAppBar(state, isMobile),
-
-              // Profile Content
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    // Profile Header with Avatar and Basic Info
-                    _buildProfileHeader(state, isMobile),
-
-                    const SizedBox(height: 24),
-
-                    // Stats Cards
-                    _buildStatsSection(state, isMobile, isTablet),
-
-                    const SizedBox(height: 32),
-
-                    // Tab Section
-                    _buildTabSection(state, isMobile),
-                  ],
+          backgroundColor: colorScheme.background,
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                _buildSliverAppBar(context, state, isMobile),
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      _buildProfileHeader(context, state, isMobile),
+                      const SizedBox(height: 16),
+                      _buildStatsSection(context, state, isMobile),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                _buildStickyTabBar(context, isMobile),
+              ];
+            },
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildScrollableTabContent(ProductProfile(list: state.list ?? [])),
+                _buildScrollableTabContent(IntroduceProfile(
+                  height: null,
+                  weight: double.infinity,
+                  margin: 16,
+                )),
+                _buildScrollableTabContent(_buildActivityTab(context)),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildSliverAppBar(ProfileState state, bool isMobile) {
+  Widget _buildScrollableTabContent(Widget child) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: child,
+    );
+  }
+
+  Widget _buildSliverAppBar(BuildContext context, ProfileState state, bool isMobile) {
+    final colorScheme = Theme.of(context).colorScheme;
     return SliverAppBar(
-      expandedHeight: isMobile ? 200 : 280,
+      expandedHeight: isMobile ? 180 : 240,
       floating: false,
       pinned: true,
-      backgroundColor: Colors.blue.shade700, // Blue theme
-      foregroundColor: Colors.white,
       elevation: 0,
+      backgroundColor: colorScheme.primary,
       flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.blue.shade600,
-                Colors.blue.shade700,
-                Colors.blue.shade800,
-              ],
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Cover Image
+            Image.network(
+              'https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000&auto=format&fit=crop',
+              fit: BoxFit.cover,
             ),
-          ),
-          child: Stack(
-            children: [
-              // Background Pattern
-              Positioned.fill(
-                child: Opacity(
-                  opacity: 0.1,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+            // Gradient Overlay
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.3),
+                    Colors.black.withOpacity(0.1),
+                    Colors.black.withOpacity(0.5),
+                  ],
                 ),
               ),
-              // Gradient Overlay
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.blue.withOpacity(0.3), // Blue overlay
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.edit),
-          onPressed: () {
-            // TODO: Navigate to edit profile
-          },
+          icon: const Icon(Icons.edit_note, color: Colors.white),
+          onPressed: () {},
         ),
         IconButton(
-          icon: const Icon(Icons.share),
-          onPressed: () {
-            // TODO: Share profile
-          },
+          icon: const Icon(Icons.share_outlined, color: Colors.white),
+          onPressed: () {},
         ),
       ],
     );
   }
 
-  Widget _buildProfileHeader(ProfileState state, bool isMobile) {
-    return Transform.translate(
-      offset: Offset(0, isMobile ? -40 : -60),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 24),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Colors.blue.shade100, // Blue border
-            width: 2,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blue.withOpacity(0.1), // Blue shadow
-              spreadRadius: 0,
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            // Avatar
-            Container(
-              width: isMobile ? 100 : 120,
-              height: isMobile ? 100 : 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.blue.shade300, // Blue border for avatar
-                  width: 4,
+  Widget _buildProfileHeader(BuildContext context, ProfileState state, bool isMobile) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          Transform.translate(
+            offset: const Offset(0, -50),
+            child: Column(
+              children: [
+                // Avatar
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    radius: isMobile ? 50 : 65,
+                    backgroundColor: colorScheme.primary.withOpacity(0.1),
+                    backgroundImage: newPath.isNotEmpty ? NetworkImage(newPath) : null,
+                    child: newPath.isEmpty
+                        ? Icon(Icons.person, size: isMobile ? 50 : 65, color: colorScheme.primary)
+                        : null,
+                  ),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withOpacity(0.2), // Blue shadow
-                    spreadRadius: 0,
-                    blurRadius: 15,
-                    offset: const Offset(0, 5),
+                const SizedBox(height: 12),
+                Text(
+                  state.user.name ?? 'Người dùng',
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onBackground,
                   ),
-                ],
-              ),
-              child: CircleAvatar(
-                radius: isMobile ? 48 : 56,
-                backgroundColor: Colors.blue.shade50, // Blue background
-                backgroundImage:
-                    newPath.isNotEmpty ? NetworkImage(newPath) : null,
-                child: newPath.isEmpty
-                    ? Icon(
-                        Icons.person,
-                        size: isMobile ? 40 : 48,
-                        color: Colors.blue.shade400, // Blue icon
-                      )
-                    : null,
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Name and Email
-            Text(
-              state.user.name ?? 'Người dùng',
-              style: TextStyle(
-                fontSize: isMobile ? 24 : 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade800, // Blue text
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 8),
-
-            if (state.user.email != null) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.email_outlined,
-                    size: 16,
-                    color: Colors.blue.shade600, // Blue icon
-                  ),
-                  const SizedBox(width: 8),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                if (state.user.email != null)
                   Text(
                     state.user.email!,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.blue.shade600, // Blue text
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onBackground.withOpacity(0.6),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-            ],
-
-            // Action Buttons
-            Row(
+              ],
+            ),
+          ),
+          Transform.translate(
+            offset: const Offset(0, -30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      // TODO: Edit profile
-                    },
-                    icon: const Icon(Icons.edit, size: 18),
-                    label: const Text('Chỉnh sửa'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue.shade600, // Blue button
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      shadowColor: Colors.blue.withOpacity(0.3),
-                    ),
-                  ),
+                _buildHeaderAction(
+                  context,
+                  icon: Icons.edit,
+                  label: 'Chỉnh sửa',
+                  isPrimary: true,
+                  onPressed: () {},
                 ),
                 const SizedBox(width: 12),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      // TODO: Settings
-                    },
-                    icon: const Icon(Icons.settings, size: 18),
-                    label: const Text('Cài đặt'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.blue.shade600, // Blue text
-                      side: BorderSide(
-                          color: Colors.blue.shade600), // Blue border
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
+                _buildHeaderAction(
+                  context,
+                  icon: Icons.settings_outlined,
+                  label: 'Cài đặt',
+                  isPrimary: false,
+                  onPressed: () {},
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildStatsSection(ProfileState state, bool isMobile, bool isTablet) {
-    final statsData = [
-      {
-        'icon': Icons.auto_stories,
-        'label': 'Sách đã đăng',
-        'value': '${state.list?.length ?? 0}',
-        'color': Colors.blue.shade600, // All blue theme
-      },
-      {
-        'icon': Icons.swap_horiz,
-        'label': 'Lượt trao đổi',
-        'value': '24',
-        'color': Colors.blue.shade700,
-      },
-      {
-        'icon': Icons.star,
-        'label': 'Điểm tích lũy',
-        'value': state.user.point ?? '0',
-        'color': Colors.blue.shade500,
-      },
-      {
-        'icon': Icons.favorite,
-        'label': 'Yêu thích',
-        'value': '18',
-        'color': Colors.blue.shade800,
-      },
+  Widget _buildHeaderAction(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required bool isPrimary,
+    required VoidCallback onPressed,
+  }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    if (isPrimary) {
+      return ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon, size: 18),
+        label: Text(label),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          elevation: 2,
+        ),
+      );
+    }
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 18),
+      label: Text(label),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: colorScheme.primary,
+        side: BorderSide(color: colorScheme.primary),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+  }
+
+  Widget _buildStatsSection(BuildContext context, ProfileState state, bool isMobile) {
+    final stats = [
+      {'label': 'Sách đăng', 'value': '${state.list?.length ?? 0}', 'icon': Icons.book_outlined},
+      {'label': 'Trao đổi', 'value': '24', 'icon': Icons.swap_horiz},
+      {'label': 'Điểm', 'value': state.user.point ?? '0', 'icon': Icons.stars_rounded},
+      {'label': 'Yêu thích', 'value': '18', 'icon': Icons.favorite_border},
     ];
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: isMobile ? 2 : (isTablet ? 2 : 4),
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          childAspectRatio: isMobile ? 1.2 : 1.1,
-        ),
-        itemCount: statsData.length,
-        itemBuilder: (context, index) {
-          final stat = statsData[index];
-          return _buildStatCard(
-            icon: stat['icon'] as IconData,
-            label: stat['label'] as String,
-            value: stat['value'] as String,
-            color: stat['color'] as Color,
-            isMobile: isMobile,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final cardWidth = (constraints.maxWidth - (isMobile ? 16 : 48)) / (isMobile ? 2 : 4);
+          return Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: stats.map((stat) => _buildStatCard(context, stat, cardWidth)).toList(),
           );
         },
       ),
     );
   }
 
-  Widget _buildStatCard({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-    required bool isMobile,
-  }) {
+  Widget _buildStatCard(BuildContext context, Map<String, dynamic> stat, double width) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
-      padding: const EdgeInsets.all(20),
+      width: width,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.blue.shade100, // Blue border
-          width: 1,
-        ),
+        border: Border.all(color: colorScheme.primary.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.08), // Blue shadow
-            spreadRadius: 0,
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.15), // Blue background
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: color,
-              size: isMobile ? 24 : 28,
-            ),
-          ),
-          const SizedBox(height: 12),
+          Icon(stat['icon'] as IconData, color: colorScheme.primary, size: 24),
+          const SizedBox(height: 8),
           Text(
-            value,
-            style: TextStyle(
-              fontSize: isMobile ? 20 : 24,
+            stat['value'] as String,
+            style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.blue.shade800, // Blue text
+              color: colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
-            label,
-            style: TextStyle(
-              fontSize: isMobile ? 12 : 14,
-              color: Colors.blue.shade600, // Blue text
+            stat['label'] as String,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.6),
             ),
             textAlign: TextAlign.center,
           ),
@@ -421,148 +323,72 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildTabSection(ProfileState state, bool isMobile) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.blue.shade100, // Blue border
-          width: 1,
+  Widget _buildStickyTabBar(BuildContext context, bool isMobile) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: _SliverAppBarDelegate(
+        TabBar(
+          controller: _tabController,
+          indicatorColor: colorScheme.primary,
+          indicatorWeight: 3,
+          labelColor: colorScheme.primary,
+          unselectedLabelColor: colorScheme.onSurface.withOpacity(0.5),
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          tabs: const [
+            Tab(text: 'Sách'),
+            Tab(text: 'Giới thiệu'),
+            Tab(text: 'Hoạt động'),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.08), // Blue shadow
-            spreadRadius: 0,
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Tab Bar
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.blue.shade50, // Light blue background
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(
-                color: Colors.blue.shade600, // Blue indicator
-                borderRadius: BorderRadius.circular(12),
-              ),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: const EdgeInsets.all(8),
-              labelColor: Colors.white,
-              unselectedLabelColor:
-                  Colors.blue.shade600, // Blue unselected text
-              labelStyle: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-              tabs: const [
-                Tab(
-                  icon: Icon(Icons.auto_stories, size: 20),
-                  text: 'Sách của tôi',
-                ),
-                Tab(
-                  icon: Icon(Icons.info_outline, size: 20),
-                  text: 'Giới thiệu',
-                ),
-                Tab(
-                  icon: Icon(Icons.history, size: 20),
-                  text: 'Hoạt động',
-                ),
-              ],
-            ),
-          ),
-
-          // Tab Content
-          SizedBox(
-            height: 600,
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                // Books Tab
-                ProductProfile(list: state.list),
-
-                // Introduction Tab
-                IntroduceProfile(
-                  height: 600,
-                  weight: double.infinity,
-                  margin: 0,
-                ),
-
-                // Activity Tab
-                _buildActivityTab(),
-              ],
-            ),
-          ),
-        ],
+        Theme.of(context).colorScheme.surface,
       ),
     );
   }
 
-  Widget _buildActivityTab() {
+  Widget _buildActivityTab(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final activities = [
       {
         'icon': Icons.swap_horiz,
-        'title': 'Trao đổi sách "Doraemon tập 1"',
+        'title': 'Trao đổi sách "Doraemon"',
         'subtitle': 'với Nguyễn Văn A',
         'time': '2 giờ trước',
-        'color': Colors.blue.shade600, // Blue theme
       },
       {
         'icon': Icons.favorite,
-        'title': 'Yêu thích sách "One Piece tập 100"',
+        'title': 'Yêu thích "One Piece"',
         'subtitle': 'của Trần Thị B',
         'time': '1 ngày trước',
-        'color': Colors.blue.shade700,
       },
       {
         'icon': Icons.auto_stories,
-        'title': 'Đăng sách mới "Naruto tập 50"',
+        'title': 'Đăng sách mới "Naruto"',
         'subtitle': 'Thể loại: Manga',
         'time': '3 ngày trước',
-        'color': Colors.blue.shade500,
       },
     ];
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(24),
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(20),
       itemCount: activities.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final activity = activities[index];
         return Container(
-          margin: const EdgeInsets.only(bottom: 16),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.blue.shade50, // Light blue background
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Colors.blue.shade100, // Blue border
-              width: 1,
-            ),
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: colorScheme.primary.withOpacity(0.05)),
           ),
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: (activity['color'] as Color).withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  activity['icon'] as IconData,
-                  color: activity['color'] as Color,
-                  size: 20,
-                ),
+              CircleAvatar(
+                backgroundColor: colorScheme.primary.withOpacity(0.1),
+                child: Icon(activity['icon'] as IconData, color: colorScheme.primary, size: 20),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -571,29 +397,19 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                   children: [
                     Text(
                       activity['title'] as String,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue.shade800, // Blue text
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     Text(
                       activity['subtitle'] as String,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.blue.shade600, // Blue text
-                      ),
+                      style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6), fontSize: 12),
                     ),
                   ],
                 ),
               ),
               Text(
                 activity['time'] as String,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.blue.shade500, // Blue text
-                ),
+                style: TextStyle(color: colorScheme.onSurface.withOpacity(0.4), fontSize: 11),
               ),
             ],
           ),
@@ -602,3 +418,29 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     );
   }
 }
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar, this.backgroundColor);
+
+  final TabBar _tabBar;
+  final Color backgroundColor;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: backgroundColor,
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
+  }
+}
+

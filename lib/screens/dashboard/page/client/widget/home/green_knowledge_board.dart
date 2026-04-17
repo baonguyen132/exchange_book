@@ -41,16 +41,24 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Colors.green.shade50,
-            Colors.teal.shade50,
-          ],
+          colors: isDarkMode
+              ? [
+                  Colors.green.withOpacity(0.15),
+                  Colors.teal.withOpacity(0.15),
+                ]
+              : [
+                  Colors.green.shade50,
+                  Colors.teal.shade50,
+                ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
@@ -75,12 +83,12 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: Colors.green.shade100,
+                  color: isDarkMode ? Colors.green.withOpacity(0.2) : Colors.green.shade100,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Icon(
                   Icons.eco_rounded,
-                  color: Colors.green.shade700,
+                  color: isDarkMode ? Colors.green.shade300 : Colors.green.shade700,
                   size: 18,
                 ),
               ),
@@ -94,14 +102,14 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: Colors.green.shade800,
+                        color: isDarkMode ? Colors.green.shade300 : Colors.green.shade800,
                       ),
                     ),
                     Text(
                       "Top 3 người đóng góp cho cộng đồng",
                       style: TextStyle(
                         fontSize: 10,
-                        color: Colors.green.shade600,
+                        color: isDarkMode ? Colors.green.shade400 : Colors.green.shade600,
                       ),
                     ),
                   ],
@@ -125,6 +133,8 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                     subtitle: "Thiện nguyện nhiều nhất",
                     data: champions,
                     color: Colors.amber,
+                    theme: theme,
+                    isDarkMode: isDarkMode,
                   ),
                 ),
 
@@ -138,6 +148,8 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                     subtitle: "Sử dụng sách cũ nhiều nhất",
                     data: heroes,
                     color: Colors.blue,
+                    theme: theme,
+                    isDarkMode: isDarkMode,
                   ),
                 ),
               ],
@@ -153,12 +165,14 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
     required String subtitle,
     required List<Map<String, dynamic>> data,
     required MaterialColor color,
+    required ThemeData theme,
+    required bool isDarkMode,
   }) {
     return Container(
       width: double.infinity, // Đảm bảo chiếm hết width được phân bổ
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.inversePrimary,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: color.withOpacity(0.2),
@@ -186,7 +200,7 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                   style: TextStyle(
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
-                    color: color.shade700,
+                    color: isDarkMode ? color.shade300 : color.shade700,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -195,7 +209,7 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                   subtitle,
                   style: TextStyle(
                     fontSize: 8,
-                    color: color.shade600,
+                    color: isDarkMode ? color.shade400 : color.shade600,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -214,6 +228,8 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
               name: user['name'],
               books: user['books'],
               color: color,
+              theme: theme,
+              isDarkMode: isDarkMode,
             );
           }).toList(),
         ],
@@ -226,12 +242,14 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
     required String name,
     required int books,
     required MaterialColor color,
+    required ThemeData theme,
+    required bool isDarkMode,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: color.shade50,
+        color: isDarkMode ? color.withOpacity(0.1) : color.shade50,
         borderRadius: BorderRadius.circular(6),
         border: Border.all(
           color: color.withOpacity(0.3),
@@ -280,7 +298,7 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
-                    color: Colors.grey[800],
+                    color: theme.colorScheme.tertiary,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -291,14 +309,14 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                     Icon(
                       Icons.menu_book_rounded,
                       size: 10,
-                      color: color.shade600,
+                      color: isDarkMode ? color.shade300 : color.shade600,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       "$books cuốn",
                       style: TextStyle(
                         fontSize: 8,
-                        color: color.shade600,
+                        color: isDarkMode ? color.shade300 : color.shade600,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
