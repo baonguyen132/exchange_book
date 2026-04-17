@@ -36,7 +36,6 @@ class _AddPointState extends State<AddPoint> {
     );
 
     final payUrl = response.body;
-
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => VnPayScreen(paymentUrl: payUrl)),
@@ -44,7 +43,6 @@ class _AddPointState extends State<AddPoint> {
 
     if (result == '00') {
       TransactionModel.updateHistoryTransaction(
-        point: amount,
         price: amount,
         state: true,
         id_user: widget.userModel.id.toString(),

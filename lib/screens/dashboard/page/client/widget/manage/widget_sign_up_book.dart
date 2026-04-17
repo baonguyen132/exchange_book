@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:exchange_book/data/ConstraintData.dart';
 import 'package:exchange_book/screens/dashboard/page/client/cubit/manage/page/sign_up_book_cubit.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage/widget_button_custom.dart';
 import 'package:exchange_book/screens/dashboard/page/client/widget/manage/widget_text.dart';
@@ -96,6 +97,7 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
       ],
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +208,7 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
                                       children: [
                                         ElevatedButton.icon(
                                           onPressed: () => signUpBookCubit
-                                              .pickImage(ImageSource.gallery),
+                                              .pickImage(ImageSource.gallery, () => toast("Hệ thống chưa có loại sách này"),),
                                           icon: const Icon(Icons.photo_library),
                                           label: const Text('Chọn ảnh'),
                                         ),
@@ -275,10 +277,11 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
                               alignment: Alignment.centerRight,
                               child: WidgetButtonCustom(
                                 handle: () {
-                                  if (double.parse(priceController.text) <
-                                      double.parse(signUpBookCubit
-                                          .state.typeBookModal!.price) *
-                                          0.5) {
+                                  final typeBook = signUpBookCubit.state.typeBookModal!;
+                                  final enteredPrice = double.tryParse(priceController.text) ?? 0;
+                                  final basePrice = double.tryParse(typeBook.price) ?? 0;
+
+                                  if (enteredPrice < basePrice * 0.5) {
                                     widget.insert(BookModal(
                                       date_purchase: datePurchaseController.text,
                                       price: priceController.text,
@@ -287,18 +290,16 @@ class _WidgetSignUpBookState extends State<WidgetSignUpBook> {
                                       quantity: quantityController.text,
                                       image: signUpBookCubit.state.path,
                                       id_user: widget.user.id.toString(),
-                                      id_type_book: signUpBookCubit
-                                          .state.typeBookModal!.id
-                                          .toString(),
+                                      id_type_book: typeBook.id.toString(),
                                     ));
+
                                     datePurchaseController.clear();
                                     priceController.clear();
                                     descriptionController.clear();
                                     quantityController.clear();
                                     signUpBookCubit.reset();
                                   } else {
-                                    signUpBookCubit
-                                        .changeError("Giá phải nhỏ hơn 50% giá gốc");
+                                    signUpBookCubit.changeError("Giá phải nhỏ hơn 50% giá gốc");
                                   }
                                 },
                                 text: "Thêm sản phẩm",

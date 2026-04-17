@@ -6,9 +6,11 @@ class ManagePointState with _$ManagePointState{
   const factory ManagePointState.loading() = _Loading ;
   const factory ManagePointState.loaded(
       {
+        required int page ,
         required List<dynamic> list,
-        required List<int> listId ,
-        required int pointTotal ,
+        required String address ,
+        required int point ,
+
 
       }) = _Loaded ;
 }

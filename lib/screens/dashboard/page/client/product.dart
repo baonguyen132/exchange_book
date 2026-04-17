@@ -17,6 +17,7 @@ import 'package:exchange_book/screens/dashboard/page/client/card_detail.dart';
 import 'package:exchange_book/theme/theme.dart';
 
 import '../../../../model/cart_modal.dart';
+import '../../widget/pagination.dart';
 import 'cart.dart';
 
 class Product extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ProductState extends State<Product> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<ProductCubit>().loadData(widget.userdata.id.toString());
+    context.read<ProductCubit>().loadData(int.parse(widget.userdata.id!));
   }
 
   Widget getWidget(ProductState state) {
@@ -232,7 +233,27 @@ class _ProductState extends State<Product> {
                 ),
               ),
 
-            const SizedBox(height: 40),
+              const SizedBox(height: 20),
+
+              products.isNotEmpty || context.read<ProductCubit>().state.currentPage > 1 ? Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [Pagination(
+                            back: () {if(context.read<ProductCubit>().state.currentPage != 1) {context.read<ProductCubit>().change("-", int.parse(widget.userdata.id!));}},
+                            next: () {if(context.read<ProductCubit>().state.listProduct.isNotEmpty){context.read<ProductCubit>().change("+", int.parse(widget.userdata.id!));}},
+                            indexCurrent: context.read<ProductCubit>().state.currentPage
+                        ),],
+                      )
+                  ),
+                ],
+              ):Container(),
+
+
+              const SizedBox(height: 40),
           ],
         ),
       );

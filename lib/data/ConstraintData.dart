@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 var mainLightDarkMode = true ;
 
 const location = "https://steady-sharply-ibex.ngrok-free.app" ;
-// const location = "http://192.168.1.12:5000" ;
-const apiAI = "https://be6dfc3c4881.ngrok-free.app/webhook/bookswap" ;
+// const location = "http://localhost:5000" ;
+const apiAI = "https://7c17-2001-ee0-4b4e-5f80-5c27-ddf5-cdd5-24b3.ngrok-free.app/webhook/bookswap" ;
 
 // Hàm chuyển số CCCD thành ngày tháng năm
 String formatIDToDate(String idNumber) {
@@ -27,4 +27,4 @@ void toast(String content) {
     textColor: Colors.white,
     fontSize: 16.0,
   );
-}
+} 

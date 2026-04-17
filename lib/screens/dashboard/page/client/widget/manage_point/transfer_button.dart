@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class TransferButton extends StatefulWidget {
   final Function() handleClick;
-  const TransferButton({super.key, required this.handleClick});
+  final String title ;
+  final IconData icon ;
+  const TransferButton({super.key, required this.handleClick, required this.title, required this.icon});
 
   @override
   State<TransferButton> createState() => _TransferButtonState();
@@ -27,14 +29,14 @@ class _TransferButtonState extends State<TransferButton> {
           elevation: 4,
           shadowColor: Colors.blue.withOpacity(0.3),
         ),
-        child: const Row(
+        child:  Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.send_rounded, size: 20),
-            SizedBox(width: 8),
+            Icon(widget.icon, size: 20),
+            const SizedBox(width: 8),
             Text(
-              "Chuyển tiền",
-              style: TextStyle(
+              widget.title,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

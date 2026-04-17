@@ -51,13 +51,12 @@ class TransactionModel {
     };
   }
 
-  static Future<void> updateHistoryTransaction({required String point , required String price , required bool state , required String id_user , required Function () successful , required Function () fail}) async {
+  static Future<void> updateHistoryTransaction({required String price , required bool state , required String id_user , required Function () successful , required Function () fail}) async {
 
     final response = await http.post(
       Uri.parse("$location/add-transaction"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "point": point,
         "price": price,
         "state": state,
         "id_user": id_user,
@@ -73,20 +72,21 @@ class TransactionModel {
   }
 
 
-  static Future<void> transfer({required String listId , required int totalPoint , required String idUser , required Function () successful , required Function () fail}) async {
+  static Future<void> transfer({required String address , required int point , required String idUser , required Function (String message, String point) successful , required Function () fail}) async {
 
     final response = await http.post(
       Uri.parse("$location/transfer"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "listId": listId,
-        "totalPoint": totalPoint,
+        "address": address,
+        "point": point,
         "idUser": idUser,
       }), // Chuyển đổi model thành JSON
     );
 
     if (response.statusCode == 200) {
-      successful() ;
+      Map<String, dynamic> json = jsonDecode(response.body);
+      successful(json["message"].toString() , json["current_points"].toString()) ;
     } else {
       fail();
       print("Lỗi: ${response.body}");

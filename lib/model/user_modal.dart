@@ -126,11 +126,25 @@ class UserModel {
   }
 
 
-  static Future<List<dynamic>> loadDataUser(String id) async {
+  static Future<List<dynamic>> loadDataUserFromServe(int id , int page) async {
     final response = await http.post(
       Uri.parse("$location/loadDataUser"),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"id_user": id})
+      body: jsonEncode({"id_user": id, "page": page})
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to load books: ${response.statusCode}");
+    }
+  }
+
+  static Future<List<dynamic>> loadDataUserAddressFromServe(int id,int page,String address) async {
+    final response = await http.post(
+        Uri.parse("$location/loadDataUserAddress"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"id_user": id, "page": page, "address": address})
     );
 
     if (response.statusCode == 200) {

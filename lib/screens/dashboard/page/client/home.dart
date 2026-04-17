@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
     final headerHeight = 260.0;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: theme.colorScheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -334,6 +334,7 @@ class _HomeState extends State<Home> {
   }) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        final theme = Theme.of(context);
         final isMobile = MediaQuery.of(context).size.width <= 768;
 
         // Thêm một khoảng đệm bên trong để thu nhỏ nút, đặc biệt trên mobile
@@ -364,18 +365,18 @@ class _HomeState extends State<Home> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white,
-                      Colors.grey.shade50,
+                      theme.colorScheme.inversePrimary,
+                      theme.colorScheme.inversePrimary.withOpacity(0.9),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(borderRadius),
                   border: Border.all(
-                    color: Colors.grey.shade200,
+                    color: theme.colorScheme.onSurface.withOpacity(0.1),
                     width: 1.5,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.08),
+                      color: theme.shadowColor?.withOpacity(0.08) ?? Colors.black12,
                       spreadRadius: 1,
                       blurRadius: 8,
                       offset: const Offset(0, 3),
@@ -396,7 +397,7 @@ class _HomeState extends State<Home> {
                       label,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.grey.shade800,
+                        color: theme.colorScheme.tertiary,
                         fontWeight: FontWeight.w600,
                         fontSize: fontSize,
                         height: 1.2,

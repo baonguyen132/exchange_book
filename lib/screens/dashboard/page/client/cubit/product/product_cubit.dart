@@ -16,14 +16,15 @@ class ProductCubit extends Cubit<ProductState> {
       isLoading: true ,
       listProduct: [],
       page: "list",
+      currentPage: 1,
   )
   );
 
-  void loadData(String id) async {
+  void loadData(int id) async {
 
     emit(state.copyWith(isLoading: true));
 
-    List<dynamic> data = await BookModal.exportBook(id) ;
+    List<dynamic> data = await BookModal.exportBook(id , state.currentPage) ;
 
     emit(state.copyWith(listProduct: data , isLoading: false));
 
@@ -45,8 +46,21 @@ class ProductCubit extends Cubit<ProductState> {
     final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null)  {
       File image = File(pickedFile.path);
-      List<dynamic> data = (await BookModal.uploadImageScan(image,"/scan_books", id))! ;
+      String name_book = await BookModal.scanImage(image);
+      List<dynamic> data = (await BookModal.scanBooks(id, name_book))! ;
+      print(data);
       emit(state.copyWith(listProduct: data));
     }
   }
+
+  void change(String status, int id) async {
+    int currentPage = state.currentPage ;
+    if(status == "+") {currentPage++ ;}
+    else {currentPage-- ;}
+
+    emit(state.copyWith(isLoading: true));
+    List<dynamic> data = await BookModal.exportBook(id , currentPage) ;
+    emit(state.copyWith(listProduct: data, currentPage: currentPage , isLoading: false));
+  }
+
 }

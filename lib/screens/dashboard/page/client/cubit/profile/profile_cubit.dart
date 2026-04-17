@@ -17,7 +17,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void loadingData() async {
     UserModel? dataUser = await UserModel.loadUserData();
-    List<dynamic> dataBooks = await BookModal.exporUserBook(dataUser!.id.toString());
+    List<dynamic> dataBooks = await BookModal.exportUserBook(int.parse(dataUser!.id.toString()),1);
 
     emit(state.copyWith(list: dataBooks , user: dataUser));
 

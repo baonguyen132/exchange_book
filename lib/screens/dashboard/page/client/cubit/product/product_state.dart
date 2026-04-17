@@ -7,7 +7,10 @@ class ProductState with _$ProductState{
         required bool isLoading ,
 
         required List<dynamic> listProduct ,
+        required int currentPage,
+
         required String page,
+
 
 
       }) = _Initial;

@@ -15,7 +15,7 @@ class _WhyExchangeState extends State<WhyExchange> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.inversePrimary,
         borderRadius: BorderRadius.circular(14),
         // flat card: no shadow
         boxShadow: [],
@@ -31,10 +31,10 @@ class _WhyExchangeState extends State<WhyExchange> {
             'Trao đổi sách giúp giảm lãng phí tài nguyên và bảo vệ môi trường.',
             theme: theme,
           ),
-          const Divider(
+          Divider(
               height: 24,
               thickness: 1,
-              color: Color(0xFFF0F0F0)),
+              color: theme.dividerColor),
           _promoRow(
             icon: Icons.groups,
             title: 'Kết nối cộng đồng',
@@ -42,10 +42,10 @@ class _WhyExchangeState extends State<WhyExchange> {
             'Tạo cơ hội giao lưu, chia sẻ tri thức giữa mọi người.',
             theme: theme,
           ),
-          const Divider(
+          Divider(
               height: 24,
               thickness: 1,
-              color: Color(0xFFF0F0F0)),
+              color: theme.dividerColor),
           _promoRow(
             icon: Icons.lightbulb,
             title: 'Tiết kiệm chi phí',
@@ -90,7 +90,7 @@ class _WhyExchangeState extends State<WhyExchange> {
               Text(
                 desc,
                 style:
-                theme.textTheme.bodySmall?.copyWith(color: Colors.black54),
+                theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.tertiary.withOpacity(0.7)),
               ),
             ],
           ),

@@ -18,19 +18,24 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$BookState {
   List<TypeBookModal> get list => throw _privateConstructorUsedError;
   bool get frame => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<TypeBookModal> list, bool frame) initial,
+    required TResult Function(
+            List<TypeBookModal> list, bool frame, int currentPage)
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<TypeBookModal> list, bool frame)? initial,
+    TResult? Function(List<TypeBookModal> list, bool frame, int currentPage)?
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<TypeBookModal> list, bool frame)? initial,
+    TResult Function(List<TypeBookModal> list, bool frame, int currentPage)?
+        initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +68,7 @@ abstract class $BookStateCopyWith<$Res> {
   factory $BookStateCopyWith(BookState value, $Res Function(BookState) then) =
       _$BookStateCopyWithImpl<$Res, BookState>;
   @useResult
-  $Res call({List<TypeBookModal> list, bool frame});
+  $Res call({List<TypeBookModal> list, bool frame, int currentPage});
 }
 
 /// @nodoc
@@ -83,6 +88,7 @@ class _$BookStateCopyWithImpl<$Res, $Val extends BookState>
   $Res call({
     Object? list = null,
     Object? frame = null,
+    Object? currentPage = null,
   }) {
     return _then(_value.copyWith(
       list: null == list
@@ -93,6 +99,10 @@ class _$BookStateCopyWithImpl<$Res, $Val extends BookState>
           ? _value.frame
           : frame // ignore: cast_nullable_to_non_nullable
               as bool,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -105,7 +115,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<TypeBookModal> list, bool frame});
+  $Res call({List<TypeBookModal> list, bool frame, int currentPage});
 }
 
 /// @nodoc
@@ -123,6 +133,7 @@ class __$$InitialImplCopyWithImpl<$Res>
   $Res call({
     Object? list = null,
     Object? frame = null,
+    Object? currentPage = null,
   }) {
     return _then(_$InitialImpl(
       list: null == list
@@ -133,6 +144,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.frame
           : frame // ignore: cast_nullable_to_non_nullable
               as bool,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -141,7 +156,9 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {required final List<TypeBookModal> list, required this.frame})
+      {required final List<TypeBookModal> list,
+      required this.frame,
+      required this.currentPage})
       : _list = list;
 
   final List<TypeBookModal> _list;
@@ -154,10 +171,12 @@ class _$InitialImpl implements _Initial {
 
   @override
   final bool frame;
+  @override
+  final int currentPage;
 
   @override
   String toString() {
-    return 'BookState.initial(list: $list, frame: $frame)';
+    return 'BookState.initial(list: $list, frame: $frame, currentPage: $currentPage)';
   }
 
   @override
@@ -166,12 +185,14 @@ class _$InitialImpl implements _Initial {
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
             const DeepCollectionEquality().equals(other._list, _list) &&
-            (identical(other.frame, frame) || other.frame == frame));
+            (identical(other.frame, frame) || other.frame == frame) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_list), frame);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_list), frame, currentPage);
 
   /// Create a copy of BookState
   /// with the given fields replaced by the non-null parameter values.
@@ -184,27 +205,31 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<TypeBookModal> list, bool frame) initial,
+    required TResult Function(
+            List<TypeBookModal> list, bool frame, int currentPage)
+        initial,
   }) {
-    return initial(list, frame);
+    return initial(list, frame, currentPage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<TypeBookModal> list, bool frame)? initial,
+    TResult? Function(List<TypeBookModal> list, bool frame, int currentPage)?
+        initial,
   }) {
-    return initial?.call(list, frame);
+    return initial?.call(list, frame, currentPage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<TypeBookModal> list, bool frame)? initial,
+    TResult Function(List<TypeBookModal> list, bool frame, int currentPage)?
+        initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(list, frame);
+      return initial(list, frame, currentPage);
     }
     return orElse();
   }
@@ -241,12 +266,15 @@ class _$InitialImpl implements _Initial {
 abstract class _Initial implements BookState {
   const factory _Initial(
       {required final List<TypeBookModal> list,
-      required final bool frame}) = _$InitialImpl;
+      required final bool frame,
+      required final int currentPage}) = _$InitialImpl;
 
   @override
   List<TypeBookModal> get list;
   @override
   bool get frame;
+  @override
+  int get currentPage;
 
   /// Create a copy of BookState
   /// with the given fields replaced by the non-null parameter values.

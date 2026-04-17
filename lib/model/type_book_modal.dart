@@ -49,15 +49,15 @@ class TypeBookModal {
     }
   }
 
-  static Future<List<TypeBookModal>> exportTypeBook(Function () handle) async {
+  static Future<List<TypeBookModal>> exportTypeBook(Function () handle, int page) async {
     List<TypeBookModal> list = [] ;
     
-    final respone = await http.post(
-      Uri.parse("$location/exportTypeBook"),
+    final response = await http.get(
+      Uri.parse("$location/exportTypeBook/$page"),
       headers: {"Content-Type": "application/json"},
     ) ;
 
-    List<dynamic> data = jsonDecode(respone.body) ;
+    List<dynamic> data = jsonDecode(response.body) ;
     for(var item in data) {
       list.add(TypeBookModal(id: item[0].toString() , name_book: item[1], type_book: item[2], price: item[3].toString() ,image: item[4] , description:item[5], ));
     }
@@ -65,7 +65,39 @@ class TypeBookModal {
 
   }
 
-  static Future<List<String>?> uploadImageScan(File _image) async {
+  static Future<Map<String, dynamic>?> ScanImage(File _image) async {
+    try {
+      var uri = Uri.parse(apiAI); // Đổi IP nếu cần
+      var request = http.MultipartRequest('POST', uri);
+
+      var mimeType = lookupMimeType(_image.path) ?? 'image/jpeg';
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        _image.path,
+        contentType: MediaType.parse(mimeType),
+      ));
+      request.fields.addAll({"link": "scanTypeBook"});
+
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(responseBody);
+        final data = jsonDecode(jsonResponse[0]["data"]) ;
+        return data;
+
+      } else {
+        print("Upload thất bại! Mã lỗi: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Lỗi khi upload ảnh: $e");
+      return null;
+    }
+  }
+
+  static Future<String> uploadImage(File _image) async {
     try {
       var uri = Uri.parse("$location/upload_type_image_book"); // Đổi IP nếu cần
       var request = http.MultipartRequest('POST', uri);
@@ -84,19 +116,15 @@ class TypeBookModal {
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(responseBody);
 
-        List<String> data = [];
-        data.add(jsonResponse["file_path"]) ;
-        data.add(jsonResponse["label"]) ;
-        data.add(jsonResponse["number"]) ;
-
-        return data;
+        return jsonResponse["file_path"];
       } else {
         print("Upload thất bại! Mã lỗi: ${response.statusCode}");
-        return null;
+        return "";
       }
     } catch (e) {
       print("Lỗi khi upload ảnh: $e");
-      return null;
+      return "";
     }
   }
+
 }

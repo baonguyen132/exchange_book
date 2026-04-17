@@ -78,7 +78,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     // choose which menu indexes to display based on state
-    menuIndexes = widget.state.status == 0 ? [0, 1] : [6, 7];
+    menuIndexes = widget.state.status == 0 ? [0, 1] : [5, 6];
 
     int validSelectionIndex = menuIndexes
         .indexWhere((i) => listmenu[i].id == widget.state.indexScreen);

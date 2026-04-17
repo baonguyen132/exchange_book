@@ -5,6 +5,7 @@ class BookState with _$BookState{
   const factory BookState.initial(
       {
         required List<TypeBookModal> list ,
-        required bool frame
+        required bool frame,
+        required int currentPage ,
       }) = _Initial;
 }
