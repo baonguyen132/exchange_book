@@ -99,26 +99,29 @@ class _WidgetListBookState extends State<WidgetListBook> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(e[1]),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
+                                  Text(e[1],
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 15,
+                                            letterSpacing: -0.2,
+                                          )),
+                                  const SizedBox(height: 8),
                                   WidgetText(
-                                      icon: Icons.book,
-                                      title: "Tuổi sách: ",
+                                      icon: Icons.access_time_rounded,
+                                      title: "Tuổi sách",
                                       content: "${tinhtuoisach(e[3])} năm"
                                   ),
-                                  const SizedBox(height: 5,),
+                                  const SizedBox(height: 4),
                                   WidgetText(
-                                      icon: Icons.book,
-                                      title: "Còn lại: ",
+                                      icon: Icons.inventory_2_rounded,
+                                      title: "Còn lại",
                                       content: e[10].toString()),
-                                  const SizedBox(height: 5,),
+                                  const SizedBox(height: 4),
                                   WidgetText(
-                                      icon: Icons.book,
-                                      title: "Giá: ",
+                                      icon: Icons.sell_rounded,
+                                      title: "Giá",
                                       content: e[4].toString()),
-                                  const SizedBox(height: 5,),
+                                  const SizedBox(height: 6),
 
                                   WidgetButtonCardDetailOfHistory(
                                     item: e!,
@@ -194,116 +197,107 @@ class _WidgetListBookState extends State<WidgetListBook> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return BlocBuilder<ListBookCubit, ListBookState>(
       bloc: listBookCubit,
       builder: (context, state) {
         return Column(
           children: [
-            // Header: gradient (blue tint on left) with title on left and 4-option selector on the right
+            // Header
             LayoutBuilder(builder: (context, headerConstraints) {
-              // Refined selector: grouped dropdown with nicer styling
               final options = ['Sách của tôi', 'Đơn đã mua', 'Đơn đã bán'];
               final currentIndex = (listBookCubit.state.current >= 1 &&
                       listBookCubit.state.current <= 3)
                   ? listBookCubit.state.current
                   : 1;
 
-              Widget selector = ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 140, maxWidth: 220),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        color:
-                            Theme.of(context).dividerColor.withOpacity(0.06)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.02),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2)),
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      cs.primary.withOpacity(0.10),
+                      cs.primary.withOpacity(0.03),
+                      isDark ? cs.surface : Colors.white,
                     ],
+                    stops: const [0.0, 0.4, 1.0],
                   ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  border: Border.all(color: cs.primary.withOpacity(0.08)),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 3)),
+                  ],
+                ),
+                child: Row(children: [
+                  // Icon
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: cs.primary.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(Icons.library_books_rounded, color: cs.primary, size: 22),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                      child: Text('Quản lý sách',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.3))),
+                  // Selector
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: isDark ? cs.surface : Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: cs.primary.withOpacity(0.12)),
+                      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 8, offset: const Offset(0, 2))],
+                    ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<int>(
                         value: currentIndex,
-                        items: List.generate(
-                          options.length,
-                          (index) => DropdownMenuItem<int>(
-                            value: index + 1,
-                            child: Text(options[index],
-                                style: Theme.of(context).textTheme.bodyMedium),
-                          ),
-                        ),
+                        items: List.generate(options.length, (index) => DropdownMenuItem<int>(
+                          value: index + 1,
+                          child: Text(options[index], style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
+                        )),
                         onChanged: (i) {
-                          if (i != null) {
-                            listBookCubit.loadData(i, int.parse(widget.user.id!), 1);
-                          }
+                          if (i != null) { listBookCubit.loadData(i, int.parse(widget.user.id!), 1); }
                         },
-                        icon: Icon(Icons.keyboard_arrow_down,
-                            size: 20,
-                            color:
-                                Theme.of(context).textTheme.bodySmall?.color),
+                        icon: Icon(Icons.keyboard_arrow_down_rounded, size: 20, color: cs.primary),
                         isDense: true,
-                        dropdownColor: Theme.of(context).colorScheme.surface,
+                        dropdownColor: isDark ? cs.surface : Colors.white,
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                   ),
-                ),
-              );
-
-              return Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      Theme.of(context).colorScheme.primary.withOpacity(0.08),
-                      Colors.white
-                    ],
-                    stops: const [0.0, 0.9],
-                  ),
-                  border: Border.all(
-                      color: Theme.of(context).dividerColor.withOpacity(0.04)),
-                ),
-                child: Row(children: [
-                  Container(
-                      width: 6,
-                      height: 36,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.14),
-                          borderRadius: BorderRadius.circular(4))),
-                  const SizedBox(width: 12),
-                  Expanded(
-                      child: Text('Quản lý sách',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(fontWeight: FontWeight.w700))),
-                  selector,
                 ]),
               );
             }),
 
-            const SizedBox(
-              height: 20,
-            ),
-            listBookCubit.state.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : getListCart(
-                    listBookCubit.state.current, listBookCubit.state.list),
+            const SizedBox(height: 8),
 
-            const SizedBox(height: 20,),
+            // Loading or content
+            listBookCubit.state.isLoading
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 40),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: 36,
+                          height: 36,
+                          child: CircularProgressIndicator(strokeWidth: 3, color: cs.primary),
+                        ),
+                        const SizedBox(height: 14),
+                        Text('Đang tải...', style: TextStyle(color: cs.onSurface.withOpacity(0.5), fontSize: 13)),
+                      ],
+                    ),
+                  )
+                : getListCart(listBookCubit.state.current, listBookCubit.state.list),
+
+            const SizedBox(height: 20),
 
             listBookCubit.state.list.isNotEmpty ||  listBookCubit.state.currentPage > 1 ? SizedBox(
                 height: 50,

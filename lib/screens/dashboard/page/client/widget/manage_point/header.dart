@@ -105,7 +105,7 @@ class _HeaderState extends State<Header> {
           ),
           const SizedBox(height: 4),
           Text(
-            "Quản lý và chuyển điểm cho người dùng",
+            "Quản lý và chuyển tiền cho người dùng",
             style: TextStyle(
               fontSize: 14,
               color: Colors.white.withOpacity(0.9),

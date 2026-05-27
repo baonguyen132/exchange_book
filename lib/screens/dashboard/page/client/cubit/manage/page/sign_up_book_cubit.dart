@@ -32,25 +32,32 @@ class SignUpBookCubit extends Cubit<SignUpBookState> {
 
     if (pickedFile != null)  {
       image = File(pickedFile.path);
-      String name_book = await BookModal.scanImage(image) ;
-      var  jsonResponse = (await BookModal.uploadImageAndExportTypeBook(image, name_book))! ;
+      emit(state.copyWith(isLoading: true));
+      try {
+        String name_book = await BookModal.scanImage(image) ;
+        var  jsonResponse = (await BookModal.uploadImageAndExportTypeBook(image, name_book))! ;
 
-      var data = jsonResponse["data"];
-      print("ss");
-      print(name_book);
-      if(data != null) {
-        TypeBookModal typeBookModal = TypeBookModal(
-            id: data[0].toString(),
-            name_book: data[1],
-            type_book: data[2],
-            price: data[3].toString(),
-            description: data[5],
-            image: data[4]
-        ) ;
-        emit(state.copyWith(typeBookModal: typeBookModal , path: jsonResponse["path"]));
-      }
-      else {
-        handleFail() ;
+        var data = jsonResponse["data"];
+        print("ss");
+        print(name_book);
+        if(data != null) {
+          TypeBookModal typeBookModal = TypeBookModal(
+              id: data[0].toString(),
+              name_book: data[1],
+              type_book: data[2],
+              price: data[3].toString(),
+              description: data[5],
+              image: data[4]
+          ) ;
+          emit(state.copyWith(typeBookModal: typeBookModal , path: jsonResponse["path"], isLoading: false));
+        }
+        else {
+          emit(state.copyWith(isLoading: false));
+          handleFail() ;
+        }
+      } catch (e) {
+        emit(state.copyWith(isLoading: false));
+        handleFail();
       }
 
     }

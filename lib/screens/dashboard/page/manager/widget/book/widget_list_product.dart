@@ -53,6 +53,10 @@ class _WidgetListProductState extends State<WidgetListProduct> {
       context: context,
       builder: (BuildContext context) {
         final theme = Theme.of(context);
+        final isDark = theme.brightness == Brightness.dark;
+        final cardColor = isDark ? const Color(0xFF1E1E2C) : Colors.white;
+        final subtextColor = isDark ? Colors.white54 : Colors.black54;
+
         return Dialog(
           insetPadding:
               const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -61,17 +65,21 @@ class _WidgetListProductState extends State<WidgetListProduct> {
             constraints: const BoxConstraints(maxWidth: 760),
             child: Container(
               decoration: BoxDecoration(
-                color: theme.cardColor,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: const [
+                color: cardColor,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.04),
+                ),
+                boxShadow: [
                   BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 12,
-                      offset: Offset(0, 6))
+                    color: Colors.black.withOpacity(isDark ? 0.4 : 0.15),
+                    blurRadius: 24,
+                    offset: const Offset(0, 8),
+                  ),
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +89,12 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: theme.primaryColor.withOpacity(0.12),
+                            gradient: LinearGradient(
+                              colors: [
+                                theme.primaryColor.withOpacity(0.15),
+                                theme.primaryColor.withOpacity(0.05),
+                              ],
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Icon(Icons.edit, color: theme.primaryColor),
@@ -96,20 +109,24 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                                       ?.copyWith(fontWeight: FontWeight.bold)),
                               const SizedBox(height: 4),
                               Text('Cập nhật thông tin loại sách',
-                                  style: theme.textTheme.bodySmall
-                                      ?.copyWith(color: Colors.black54)),
+                                  style: TextStyle(fontSize: 13, color: subtextColor)),
                             ],
                           ),
                         ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.close, color: Colors.black54),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () => Navigator.of(context).pop(),
+                            borderRadius: BorderRadius.circular(8),
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: Icon(Icons.close, color: subtextColor, size: 20),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
                     LayoutBuilder(builder: (context, constraints) {
                       final isWide = constraints.maxWidth > 600;
                       return SingleChildScrollView(
@@ -196,40 +213,62 @@ class _WidgetListProductState extends State<WidgetListProduct> {
                               ),
                       );
                     }),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 18),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Huỷ',
-                              style: TextStyle(color: Colors.black54)),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          ),
+                          child: Text('Huỷ',
+                              style: TextStyle(color: subtextColor)),
                         ),
                         const SizedBox(width: 8),
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.primaryColor,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                          onPressed: () {
-                            onSubmit(
-                              TypeBookModal(
-                                id: typeBookModal.id,
-                                name_book: nameBookController.text,
-                                type_book: typeBookController.text,
-                                description: descriptionController.text,
-                                price: priceController.text,
-                                image: typeBookModal.image,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                              colors: [
+                                theme.primaryColor,
+                                Color.lerp(theme.primaryColor, Colors.purple, 0.2)!,
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: theme.primaryColor.withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 3),
                               ),
-                            );
-                            Navigator.of(context).pop();
-                          },
-                          icon: const Icon(Icons.save, color: Colors.white),
-                          label: const Text('Lưu',
-                              style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 18, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            onPressed: () {
+                              onSubmit(
+                                TypeBookModal(
+                                  id: typeBookModal.id,
+                                  name_book: nameBookController.text,
+                                  type_book: typeBookController.text,
+                                  description: descriptionController.text,
+                                  price: priceController.text,
+                                  image: typeBookModal.image,
+                                ),
+                              );
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(Icons.save, color: Colors.white, size: 18),
+                            label: const Text('Lưu',
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                          ),
                         ),
                       ],
                     ),
@@ -245,6 +284,10 @@ class _WidgetListProductState extends State<WidgetListProduct> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final subtextColor = isDark ? Colors.white54 : Colors.black54;
+    final searchFillColor = isDark ? const Color(0xFF252536) : const Color(0xFFF5F7FA);
 
     final filtered = _query.isEmpty
         ? widget.list
@@ -260,82 +303,109 @@ class _WidgetListProductState extends State<WidgetListProduct> {
           children: [
             Column(
               children: [
-                LayoutBuilder(builder: (context, constraints) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      gradient: RadialGradient(
-                        center: const Alignment(0.95, 0.95), // subtle bottom-right
-                        radius: 1.0,
-                        colors: [
-                          Colors.white,
-                          Colors.blue.withOpacity(0.5),
-                        ],
-                        stops: const [0.9, 1.0],
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                            offset: Offset(0, 2)),
-                      ],
+                // Header card
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: isDark
+                          ? [
+                              const Color(0xFF1E1E2C),
+                              Color.lerp(const Color(0xFF1E1E2C), theme.primaryColor, 0.08)!,
+                            ]
+                          : [
+                              Colors.white,
+                              Color.lerp(Colors.white, theme.primaryColor, 0.06)!,
+                            ],
                     ),
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: isDark ? Colors.white.withOpacity(0.06) : Colors.black.withOpacity(0.04),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(isDark ? 0.2 : 0.06),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            const Text(
-                              'Các loại sách',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: theme.primaryColor.withOpacity(isDark ? 0.15 : 0.10),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(Icons.library_books_rounded, color: theme.primaryColor, size: 22),
                             ),
-                            const SizedBox(height: 6),
-                            const Text(
-                              'Quản lý, thêm, sửa hoặc xóa loại sách',
-                              style: TextStyle(
-                                  fontSize: 13, color: Colors.black54),
-                            ),
-                            const SizedBox(height: 10),
-                            TextField(
-                              controller: _searchController,
-                              onChanged: (value) {
-                                setState(() {
-                                  _query = value ;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                contentPadding:
-                                const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 10),
-                                hintText: 'Tìm theo tên loại sách',
-                                prefixIcon:
-                                const Icon(Icons.search, size: 20),
-                                suffixIcon: IconButton(
-                                  icon: const Icon(Icons.clear, size: 20),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    setState(() {
-                                      _query = '' ;
-                                    });
-                                  },
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(8),
-                                    borderSide: BorderSide.none),
-                                filled: true,
-                                fillColor: const Color(0xFFF5F7FA),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Các loại sách',
+                                    style: theme.textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Quản lý, thêm, sửa hoặc xóa loại sách',
+                                    style: TextStyle(fontSize: 13, color: subtextColor),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
-                        )
-                    ),
-                  );
-                }),
-                const SizedBox(height: 12,),
+                        ),
+                        const SizedBox(height: 12),
+                        TextField(
+                          controller: _searchController,
+                          onChanged: (value) {
+                            setState(() {
+                              _query = value ;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            contentPadding:
+                            const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 12),
+                            hintText: 'Tìm theo tên loại sách',
+                            hintStyle: TextStyle(color: subtextColor, fontSize: 13),
+                            prefixIcon:
+                            Icon(Icons.search, size: 20, color: subtextColor),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.clear, size: 20, color: subtextColor),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _query = '' ;
+                                });
+                              },
+                            ),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.circular(10),
+                                borderSide: BorderSide.none),
+                            filled: true,
+                            fillColor: searchFillColor,
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
+                ),
+                const SizedBox(height: 14),
                 Wrap(
                   alignment: WrapAlignment.spaceAround,
                   children: List.generate(

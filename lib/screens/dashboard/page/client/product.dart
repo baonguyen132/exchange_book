@@ -50,8 +50,10 @@ class _ProductState extends State<Product> {
   }
 
   Widget getWidget(ProductState state) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     if (state.page == "list") {
-      // Redesigned header: title + search bar + image-search; list filtered locally
       final products = state.listProduct.where((p) {
         final title =
             (p.length > 1 ? p[1]?.toString() ?? '' : '').toLowerCase();
@@ -64,62 +66,73 @@ class _ProductState extends State<Product> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header card with improved search UX (flat, no shadow)
+            // Header card
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Theme.of(context).colorScheme.surface,
-                border: Border.all(
-                  color: Theme.of(context).dividerColor.withOpacity(0.08),
-                ),
+                borderRadius: BorderRadius.circular(16),
+                color: isDark ? cs.surface : Colors.white,
+                border: Border.all(color: cs.onSurface.withOpacity(0.06)),
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4)),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Danh sách sản phẩm',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.maintext)),
-                  const SizedBox(height: 6),
-                  Text('Tìm nhanh sách theo tên, hoặc tìm bằng hình ảnh',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: Colors.black54)),
-                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: cs.primary.withOpacity(0.10),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(Icons.storefront_rounded, color: cs.primary, size: 24),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Danh sách sản phẩm',
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -0.3,
+                                  fontSize: 20)),
+                          const SizedBox(height: 4),
+                          Text('Tìm nhanh sách theo tên hoặc hình ảnh',
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  color: cs.onSurface.withOpacity(0.55))),
+                        ],
+                      )),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  // Search row
                   Row(
                     children: [
                       Expanded(
                         child: Container(
-                          height: 46,
+                          height: 48,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(0.02),
-                                  blurRadius: 6,
-                                  offset: const Offset(0, 3))
-                            ],
+                            color: cs.onSurface.withOpacity(0.04),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: cs.onSurface.withOpacity(0.06)),
                           ),
                           child: Row(
                             children: [
-                              const SizedBox(width: 8),
-                              const Icon(Icons.search_outlined,
-                                  color: Colors.grey),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 14),
+                              Icon(Icons.search_rounded, color: cs.onSurface.withOpacity(0.4), size: 22),
+                              const SizedBox(width: 10),
                               Expanded(
                                 child: TextField(
                                   controller: _searchController,
                                   onChanged: (v) =>
                                       setState(() => _searchQuery = v),
                                   textInputAction: TextInputAction.search,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     hintText: 'Tìm kiếm theo tên sách...',
+                                    hintStyle: TextStyle(color: cs.onSurface.withOpacity(0.4)),
                                     border: InputBorder.none,
                                     isDense: true,
                                   ),
@@ -127,7 +140,7 @@ class _ProductState extends State<Product> {
                               ),
                               if (_searchQuery.isNotEmpty)
                                 IconButton(
-                                  icon: const Icon(Icons.clear, size: 20),
+                                  icon: Icon(Icons.close_rounded, size: 18, color: cs.onSurface.withOpacity(0.5)),
                                   onPressed: () => setState(() {
                                     _searchQuery = '';
                                     _searchController.clear();
@@ -140,19 +153,26 @@ class _ProductState extends State<Product> {
                       ),
                       const SizedBox(width: 10),
                       SizedBox(
-                        height: 46,
-                        child: ElevatedButton.icon(
+                        height: 48,
+                        child: ElevatedButton(
                           onPressed: () => context
                               .read<ProductCubit>()
                               .pickImage(
                                   ImageSource.gallery, widget.userdata.id!),
-                          icon: const Icon(Icons.photo_camera_outlined , color: Colors.white,),
-                          label: const Text('Ảnh' , style: TextStyle(color: Colors.white),),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            padding: const EdgeInsets.symmetric(horizontal: 14),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                            backgroundColor: cs.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            elevation: 0,
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.photo_camera_outlined, color: Colors.white, size: 20),
+                              SizedBox(width: 8),
+                              Text('Ảnh', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                            ],
                           ),
                         ),
                       ),
@@ -162,51 +182,61 @@ class _ProductState extends State<Product> {
               ),
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 20),
 
-            // Empty state when no products match
+            // Empty state
             if (products.isEmpty)
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 48),
+                padding: const EdgeInsets.symmetric(vertical: 50),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.search_off,
-                        size: 48, color: Colors.grey.shade400),
-                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: cs.primary.withOpacity(0.06),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.search_off_rounded,
+                          size: 44, color: cs.onSurface.withOpacity(0.3)),
+                    ),
+                    const SizedBox(height: 16),
                     Text('Không tìm thấy sản phẩm',
-                        style: Theme.of(context).textTheme.titleMedium),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 8),
                     Text('Hãy thử từ khoá khác hoặc tìm bằng hình ảnh',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: Colors.black54)),
-                    const SizedBox(height: 16),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: cs.onSurface.withOpacity(0.5))),
+                    const SizedBox(height: 18),
                     ElevatedButton.icon(
                       onPressed: () => context
                           .read<ProductCubit>()
                           .pickImage(ImageSource.gallery, widget.userdata.id!),
                       icon: const Icon(Icons.photo_camera_outlined),
                       label: const Text('Tìm bằng ảnh'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: cs.primary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        elevation: 0,
+                      ),
                     )
                   ],
                 ),
               )
             else
-              // Products grid/wrap centered
+              // Products grid
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Wrap(
                   alignment: WrapAlignment.spaceBetween,
                   spacing: 12,
-                  runSpacing: 12,
+                  runSpacing: 8,
                   children: List.generate(products.length, (i) {
                     final item = products[i];
                     return BestItem(
                       item: item,
-
                       openItem: (item,) =>
                           Navigator.push(
                               context,
@@ -286,22 +316,33 @@ class _ProductState extends State<Product> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return BlocBuilder<ProductCubit, ProductState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(width: 40, height: 40, child: CircularProgressIndicator(strokeWidth: 3, color: cs.primary)),
+                const SizedBox(height: 14),
+                Text('Đang tải...', style: TextStyle(color: cs.onSurface.withOpacity(0.5), fontSize: 13)),
+              ],
+            ),
+          );
         } else {
           return Scaffold(
               body: getWidget(state),
               floatingActionButton: FloatingActionButton(
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: cs.primary,
                 tooltip: state.page == "list" ? 'Giỏ hàng' : 'Quay lại',
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(100))),
                 child: Icon(
                     state.page == "list"
-                        ? Icons.shopping_cart
-                        : Icons.rotate_left,
+                        ? Icons.shopping_cart_rounded
+                        : Icons.arrow_back_rounded,
                     size: 24,
                     color: Colors.white),
                 onPressed: () {

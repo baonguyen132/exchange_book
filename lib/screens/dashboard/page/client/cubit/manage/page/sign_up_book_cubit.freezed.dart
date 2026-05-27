@@ -23,6 +23,7 @@ mixin _$SignUpBookState {
   String get price => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get quantity => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -32,7 +33,8 @@ mixin _$SignUpBookState {
             String datePurchase,
             String price,
             String description,
-            String quantity)
+            String quantity,
+            bool isLoading)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -45,7 +47,8 @@ mixin _$SignUpBookState {
             String datePurchase,
             String price,
             String description,
-            String quantity)?
+            String quantity,
+            bool isLoading)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -58,7 +61,8 @@ mixin _$SignUpBookState {
             String datePurchase,
             String price,
             String description,
-            String quantity)?
+            String quantity,
+            bool isLoading)?
         initial,
     required TResult orElse(),
   }) =>
@@ -100,7 +104,8 @@ abstract class $SignUpBookStateCopyWith<$Res> {
       String datePurchase,
       String price,
       String description,
-      String quantity});
+      String quantity,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -125,6 +130,7 @@ class _$SignUpBookStateCopyWithImpl<$Res, $Val extends SignUpBookState>
     Object? price = null,
     Object? description = null,
     Object? quantity = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       typeBookModal: freezed == typeBookModal
@@ -155,6 +161,10 @@ class _$SignUpBookStateCopyWithImpl<$Res, $Val extends SignUpBookState>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as String,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -174,7 +184,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       String datePurchase,
       String price,
       String description,
-      String quantity});
+      String quantity,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -197,6 +208,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? price = null,
     Object? description = null,
     Object? quantity = null,
+    Object? isLoading = null,
   }) {
     return _then(_$InitialImpl(
       typeBookModal: freezed == typeBookModal
@@ -227,6 +239,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as String,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -241,7 +257,8 @@ class _$InitialImpl implements _Initial {
       required this.datePurchase,
       required this.price,
       required this.description,
-      required this.quantity});
+      required this.quantity,
+      this.isLoading = false});
 
   @override
   final TypeBookModal? typeBookModal;
@@ -257,10 +274,13 @@ class _$InitialImpl implements _Initial {
   final String description;
   @override
   final String quantity;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'SignUpBookState.initial(typeBookModal: $typeBookModal, error: $error, path: $path, datePurchase: $datePurchase, price: $price, description: $description, quantity: $quantity)';
+    return 'SignUpBookState.initial(typeBookModal: $typeBookModal, error: $error, path: $path, datePurchase: $datePurchase, price: $price, description: $description, quantity: $quantity, isLoading: $isLoading)';
   }
 
   @override
@@ -278,12 +298,14 @@ class _$InitialImpl implements _Initial {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
+                other.quantity == quantity) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, typeBookModal, error, path,
-      datePurchase, price, description, quantity);
+      datePurchase, price, description, quantity, isLoading);
 
   /// Create a copy of SignUpBookState
   /// with the given fields replaced by the non-null parameter values.
@@ -303,11 +325,12 @@ class _$InitialImpl implements _Initial {
             String datePurchase,
             String price,
             String description,
-            String quantity)
+            String quantity,
+            bool isLoading)
         initial,
   }) {
-    return initial(
-        typeBookModal, error, path, datePurchase, price, description, quantity);
+    return initial(typeBookModal, error, path, datePurchase, price, description,
+        quantity, isLoading);
   }
 
   @override
@@ -320,11 +343,12 @@ class _$InitialImpl implements _Initial {
             String datePurchase,
             String price,
             String description,
-            String quantity)?
+            String quantity,
+            bool isLoading)?
         initial,
   }) {
-    return initial?.call(
-        typeBookModal, error, path, datePurchase, price, description, quantity);
+    return initial?.call(typeBookModal, error, path, datePurchase, price,
+        description, quantity, isLoading);
   }
 
   @override
@@ -337,13 +361,14 @@ class _$InitialImpl implements _Initial {
             String datePurchase,
             String price,
             String description,
-            String quantity)?
+            String quantity,
+            bool isLoading)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
       return initial(typeBookModal, error, path, datePurchase, price,
-          description, quantity);
+          description, quantity, isLoading);
     }
     return orElse();
   }
@@ -385,7 +410,8 @@ abstract class _Initial implements SignUpBookState {
       required final String datePurchase,
       required final String price,
       required final String description,
-      required final String quantity}) = _$InitialImpl;
+      required final String quantity,
+      final bool isLoading}) = _$InitialImpl;
 
   @override
   TypeBookModal? get typeBookModal;
@@ -401,6 +427,8 @@ abstract class _Initial implements SignUpBookState {
   String get description;
   @override
   String get quantity;
+  @override
+  bool get isLoading;
 
   /// Create a copy of SignUpBookState
   /// with the given fields replaced by the non-null parameter values.

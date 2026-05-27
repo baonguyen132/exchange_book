@@ -20,68 +20,98 @@ class WidgetListManage extends StatefulWidget {
 class _WidgetListManageState extends State<WidgetListManage> {
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final count = widget.list.length;
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header with icon and count
+          // Header
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.06),
-              borderRadius: BorderRadius.circular(8),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  cs.primary.withOpacity(0.08),
+                  cs.primary.withOpacity(0.02),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: cs.primary.withOpacity(0.08)),
             ),
             child: Row(
               children: [
-                Icon(Icons.list_alt,
-                    color: Theme.of(context).colorScheme.primary),
-                const SizedBox(width: 10),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: cs.primary.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(Icons.list_alt_rounded, color: cs.primary, size: 20),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Danh sách sản phẩm',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.w700),
+                    'Danh sách đơn hàng',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.3),
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: cs.primary,
                     borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(color: cs.primary.withOpacity(0.25), blurRadius: 6, offset: const Offset(0, 2)),
+                    ],
                   ),
                   child: Text('$count',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary)),
+                      style: TextStyle(
+                        color: cs.onPrimary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                      )),
                 ),
               ],
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
 
           if (count == 0) ...[
             // Empty state
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 30),
+              padding: const EdgeInsets.symmetric(vertical: 50),
               child: Column(
                 children: [
-                  Icon(Icons.inbox_outlined,
-                      size: 48,
-                      color: Theme.of(context).textTheme.bodySmall?.color),
-                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: cs.primary.withOpacity(0.06),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.inbox_outlined,
+                        size: 44,
+                        color: cs.onSurface.withOpacity(0.3)),
+                  ),
+                  const SizedBox(height: 16),
                   Text('Không có đơn hàng nào',
-                      style: Theme.of(context).textTheme.bodyMedium),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: cs.onSurface.withOpacity(0.5),
+                          fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 6),
+                  Text('Các đơn hàng sẽ hiển thị tại đây',
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: cs.onSurface.withOpacity(0.35))),
                 ],
               ),
             )
           ] else ...[
             // List of items
-            const SizedBox(height: 6),
             ...List.generate(widget.list.length, (i) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),

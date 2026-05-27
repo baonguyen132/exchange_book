@@ -1,11 +1,9 @@
 import 'package:exchange_book/model/user_modal.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../../data/ConstraintData.dart';
 
 class InformationUser extends StatefulWidget {
-  final UserModel userModel ;
+  final UserModel userModel;
   const InformationUser({super.key, required this.userModel});
 
   @override
@@ -14,12 +12,13 @@ class InformationUser extends StatefulWidget {
 
 class _InformationUserState extends State<InformationUser> {
   String newPath = "";
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    loadImage() ;
+    loadImage();
   }
+
   void loadImage() async {
     final path = await UserModel.exportImageAva(widget.userModel.id.toString());
     if (!mounted) return;
@@ -32,61 +31,72 @@ class _InformationUserState extends State<InformationUser> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Avatar with border and soft shadow
+        // Avatar
         Container(
+          padding: const EdgeInsets.all(2.5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white,
-              width: 2,
-            ),
+            color: Colors.white.withOpacity(0.9),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 14,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.white,
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration:  BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(100)),
-                image: DecorationImage(
-                    image: newPath !="" ? NetworkImage("$location/$newPath") : const NetworkImage("https://aic.com.vn/wp-content/uploads/2024/10/avatar-fb-mac-dinh-1.jpg"),
-                    fit: BoxFit.cover
-                ),
-
-              ),
-            ),
+            radius: 28,
+            backgroundColor: Colors.grey.shade200,
+            backgroundImage: newPath != ""
+                ? NetworkImage("$location/$newPath")
+                : const NetworkImage(
+                    "https://aic.com.vn/wp-content/uploads/2024/10/avatar-fb-mac-dinh-1.jpg"),
           ),
         ),
-        const SizedBox(width: 18),
+        const SizedBox(width: 14),
 
-        // Greeting and name
+        // Greeting
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Xin chào,',
+                'Xin chào 👋',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.95),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
+                  color: Colors.white.withOpacity(0.8),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 3),
               Text(
                 widget.userModel.name.isNotEmpty
                     ? widget.userModel.name
                     : 'Khách hàng',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.6,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.3,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
             ],
+          ),
+        ),
+
+        // Notification bell (decorative)
+        Container(
+          padding: const EdgeInsets.all(9),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(
+            Icons.notifications_rounded,
+            color: Colors.white,
+            size: 20,
           ),
         ),
       ],

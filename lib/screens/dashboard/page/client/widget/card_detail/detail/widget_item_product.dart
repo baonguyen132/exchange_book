@@ -23,6 +23,9 @@ class _WidgetItemProductState extends State<WidgetItemProduct> {
   bool _hover = false;
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
         widget.openItem(widget.item);
@@ -32,34 +35,30 @@ class _WidgetItemProductState extends State<WidgetItemProduct> {
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
+          duration: const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
           transform:
-              _hover ? (Matrix4.identity()..scale(1.02)) : Matrix4.identity(),
+              _hover ? (Matrix4.identity()..scale(1.015)) : Matrix4.identity(),
+          transformAlignment: Alignment.center,
           padding: const EdgeInsets.all(0),
-          margin: const EdgeInsets.only(bottom: 14),
+          margin: const EdgeInsets.only(bottom: 10),
           width: widget.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            // subtle primary-tinted border for cohesion with gradient
+            color: isDark ? cs.surface : Colors.white,
             border: Border.all(
-                color: theme.primaryColor.withOpacity(0.08), width: 1),
-            gradient: LinearGradient(
-              begin: const Alignment(-0.9, -0.6),
-              end: const Alignment(0.9, 0.8),
-              colors: [
-                Colors.white,
-                theme.primaryColor.withOpacity(0.06),
-                theme.primaryColor.withOpacity(0.03),
-              ],
-              stops: const [0.0, 0.55, 1.0],
-              tileMode: TileMode.clamp,
+              color: _hover ? cs.primary.withOpacity(0.20) : cs.onSurface.withOpacity(0.06),
+              width: _hover ? 1.5 : 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.06),
-                offset: const Offset(0, 6),
-                blurRadius: 18,
+                color: cs.primary.withOpacity(_hover ? 0.08 : 0.0),
+                blurRadius: _hover ? 16 : 0,
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(_hover ? 0.06 : 0.03),
+                offset: Offset(0, _hover ? 6 : 2),
+                blurRadius: _hover ? 14 : 8,
               ),
             ],
           ),
@@ -67,38 +66,49 @@ class _WidgetItemProductState extends State<WidgetItemProduct> {
             color: Colors.transparent,
             child: InkWell(
               onTap: () => widget.openItem(widget.item),
-              borderRadius: BorderRadius.circular(8),
-              splashColor:
-                  Theme.of(context).colorScheme.primary.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(14),
+              splashColor: cs.primary.withOpacity(0.06),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // vertical accent bar
+                    // accent bar
                     Container(
-                      width: 6,
+                      width: 3,
                       height: 80,
                       margin: const EdgeInsets.only(right: 12),
                       decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.06),
-                        borderRadius: BorderRadius.circular(4),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [cs.primary, cs.primary.withOpacity(0.3)],
+                        ),
+                        borderRadius: BorderRadius.circular(3),
                       ),
                     ),
 
-                    // Image
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CardItemImage(
-                        width: 100,
-                        height: 100,
-                        borderRadius: 10,
-                        heart: false,
-                        link: "$location/${widget.item[6]}",
+                    // Image with shadow
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            offset: const Offset(1, 2),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CardItemImage(
+                          width: 88,
+                          height: 88,
+                          borderRadius: 10,
+                          heart: false,
+                          link: "$location/${widget.item[6]}",
+                        ),
                       ),
                     ),
                     const SizedBox(width: 14),
@@ -109,34 +119,35 @@ class _WidgetItemProductState extends State<WidgetItemProduct> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Ensure product info text is slightly larger and darker
                           DefaultTextStyle.merge(
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(fontSize: 14, color: Colors.black87),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
                             child: ProductItemInformation(item: widget.item),
                           ),
-                          // footer: price and small action hint
+                          // footer: price
                           Row(
                             children: [
-                              Text('${widget.item[4]} VND',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w900,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary)),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: cs.primary.withOpacity(0.10),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text('${widget.item[4]} VND',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: cs.primary)),
+                              ),
                               const Spacer(),
-                              Icon(Icons.arrow_forward_ios,
-                                  size: 14,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.6))
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: cs.primary.withOpacity(0.08),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Icon(Icons.arrow_forward_ios_rounded,
+                                    size: 14, color: cs.primary),
+                              ),
                             ],
                           )
                         ],

@@ -11,8 +11,6 @@ class CardDetail extends StatefulWidget {
   final List<dynamic> item;
   final List<dynamic> list;
 
-
-
   const CardDetail({super.key, required this.item, required this.list, });
 
   @override
@@ -22,6 +20,8 @@ class CardDetail extends StatefulWidget {
 class _CardDetailState extends State<CardDetail> {
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final width = MediaQuery.of(context).size.width;
     final isNarrow = width < 900;
     final rightWidth = (width * 0.32).clamp(300.0, 420.0);
@@ -43,76 +43,108 @@ class _CardDetailState extends State<CardDetail> {
       ),
     );
 
+    // Product list card builder
+    Widget buildListCard() {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isDark ? cs.surface : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: cs.onSurface.withOpacity(0.06)),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Header
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: cs.primary.withOpacity(0.10),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(Icons.list_alt_rounded, color: cs.primary, size: 20),
+                ),
+                const SizedBox(width: 12),
+                Text('Danh sách sản phẩm',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.3)),
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: cs.primary,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text('${widget.list.length}',
+                      style: TextStyle(color: cs.onPrimary, fontWeight: FontWeight.w700, fontSize: 12)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Divider(height: 1, color: cs.onSurface.withOpacity(0.06)),
+            const SizedBox(height: 14),
+            builtList
+          ],
+        ),
+      );
+    }
+
+    // Detail button builder
+    Widget buildDetailButton() {
+      return WidgetButtonCardDetailOfProduct(change: () {
+        toast("Đã thêm vào giỏ hàng");
+
+        final detailCart = DetailCartModal(
+          bookModal: BookModal(
+            id: widget.item[0].toString(),
+            date_purchase: widget.item[3],
+            price: widget.item[4].toString(),
+            description: widget.item[5],
+            status: widget.item[9].toString(),
+            image: widget.item[6],
+            quantity: widget.item[10].toString(),
+            id_user: widget.item[7].toString(),
+            id_type_book: widget.item[8].toString(),
+          ),
+          quantity: 1,
+          nameBook: widget.item[1].toString(),
+        );
+
+        DetailCartModal.saveDetail(
+          widget.item[0].toString(),
+          widget.item[7].toString(),
+          detailCart,
+        );
+      });
+    }
+
     return Scaffold(
+      backgroundColor: isDark ? cs.background : const Color(0xFFF7F8FC),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).pop(),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: cs.primary,
         tooltip: 'Quay lại',
-        child: const Icon(Icons.arrow_back),
+        child: const Icon(Icons.arrow_back_rounded, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(16),
           child: isNarrow
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     WidgetItemInformationChange(
                       item: widget.item,
-                      widgetButton:
-                          WidgetButtonCardDetailOfProduct(change: () {
-                            toast("Đã thêm vào giỏ hàng");
-
-                            final detailCart = DetailCartModal(
-                              bookModal: BookModal(
-                                id: widget.item[0].toString(),
-                                date_purchase: widget.item[3],
-                                price: widget.item[4].toString(),
-                                description: widget.item[5],
-                                status: widget.item[9].toString(),
-                                image: widget.item[6],
-                                quantity: widget.item[10].toString(),
-                                id_user: widget.item[7].toString(),
-                                id_type_book: widget.item[8].toString(),
-                              ),
-                              quantity: 1,
-                              nameBook: widget.item[1].toString(),
-                            );
-
-                            DetailCartModal.saveDetail(
-                              widget.item[0].toString(), // id sách
-                              widget.item[7].toString(), // id user
-                              detailCart,
-                            );
-                          }),
+                      widgetButton: buildDetailButton(),
                     ),
-                    const SizedBox(height: 16),
-                    Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                              color: Theme.of(context)
-                                  .dividerColor
-                                  .withOpacity(0.06))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text('Danh sách sản phẩm',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.w700)),
-                            const SizedBox(height: 12),
-                            builtList
-                          ],
-                        ),
-                      ),
-                    ),
+                    const SizedBox(height: 20),
+                    buildListCard(),
                   ],
                 )
               : Row(
@@ -123,62 +155,13 @@ class _CardDetailState extends State<CardDetail> {
                         padding: const EdgeInsets.only(right: 20.0),
                         child: WidgetItemInformationChange(
                           item: widget.item,
-                          widgetButton: WidgetButtonCardDetailOfProduct(
-                            change: () {
-                              toast("Đã thêm vào giỏ hàng");
-
-                              final detailCart = DetailCartModal(
-                                bookModal: BookModal(
-                                  id: widget.item[0].toString(),
-                                  date_purchase: widget.item[3],
-                                  price: widget.item[4].toString(),
-                                  description: widget.item[5],
-                                  status: widget.item[9].toString(),
-                                  image: widget.item[6],
-                                  quantity: widget.item[10].toString(),
-                                  id_user: widget.item[7].toString(),
-                                  id_type_book: widget.item[8].toString(),
-                                ),
-                                quantity: 1,
-                                nameBook: widget.item[1].toString(),
-                              );
-
-                              DetailCartModal.saveDetail(
-                                widget.item[0].toString(), // id sách
-                                widget.item[7].toString(), // id user
-                                detailCart,
-                              );
-                            },
-                          ),
+                          widgetButton: buildDetailButton(),
                         ),
                       ),
                     ),
                     SizedBox(
                       width: rightWidth,
-                      child: Card(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(
-                                color: Theme.of(context)
-                                    .dividerColor
-                                    .withOpacity(0.06))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text('Danh sách sản phẩm',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.w700)),
-                              const SizedBox(height: 12),
-                              builtList
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: buildListCard(),
                     ),
                   ],
                 ),

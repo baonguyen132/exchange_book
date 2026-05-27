@@ -10,6 +10,7 @@ class SignUpBookState with _$SignUpBookState{
     required String datePurchase,
     required String price ,
     required String description,
-    required String quantity
+    required String quantity,
+    @Default(false) bool isLoading,
   }) = _Initial;
 }
