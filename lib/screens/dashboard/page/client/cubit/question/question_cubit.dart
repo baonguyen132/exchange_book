@@ -20,10 +20,30 @@ class QuestionCubit extends Cubit<QuestionState> {
           (data) {
         try {
           // Xử lý dữ liệu trả về dạng String
-          List<Map<String, dynamic>> parsedQuestions;
+          String sanitizedData = data.trim();
+          
+          // Loại bỏ markdown block nếu có
+          if (sanitizedData.startsWith("```json")) {
+            sanitizedData = sanitizedData.replaceFirst("```json", "");
+          }
+          if (sanitizedData.endsWith("```")) {
+            sanitizedData = sanitizedData.substring(0, sanitizedData.length - 3);
+          }
+          sanitizedData = sanitizedData.trim();
 
-          // Nếu data là String, parse JSON
-          List<dynamic> jsonList = jsonDecode(data);
+          List<Map<String, dynamic>> parsedQuestions;
+          List<dynamic> jsonList;
+
+          try {
+            jsonList = jsonDecode(sanitizedData);
+          } catch (e) {
+            // Nếu parse thất bại, thử thay thế nháy đơn thành nháy kép (cần cẩn thận với apostrophe)
+            // Đây là giải pháp tình thế nếu AI trả về sai format JSON
+            print("Initial JSON parse failed, attempting to fix single quotes...");
+            String fixedData = sanitizedData.replaceAll("'", '"');
+            jsonList = jsonDecode(fixedData);
+          }
+          
           parsedQuestions = jsonList
               .map((item) => Map<String, dynamic>.from(item))
               .toList();

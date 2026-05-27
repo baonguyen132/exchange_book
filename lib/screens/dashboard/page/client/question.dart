@@ -118,31 +118,57 @@ Color getAnswerColor(String option , bool showAnswer , String? selectedAnswer , 
                   title: Text(
                     'Quiz - Lớp $selectedGrade',
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                       color: Colors.white,
+                      fontSize: 20,
                     ),
                   ),
-                  backgroundColor: Colors.blue.shade600,
+                  flexibleSpace: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Colors.indigo.shade600, Colors.blue.shade500],
+                      ),
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent,
                   foregroundColor: Colors.white,
                   elevation: 0,
+                  centerTitle: true,
                   leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.arrow_back_rounded, size: 20),
+                    ),
                     onPressed: questionCubit.backToGradeSelection,
                   ),
                   actions: [
                     Container(
                       margin: const EdgeInsets.only(right: 16),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withOpacity(0.25),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(
-                        '${currentQuestionIndex + 1}/${questionsByGrade.length}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.stars_rounded, color: Colors.amberAccent, size: 18),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Điểm: $score',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -151,193 +177,231 @@ Color getAnswerColor(String option , bool showAnswer , String? selectedAnswer , 
                     ? const Center(
                   child: CircularProgressIndicator(),
                 )
-                    : Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      // Progress Bar
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Câu ${currentQuestionIndex + 1}',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue.shade600,
-                                  ),
-                                ),
-                                Text(
-                                  'Điểm: $score/${questionsByGrade.length}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            LinearProgressIndicator(
-                              value: (currentQuestionIndex + 1) / questionsByGrade.length,
-                              backgroundColor: Colors.grey.shade300,
-                              valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.blue.shade600),
-                              minHeight: 6,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // Question Card
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              spreadRadius: 0,
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          questionsByGrade[currentQuestionIndex]['content'] ?? 'Đang tải câu hỏi...',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            height: 1.4,
-                            color: Colors.black87,
+                    : Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            spreadRadius: 0,
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
                           ),
-                        ),
+                        ],
                       ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Câu ${currentQuestionIndex + 1} / ${questionsByGrade.length}',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey.shade400,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Colors.indigo.shade50,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  '${(((currentQuestionIndex + 1) / questionsByGrade.length) * 100).toStringAsFixed(0)}%',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.indigo.shade600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: LinearProgressIndicator(
+                              value: (currentQuestionIndex + 1) / questionsByGrade.length,
+                              backgroundColor: Colors.grey.shade100,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo.shade500),
+                              minHeight: 8,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                          children: [
+                            // Question Card
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(color: Colors.blue.shade50, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.blue.shade900.withOpacity(0.04),
+                                    spreadRadius: 0,
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                questionsByGrade[currentQuestionIndex]['content'] ?? 'Đang tải câu hỏi...',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.5,
+                                  color: Colors.indigo.shade900,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
 
-                      const SizedBox(height: 24),
+                            const SizedBox(height: 32),
 
-                      // Answer Options
-                      Expanded(
-                        child: ListView(
-                          children: ['A', 'B', 'C', 'D'].map((option) {
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 12),
-                              child: GestureDetector(
-                                onTap: () => questionCubit.selectAnswer(option),
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: getAnswerColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: getAnswerBorderColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
-                                      width: 2,
+                            // Answer Options
+                            ListView(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: ['A', 'B', 'C', 'D'].map((option) {
+                                return Container(
+                                  margin: const EdgeInsets.only(bottom: 16),
+                                  child: GestureDetector(
+                                    onTap: () => questionCubit.selectAnswer(option),
+                                    child: AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(18),
+                                      decoration: BoxDecoration(
+                                        color: getAnswerColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                          color: getAnswerBorderColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
+                                          width: 2,
+                                        ),
+                                        boxShadow: selectedAnswer == option && !showAnswer ? [
+                                          BoxShadow(
+                                            color: Colors.blue.withOpacity(0.15),
+                                            blurRadius: 15,
+                                            offset: const Offset(0, 5),
+                                          )
+                                        ] : [],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                              color: getAnswerBorderColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']).withOpacity(0.1),
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: getAnswerBorderColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
+                                              )
+                                            ),
+                                            child: Icon(
+                                              getAnswerIcon(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
+                                              color: getAnswerBorderColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
+                                              size: 20,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Expanded(
+                                            child: Text(
+                                              questionsByGrade[currentQuestionIndex][option] ?? '',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: selectedAnswer == option ? FontWeight.bold : FontWeight.w600,
+                                                color: Colors.grey.shade800,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 32,
-                                        height: 32,
-                                        decoration: BoxDecoration(
-                                          color: getAnswerBorderColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Icon(
-                                          getAnswerIcon(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
-                                          color: Colors.white,
-                                          size: 18,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Text(
-                                        '$option.',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: getAnswerBorderColor(option, showAnswer, selectedAnswer, questionsByGrade[currentQuestionIndex]['correct']),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          questionsByGrade[currentQuestionIndex][option] ?? '',
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                                );
+                              }).toList(),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
 
-                      // Action Buttons
-                      if (!showAnswer) ...[
-                        SizedBox(
-                          width: double.infinity,
-                          height: 48,
-                          child: ElevatedButton(
-                            onPressed: selectedAnswer != null ? questionCubit.checkAnswer : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue.shade600,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              disabledBackgroundColor: Colors.grey.shade300,
-                            ),
-                            child: const Text(
-                              'Kiểm tra đáp án',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                    // Bottom Action Bar
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 20,
+                            offset: const Offset(0, -5),
                           ),
-                        ),
-                      ] else ...[
-                        SizedBox(
+                        ],
+                      ),
+                      child: SafeArea(
+                        top: false,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
                           width: double.infinity,
-                          height: 48,
-                          child: ElevatedButton(
-                            onPressed: () => questionCubit.nextQuestion(currentQuestionIndex + 1),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green.shade600,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                          height: 56,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            gradient: selectedAnswer != null && !showAnswer
+                              ? LinearGradient(colors: [Colors.blue.shade500, Colors.indigo.shade600])
+                              : (showAnswer ? LinearGradient(colors: [Colors.green.shade500, Colors.teal.shade600]) : null),
+                            color: selectedAnswer == null ? Colors.grey.shade200 : null,
+                            boxShadow: selectedAnswer != null ? [
+                              BoxShadow(
+                                color: (showAnswer ? Colors.green : Colors.blue).withOpacity(0.3),
+                                blurRadius: 15,
+                                offset: const Offset(0, 5),
                               ),
+                            ] : [],
+                          ),
+                          child: ElevatedButton(
+                            onPressed: selectedAnswer != null
+                                ? (!showAnswer ? questionCubit.checkAnswer : () => questionCubit.nextQuestion(currentQuestionIndex + 1))
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              disabledForegroundColor: Colors.grey.shade500,
                             ),
                             child: Text(
-                              currentQuestionIndex <questionsByGrade.length - 1
-                                  ? 'Câu tiếp theo'
-                                  : 'Hoàn thành',
+                              !showAnswer ? 'Kiểm tra đáp án' : (currentQuestionIndex < questionsByGrade.length - 1 ? 'Câu tiếp theo' : 'Hoàn thành'),
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
                               ),
                             ),
                           ),
                         ),
-                      ],
-
-                      const SizedBox(height: 16),
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               );
 

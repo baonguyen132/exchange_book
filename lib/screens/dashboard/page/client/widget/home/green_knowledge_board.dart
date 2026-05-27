@@ -8,68 +8,118 @@ class GreenKnowledgeBoard extends StatefulWidget {
 }
 
 class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
-  // Mock data - chỉ top 3
   final List<Map<String, dynamic>> champions = [
-    {
-      'name': 'Nguyễn Văn Anh',
-      'books': 15,
-    },
-    {
-      'name': 'Trần Thị Ly',
-      'books': 12,
-    },
-    {
-      'name': 'Lê Văn Thiện',
-      'books': 11,
-    },
+    {'name': 'Nguyễn Văn Anh', 'books': 15},
+    {'name': 'Trần Thị Ly', 'books': 12},
+    {'name': 'Lê Văn Thiện', 'books': 11},
   ];
 
   final List<Map<String, dynamic>> heroes = [
-    {
-      'name': 'Võ Tài',
-      'books': 12,
-    },
-    {
-      'name': 'Trần Thiện',
-      'books': 11,
-    },
-    {
-      'name': 'Bùi Thị Ly',
-      'books': 10,
-    },
+    {'name': 'Võ Tài', 'books': 12},
+    {'name': 'Trần Thiện', 'books': 11},
+    {'name': 'Bùi Thị Ly', 'books': 10},
   ];
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDarkMode ? const Color(0xFF1E2030) : Colors.white;
 
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 20,
+              decoration: BoxDecoration(
+                color: const Color(0xFF0CA678),
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Bảng Vinh Danh Tri Thức Xanh',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: isDarkMode ? Colors.white : Colors.grey.shade800,
+                  letterSpacing: 0.2,
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: const Color(0xFF0CA678).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Top 3',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF0CA678),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+
+        // Two column cards — IntrinsicHeight makes them equal
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: _buildColumn(
+                  icon: '🏆',
+                  title: 'Nhà Vô Địch Cho Đi',
+                  subtitle: 'Tặng sách nhiều nhất',
+                  data: champions,
+                  cardBg: cardBg,
+                  isDarkMode: isDarkMode,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildColumn(
+                  icon: '♻️',
+                  title: 'Người Hùng Tái Sử Dụng',
+                  subtitle: 'Dùng sách cũ nhiều nhất',
+                  data: heroes,
+                  cardBg: cardBg,
+                  isDarkMode: isDarkMode,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildColumn({
+    required String icon,
+    required String title,
+    required String subtitle,
+    required List<Map<String, dynamic>> data,
+    required Color cardBg,
+    required bool isDarkMode,
+  }) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: isDarkMode
-              ? [
-                  Colors.green.withOpacity(0.15),
-                  Colors.teal.withOpacity(0.15),
-                ]
-              : [
-                  Colors.green.shade50,
-                  Colors.teal.shade50,
-                ],
-        ),
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.green.withOpacity(0.2),
-          width: 1,
-        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.green.withOpacity(0.1),
-            spreadRadius: 0,
-            blurRadius: 10,
+            color: isDarkMode ? Colors.black38 : Colors.grey.shade200,
+            blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
@@ -77,158 +127,42 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          // Title row: icon + title on same line
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: isDarkMode ? Colors.green.withOpacity(0.2) : Colors.green.shade100,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Icon(
-                  Icons.eco_rounded,
-                  color: isDarkMode ? Colors.green.shade300 : Colors.green.shade700,
-                  size: 18,
-                ),
-              ),
-              const SizedBox(width: 8),
+              Text(icon, style: const TextStyle(fontSize: 14)),
+              const SizedBox(width: 4),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Bảng Vinh Danh Tri Thức Xanh",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: isDarkMode ? Colors.green.shade300 : Colors.green.shade800,
-                      ),
-                    ),
-                    Text(
-                      "Top 3 người đóng góp cho cộng đồng",
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: isDarkMode ? Colors.green.shade400 : Colors.green.shade600,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    color: isDarkMode ? Colors.white : Colors.grey.shade800,
+                    height: 1.3,
+                  ),
+                  maxLines: 2,
                 ),
               ),
             ],
           ),
-
-          const SizedBox(height: 12),
-
-          // 2 columns với kích thước bằng nhau
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Column 1: Champions - flex = 1 (50%)
-                Expanded(
-                  flex: 1,
-                  child: _buildColumn(
-                    title: "🏆 Nhà Vô Địch Cho Đi",
-                    subtitle: "Thiện nguyện nhiều nhất",
-                    data: champions,
-                    color: Colors.amber,
-                    theme: theme,
-                    isDarkMode: isDarkMode,
-                  ),
-                ),
-
-                const SizedBox(width: 8),
-
-                // Column 2: Heroes - flex = 1 (50%)
-                Expanded(
-                  flex: 1,
-                  child: _buildColumn(
-                    title: "♻️ Người Hùng Tái Sử Dụng",
-                    subtitle: "Sử dụng sách cũ nhiều nhất",
-                    data: heroes,
-                    color: Colors.blue,
-                    theme: theme,
-                    isDarkMode: isDarkMode,
-                  ),
-                ),
-              ],
+          const SizedBox(height: 2),
+          Text(
+            subtitle,
+            style: TextStyle(
+              fontSize: 10,
+              color: isDarkMode ? Colors.white54 : Colors.grey.shade500,
             ),
           ),
-        ],
-      ),
-    );
-  }
+          const SizedBox(height: 10),
 
-  Widget _buildColumn({
-    required String title,
-    required String subtitle,
-    required List<Map<String, dynamic>> data,
-    required MaterialColor color,
-    required ThemeData theme,
-    required bool isDarkMode,
-  }) {
-    return Container(
-      width: double.infinity, // Đảm bảo chiếm hết width được phân bổ
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.inversePrimary,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.05),
-            spreadRadius: 0,
-            blurRadius: 4,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, // Chỉ chiếm height cần thiết
-        children: [
-          // Column header
-          Center(
-            child: Column(
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w700,
-                    color: isDarkMode ? color.shade300 : color.shade700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 8,
-                    color: isDarkMode ? color.shade400 : color.shade600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Top 3 list
-          ...data.asMap().entries.map((entry) {
-            final index = entry.key;
-            final user = entry.value;
+          // User items
+          ...data.asMap().entries.map((e) {
             return _buildUserItem(
-              rank: index + 1,
-              name: user['name'],
-              books: user['books'],
-              color: color,
-              theme: theme,
+              rank: e.key + 1,
+              name: e.value['name'],
+              books: e.value['books'],
               isDarkMode: isDarkMode,
             );
           }).toList(),
@@ -241,52 +175,54 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
     required int rank,
     required String name,
     required int books,
-    required MaterialColor color,
-    required ThemeData theme,
     required bool isDarkMode,
   }) {
+    final rankColors = {
+      1: const Color(0xFFF59F00),
+      2: const Color(0xFF868E96),
+      3: const Color(0xFFE8590C),
+    };
+    final rankColor = rankColors[rank] ?? Colors.grey;
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      padding: const EdgeInsets.all(6),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
-        color: isDarkMode ? color.withOpacity(0.1) : color.shade50,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1,
-        ),
+        color: isDarkMode
+            ? Colors.white.withOpacity(0.05)
+            : rankColor.withOpacity(0.06),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
           // Rank badge
           Container(
-            width: 20,
-            height: 30,
+            width: 22,
+            height: 22,
             decoration: BoxDecoration(
-              color: _getRankColor(rank),
+              color: rankColor,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: _getRankColor(rank).withOpacity(0.3),
-                  spreadRadius: 0,
-                  blurRadius: 2,
-                  offset: const Offset(0, 1),
+                  color: rankColor.withOpacity(0.3),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
             child: Center(
               child: Text(
-                rank.toString(),
+                '$rank',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
           ),
 
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
 
           // User info
           Expanded(
@@ -296,9 +232,9 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                 Text(
                   name,
                   style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: theme.colorScheme.tertiary,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: isDarkMode ? Colors.white : Colors.grey.shade800,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -309,14 +245,14 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
                     Icon(
                       Icons.menu_book_rounded,
                       size: 10,
-                      color: isDarkMode ? color.shade300 : color.shade600,
+                      color: isDarkMode ? Colors.white54 : Colors.grey.shade500,
                     ),
-                    const SizedBox(width: 2),
+                    const SizedBox(width: 3),
                     Text(
-                      "$books cuốn",
+                      '$books cuốn',
                       style: TextStyle(
-                        fontSize: 8,
-                        color: isDarkMode ? color.shade300 : color.shade600,
+                        fontSize: 10,
+                        color: isDarkMode ? Colors.white54 : Colors.grey.shade500,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -326,47 +262,17 @@ class _GreenKnowledgeBoardState extends State<GreenKnowledgeBoard> {
             ),
           ),
 
-          // Medal icon for top 3
-          Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: _getRankColor(rank).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Icon(
-              _getRankIcon(rank),
-              color: _getRankColor(rank),
-              size: 12,
-            ),
+          Icon(
+            rank == 1
+                ? Icons.emoji_events_rounded
+                : rank == 2
+                    ? Icons.military_tech_rounded
+                    : Icons.star_rounded,
+            size: 14,
+            color: rankColor,
           ),
         ],
       ),
     );
-  }
-
-  Color _getRankColor(int rank) {
-    switch (rank) {
-      case 1:
-        return Colors.amber.shade600; // Gold
-      case 2:
-        return Colors.grey.shade500; // Silver
-      case 3:
-        return Colors.orange.shade600; // Bronze
-      default:
-        return Colors.blue.shade400;
-    }
-  }
-
-  IconData _getRankIcon(int rank) {
-    switch (rank) {
-      case 1:
-        return Icons.emoji_events_rounded; // Trophy
-      case 2:
-        return Icons.military_tech_rounded; // Medal
-      case 3:
-        return Icons.star_rounded; // Star
-      default:
-        return Icons.person_rounded;
-    }
   }
 }

@@ -50,105 +50,140 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final headerHeight = 260.0;
+    final isDarkMode = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: isDarkMode ? const Color(0xFF0F1117) : const Color(0xFFF4F6FA),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
+              // ── HEADER ──────────────────────────────────────────────────
               Container(
-                height: headerHeight,
                 width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                height: 200,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      theme.primaryColor,
-                      theme.primaryColor.withOpacity(0.85),
+                      const Color(0xFF3B5BDB),
+                      const Color(0xFF4DABF7),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Top row - avatar + greeting
-                    InformationUser(userModel: userModel),
-                    const SizedBox(height: 14),
-                    Text(
-                      textAlign: TextAlign.center,
-                      'Sách không bỏ đi tri thức còn ở lại!',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.95),
-                        fontSize: 15,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Stack section with overlapping CardPoint
-              SizedBox(
-                height: 120,
                 child: Stack(
-                  clipBehavior: Clip.none,
                   children: [
-                    Positioned.fill(
-                      top: 0,
-                      child: Container(),
+                    // Decorative circles
+                    Positioned(
+                      right: -30,
+                      top: -30,
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.06),
+                        ),
+                      ),
                     ),
                     Positioned(
-                      top: -100,
-                      left: 0,
-                      right: 0,
-                      child: CardPoint(
-                        point: userModel.point,
-                        qrData: '${userModel.id}-${userModel.cccd}',
+                      left: -20,
+                      bottom: 0,
+                      child: Container(
+                        width: 110,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.04),
+                        ),
+                      ),
+                    ),
+                    // Content
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InformationUser(userModel: userModel),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(Icons.format_quote_rounded,
+                                    color: Colors.white, size: 14),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                'Sách không bỏ đi – tri thức còn ở lại!',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 14,
+                                  fontStyle: FontStyle.italic,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
 
-              // Quick actions and content
+              // CardPoint overlapping header
+              Transform.translate(
+                offset: const Offset(0, -50),
+                child: CardPoint(
+                  point: userModel.point,
+                  qrData: '${userModel.id}-${userModel.cccd}',
+                ),
+              ),
+
+              // ── QUICK ACTIONS ────────────────────────────────────────────
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // First row of buttons - responsive grid
+                    // Section label
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4, bottom: 14),
+                      child: Text(
+                        'Tính năng',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w800,
+                          color: isDarkMode ? Colors.white : Colors.grey.shade800,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                    ),
+
+                    // Grid of quick actions
                     LayoutBuilder(
                       builder: (context, constraints) {
                         final screenWidth = MediaQuery.of(context).size.width;
-                        int crossAxisCount;
-
-                        if (screenWidth > 768) {
-                          // Desktop & Tablet: 1 hàng 6 item
-                          crossAxisCount = 6;
-                        } else {
-                          // Mobile: 2 hàng, mỗi hàng 3 item
-                          crossAxisCount = 3;
-                        }
-
+                        final crossAxisCount = screenWidth > 768 ? 6 : 3;
                         return GridView.count(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           crossAxisCount: crossAxisCount,
-                          mainAxisSpacing: 12, // Tăng khoảng cách
+                          mainAxisSpacing: 12,
                           crossAxisSpacing: 12,
+                          childAspectRatio: 0.95,
                           children: [
                             _miniFeatureButton(
                               icon: Icons.book_outlined,
                               label: 'Đăng sách',
-                              color: Colors.indigo,
+                              color: const Color(0xFF3B5BDB),
                               onTap: () {
                                 if (userModel.id != null) {
                                   Navigator.push(
@@ -178,9 +213,9 @@ class _HomeState extends State<Home> {
                               },
                             ),
                             _miniFeatureButton(
-                              icon: Icons.qr_code_scanner,
+                              icon: Icons.qr_code_scanner_rounded,
                               label: 'Quét mã',
-                              color: Colors.teal,
+                              color: const Color(0xFF0CA678),
                               onTap: () async {
                                 if (userModel.id != null) {
                                   String data = await Navigator.push(
@@ -198,22 +233,21 @@ class _HomeState extends State<Home> {
                                         ),
                                       ));
 
-                                  if(result) {
-                                    int? currentPoint = await UserModel.loadPointData();
-
+                                  if (result) {
+                                    int? currentPoint =
+                                        await UserModel.loadPointData();
                                     setState(() {
-                                      userModel.point = currentPoint.toString() ;
+                                      userModel.point =
+                                          currentPoint.toString();
                                     });
-
                                   }
-
                                 }
                               },
                             ),
                             _miniFeatureButton(
-                              icon: Icons.swap_horiz,
+                              icon: Icons.account_balance_wallet_rounded,
                               label: 'Quản lý ví',
-                              color: Colors.deepOrange,
+                              color: const Color(0xFFE8590C),
                               onTap: () async {
                                 if (userModel.id != null) {
                                   final result = await Navigator.push(
@@ -222,23 +256,21 @@ class _HomeState extends State<Home> {
                                         builder: (context) =>
                                             ManagePoint(userModel: userModel),
                                       ));
-
-                                  if(result) {
-                                    int? currentPoint = await UserModel.loadPointData();
-
+                                  if (result) {
+                                    int? currentPoint =
+                                        await UserModel.loadPointData();
                                     setState(() {
-                                      userModel.point = currentPoint.toString() ;
+                                      userModel.point =
+                                          currentPoint.toString();
                                     });
-
                                   }
-
                                 }
                               },
                             ),
                             _miniFeatureButton(
-                              icon: Icons.chat,
-                              label: 'Đóng góp ý kiến',
-                              color: Colors.purple,
+                              icon: Icons.lightbulb_rounded,
+                              label: 'Đóng góp',
+                              color: const Color(0xFF7950F2),
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -251,7 +283,7 @@ class _HomeState extends State<Home> {
                             _miniFeatureButton(
                               icon: Icons.smart_toy_rounded,
                               label: 'Trợ lý AI',
-                              color: Colors.cyan,
+                              color: const Color(0xFF1098AD),
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -263,7 +295,7 @@ class _HomeState extends State<Home> {
                             _miniFeatureButton(
                               icon: Icons.quiz_rounded,
                               label: 'Quiz',
-                              color: Colors.amber.shade700,
+                              color: const Color(0xFFF59F00),
                               onTap: () async {
                                 final result = await Navigator.push(
                                     context,
@@ -272,12 +304,11 @@ class _HomeState extends State<Home> {
                                         userModel: userModel,
                                       ),
                                     ));
-
                                 if (result != null) {
                                   setState(() {
                                     userModel.point = result.toString();
                                   });
-                                  UserModel.savePointData(result) ;
+                                  UserModel.savePointData(result);
                                 }
                               },
                             ),
@@ -286,36 +317,25 @@ class _HomeState extends State<Home> {
                       },
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 28),
 
-                    // Mục tuyên truyền trao đổi sách
-                    Text(
-                      'Tại sao nên trao đổi sách?',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                    ),
+                    // ── WHY EXCHANGE ──────────────────────────────────────
+                    _sectionHeader('Tại sao nên trao đổi sách?', isDarkMode),
                     const SizedBox(height: 14),
                     const WhyExchange(),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 28),
 
-                    // Bảng vinh danh tri thức xanh
+                    // ── LEADERBOARD ───────────────────────────────────────
                     const GreenKnowledgeBoard(),
 
-                    const SizedBox(height: 16),
-                    Text(
-                      'Một nét bút chì ngàn cuốn sách được trao',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                    ),
+                    const SizedBox(height: 28),
+
+                    // ── ARTICLES ──────────────────────────────────────────
+                    _sectionHeader('Một nét bút chì – ngàn cuốn sách được trao', isDarkMode),
                     const SizedBox(height: 14),
                     const ArticleCarousel(),
-                    const SizedBox(height: 18),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
@@ -323,6 +343,33 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _sectionHeader(String title, bool isDarkMode) {
+    return Row(
+      children: [
+        Container(
+          width: 4,
+          height: 20,
+          decoration: BoxDecoration(
+            color: const Color(0xFF3B5BDB),
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: isDarkMode ? Colors.white : const Color(0xFF1A1D2E),
+              letterSpacing: 0.2,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -335,19 +382,14 @@ class _HomeState extends State<Home> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final theme = Theme.of(context);
+        final isDarkMode = theme.brightness == Brightness.dark;
         final isMobile = MediaQuery.of(context).size.width <= 768;
 
-        // Thêm một khoảng đệm bên trong để thu nhỏ nút, đặc biệt trên mobile
-        final double internalPadding = isMobile ? 4.0 : 2.0;
-
-        // Kích thước thực tế của nút sẽ nhỏ hơn ô GridView một chút
-        final double cellSize = constraints.maxWidth - (internalPadding * 5);
-
-        // Tính toán kích thước các thành phần dựa trên kích thước mới của nút
-        final double iconSize = cellSize * 0.30;
-        final double fontSize = cellSize * 0.1 ;
-        final double borderRadius = cellSize * 0.15;
-        final double contentPadding = cellSize * 0.08;
+        final double internalPadding = isMobile ? 2.0 : 1.0;
+        final double cellSize = constraints.maxWidth - (internalPadding * 4);
+        final double iconSize = (cellSize * 0.26).clamp(20.0, 32.0);
+        final double fontSize = (cellSize * 0.10).clamp(9.0, 13.0);
+        final double borderRadius = 16.0;
 
         return Padding(
           padding: EdgeInsets.all(internalPadding),
@@ -357,53 +399,51 @@ class _HomeState extends State<Home> {
             child: InkWell(
               onTap: onTap,
               borderRadius: BorderRadius.circular(borderRadius),
-              splashColor: color.withOpacity(0.2),
-              highlightColor: color.withOpacity(0.1),
+              splashColor: color.withOpacity(0.12),
+              highlightColor: color.withOpacity(0.06),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      theme.colorScheme.inversePrimary,
-                      theme.colorScheme.inversePrimary.withOpacity(0.9),
-                    ],
-                  ),
+                  color: isDarkMode ? const Color(0xFF1E2030) : Colors.white,
                   borderRadius: BorderRadius.circular(borderRadius),
-                  border: Border.all(
-                    color: theme.colorScheme.onSurface.withOpacity(0.1),
-                    width: 1.5,
-                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: theme.shadowColor?.withOpacity(0.08) ?? Colors.black12,
-                      spreadRadius: 1,
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
+                      color: isDarkMode
+                          ? Colors.black.withOpacity(0.3)
+                          : color.withOpacity(0.12),
+                      spreadRadius: 0,
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
-                padding: EdgeInsets.all(contentPadding),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      icon,
-                      color: color,
-                      size: iconSize,
-                    ),
-                    SizedBox(height: cellSize * 0.07),
-                    Text(
-                      label,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: theme.colorScheme.tertiary,
-                        fontWeight: FontWeight.w600,
-                        fontSize: fontSize,
-                        height: 1.2,
+                    Container(
+                      padding: EdgeInsets.all((cellSize * 0.09).clamp(7.0, 12.0)),
+                      decoration: BoxDecoration(
+                        color: color.withOpacity(0.12),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      child: Icon(icon, color: color, size: iconSize),
+                    ),
+                    SizedBox(height: (cellSize * 0.06).clamp(5.0, 10.0)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Text(
+                        label,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: isDarkMode
+                              ? Colors.white.withOpacity(0.85)
+                              : const Color(0xFF1A1D2E),
+                          fontWeight: FontWeight.w700,
+                          fontSize: fontSize,
+                          height: 1.2,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
