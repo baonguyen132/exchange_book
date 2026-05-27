@@ -13,19 +13,36 @@ class WidgetList extends StatefulWidget {
 class _WidgetListState extends State<WidgetList> {
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.maintext,
-          ),
+        // Section header with accent bar
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: cs.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: cs.maintext,
+                letterSpacing: -0.3,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 20,),
+        const SizedBox(height: 16),
         widget.list
       ],
     );

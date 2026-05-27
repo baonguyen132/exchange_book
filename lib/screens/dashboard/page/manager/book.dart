@@ -75,6 +75,9 @@ class _BookState extends State<Book> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return BlocBuilder<BookCubit, BookState>(builder: (context, state) {
       return Scaffold(
         body: Container(
@@ -82,14 +85,39 @@ class _BookState extends State<Book> {
         ),
         floatingActionButton: BlocBuilder<BookCubit, BookState>(
           builder: (context, state) {
-            return FloatingActionButton(
-              onPressed: () {
-                context.read<BookCubit>().changeScreen();
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+            return Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    theme.primaryColor,
+                    Color.lerp(theme.primaryColor, Colors.purple, 0.25)!,
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.primaryColor.withOpacity(0.35),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: Icon(state.frame ? Icons.add : Icons.arrow_back),
+              child: FloatingActionButton(
+                onPressed: () {
+                  context.read<BookCubit>().changeScreen();
+                },
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Icon(
+                  state.frame ? Icons.add : Icons.arrow_back,
+                  color: Colors.white,
+                ),
+              ),
             );
           },
         ),

@@ -26,8 +26,9 @@ class _ManageUserState extends State<ManageUser> {
           title,
           style: const TextStyle(
             color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            letterSpacing: 0.3,
           ),
           textAlign: TextAlign.center,
         ),
@@ -36,19 +37,31 @@ class _ManageUserState extends State<ManageUser> {
   }
 
   DataCell cellData(String data) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return DataCell(
       Text(
         data,
         style: TextStyle(
           fontSize: 14,
-          color: Theme.of(context).colorScheme.maintext,
+          color: theme.colorScheme.maintext,
           fontWeight: FontWeight.w500,
         ),
       ),
     );
   }
-  DataRow rowData(List<dynamic> data) {
+
+  DataRow rowData(List<dynamic> data, int index) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final evenColor = isDark
+        ? Colors.white.withOpacity(0.02)
+        : Colors.black.withOpacity(0.015);
+
     return DataRow(
+      color: WidgetStateProperty.resolveWith<Color?>(
+        (states) => index.isEven ? evenColor : Colors.transparent,
+      ),
       cells: [
         cellData(data[0].toString()),
         cellData(data[1]),
@@ -56,19 +69,31 @@ class _ManageUserState extends State<ManageUser> {
         data[4] == 5 ? cellData("Admin") : cellData("Client"),
         cellData(data[5].toString()),
         DataCell(
-          IconButton(
-            icon: const Icon(Icons.verified_user, color: Colors.green),
-            onPressed: () {
-              // xử lý cấp quyền
-            },
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(isDark ? 0.12 : 0.08),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.verified_user, color: Colors.green.shade400, size: 20),
+              onPressed: () {
+                // xử lý cấp quyền
+              },
+            ),
           ),
         ),
         DataCell(
-          IconButton(
-            icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: () {
-              // xử lý xóa
-            },
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.red.withOpacity(isDark ? 0.12 : 0.08),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.delete, color: Colors.red.shade400, size: 20),
+              onPressed: () {
+                // xử lý xóa
+              },
+            ),
           ),
         ),
       ],
@@ -77,16 +102,28 @@ class _ManageUserState extends State<ManageUser> {
   
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final cardColor = isDark ? const Color(0xFF1E1E2C) : Colors.white;
+
     return BlocBuilder<ManageUserCubit , ManageUserState>(builder: (context, state) {
       return context.read<ManageUserCubit>().state.maybeWhen(
-        orElse: () => const Center(child: CircularProgressIndicator()),
+        orElse: () => Center(
+          child: CircularProgressIndicator(color: theme.primaryColor),
+        ),
         loaded: (page, list) => LayoutBuilder(
             builder: (context, constraints) => Column(
               children: [
                 Expanded(
                     child: Container(
                   padding: const EdgeInsets.all(16),
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: cardColor,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: isDark ? Colors.white.withOpacity(0.06) : Colors.black.withOpacity(0.04),
+                    ),
+                  ),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: SingleChildScrollView(
@@ -96,10 +133,17 @@ class _ManageUserState extends State<ManageUser> {
                           minWidth: constraints.maxWidth,
                         ),
                         child: DataTable(
-                          headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue,),
+                          headingRowColor: WidgetStateProperty.resolveWith(
+                            (states) => theme.primaryColor,
+                          ),
                           columnSpacing: 24,
-                          dataRowHeight: 60,
-                          headingRowHeight: 60,
+                          dataRowMinHeight: 56,
+                          dataRowMaxHeight: 64,
+                          headingRowHeight: 56,
+                          horizontalMargin: 16,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           columns: [
                             cellTitleTable("ID"),
                             cellTitleTable("Name"),
@@ -110,13 +154,14 @@ class _ManageUserState extends State<ManageUser> {
                             cellTitleTable("Delete"),
                           ],
                           rows: List.generate(list.length, (index) {
-                            return rowData(list[index]) ;
+                            return rowData(list[index], index) ;
                           }),
                         ),
                       ),
                     ),
                   ),
                 )),
+                const SizedBox(height: 8),
                 SizedBox(
                   height: 50,
                   width: constraints.maxWidth,

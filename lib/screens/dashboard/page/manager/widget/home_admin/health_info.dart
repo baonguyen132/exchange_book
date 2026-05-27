@@ -8,13 +8,31 @@ class HealthInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = theme.primaryColor;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 4),
-        Text(title,
-            style: const TextStyle(fontSize: 12, color: Colors.black54)),
+        Text(
+          value,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: primaryColor,
+            letterSpacing: -0.3,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            color: isDark ? Colors.white60 : Colors.black54,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }

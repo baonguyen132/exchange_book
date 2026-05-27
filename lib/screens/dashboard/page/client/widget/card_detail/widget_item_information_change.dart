@@ -46,6 +46,9 @@ class _WidgetItemInformationChangeState
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return BlocBuilder<CardDetailCubit, CardDetailState>(
       bloc: cardDetailCubit,
       builder: (context, state) => LayoutBuilder(
@@ -53,24 +56,23 @@ class _WidgetItemInformationChangeState
           final isNarrow = constraints.maxWidth < 700;
           final rawImageWidth = isNarrow ? constraints.maxWidth * 0.36 : 220.0;
           final imageWidth = rawImageWidth > 220.0 ? 220.0 : rawImageWidth;
-          final imageHeight =
-              imageWidth * 1.4; // portrait rectangle to avoid square crop
+          final imageHeight = imageWidth * 1.4;
 
-          // Card-like wrapper for a cleaner look
           return Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Theme.of(context).colorScheme.background),
+                borderRadius: BorderRadius.circular(16),
+                color: isDark ? cs.surface : const Color(0xFFF7F8FC)),
             child: Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(12),
+                  color: isDark ? cs.surface : Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: cs.onSurface.withOpacity(0.06)),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.02),
-                        blurRadius: 12,
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 16,
                         offset: const Offset(0, 6))
                   ]),
               child: Column(
@@ -79,16 +81,23 @@ class _WidgetItemInformationChangeState
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Image column
+                      // Image with shadow
                       Container(
                         width: imageWidth,
                         height: imageHeight,
-                        margin: EdgeInsets.only(right: isNarrow ? 12 : 16),
+                        margin: EdgeInsets.only(right: isNarrow ? 14 : 20),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.grey.shade50),
+                          borderRadius: BorderRadius.circular(14),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.10),
+                              blurRadius: 12,
+                              offset: const Offset(2, 4),
+                            ),
+                          ],
+                        ),
                         child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(14),
                             child: CardItemImage(
                               width: imageWidth,
                               height: imageHeight,
@@ -98,47 +107,51 @@ class _WidgetItemInformationChangeState
                             )),
                       ),
 
-                      // Info takes remaining space
+                      // Info
                       Expanded(
                           child: _infoColumn(context, isNarrow, imageWidth)),
                     ],
                   ),
 
-                  const SizedBox(height: 12),
-                  Divider(
-                    color: Theme.of(context).dividerColor.withOpacity(0.08),
-                    thickness: 1,
-                  ),
+                  const SizedBox(height: 16),
+                  Divider(color: cs.onSurface.withOpacity(0.06), thickness: 1),
+                  const SizedBox(height: 16),
 
-                  const SizedBox(height: 12),
-
-                  // Seller row (styled)
+                  // Seller section
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 12),
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .surface
-                            .withOpacity(0.98),
-                        border: Border.all(
-                            color: Theme.of(context)
-                                .dividerColor
-                                .withOpacity(0.04))),
+                      borderRadius: BorderRadius.circular(14),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          cs.primary.withOpacity(0.06),
+                          cs.primary.withOpacity(0.02),
+                        ],
+                      ),
+                      border: Border.all(color: cs.primary.withOpacity(0.08)),
+                    ),
                     child: Row(children: [
-                      CircleAvatar(
-                          radius: 28,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          backgroundImage: cardDetailCubit.state.pathAva != ""
-                              ? NetworkImage(
-                                  "$location/${cardDetailCubit.state.pathAva}")
-                              : null,
-                          child: cardDetailCubit.state.pathAva == ""
-                              ? const Icon(Icons.person, color: Colors.white)
-                              : null),
-                      const SizedBox(width: 12),
+                      // Avatar with ring
+                      Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: cs.primary.withOpacity(0.3), width: 2),
+                        ),
+                        child: CircleAvatar(
+                            radius: 24,
+                            backgroundColor: cs.primary.withOpacity(0.15),
+                            backgroundImage: cardDetailCubit.state.pathAva != ""
+                                ? NetworkImage(
+                                    "$location/${cardDetailCubit.state.pathAva}")
+                                : null,
+                            child: cardDetailCubit.state.pathAva == ""
+                                ? Icon(Icons.person, color: cs.primary, size: 22)
+                                : null),
+                      ),
+                      const SizedBox(width: 14),
                       Expanded(
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,37 +165,40 @@ class _WidgetItemInformationChangeState
                                     .titleMedium
                                     ?.copyWith(
                                         fontWeight: FontWeight.w700,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary)),
+                                        color: cs.primary,
+                                        letterSpacing: -0.2)),
                             const SizedBox(height: 4),
-                            Text(
-                                cardDetailCubit.state.user == null
-                                    ? 'Email'
-                                    : cardDetailCubit.state.user!.email,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(color: Colors.black54)),
+                            Row(
+                              children: [
+                                Icon(Icons.email_outlined, size: 14, color: cs.onSurface.withOpacity(0.45)),
+                                const SizedBox(width: 6),
+                                Flexible(
+                                  child: Text(
+                                      cardDetailCubit.state.user == null
+                                          ? 'Email'
+                                          : cardDetailCubit.state.user!.email,
+                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: cs.onSurface.withOpacity(0.55))),
+                                ),
+                              ],
+                            ),
                           ])),
                       const SizedBox(width: 8),
                       Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.08)),
-                          child: Text('Người bán',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary)))
+                            borderRadius: BorderRadius.circular(20),
+                            color: cs.primary.withOpacity(0.12),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.storefront_rounded, size: 14, color: cs.primary),
+                              const SizedBox(width: 6),
+                              Text('Người bán',
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: cs.primary, fontWeight: FontWeight.w600)),
+                            ],
+                          ))
                     ]),
                   )
                 ],
@@ -195,8 +211,10 @@ class _WidgetItemInformationChangeState
   }
 
   Widget _infoColumn(BuildContext context, bool isNarrow, double imageWidth) {
+    final cs = Theme.of(context).colorScheme;
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isNarrow ? 0 : 12),
+      padding: EdgeInsets.symmetric(horizontal: isNarrow ? 0 : 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -205,90 +223,83 @@ class _WidgetItemInformationChangeState
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 15)),
+                  fontWeight: FontWeight.w700,
+                  color: cs.onSurface,
+                  fontSize: 17,
+                  letterSpacing: -0.3)),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
 
           // Price row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
             children: [
-              Text(
-                '${widget.item[4]} VND',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: Theme.of(context).colorScheme.primary,
-                  fontSize: 15
-                    ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: cs.primary.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '${widget.item[4]} VND',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: cs.primary,
+                    fontSize: 16,
+                  ),
+                ),
               ),
-              const SizedBox(width: 8),
               if ((widget.item[10] ?? 0) is num)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: (widget.item[10] ?? 0) > 0
-                        ? Colors.green.withOpacity(0.12)
+                        ? Colors.green.withOpacity(0.10)
                         : Colors.red.withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    (widget.item[10] ?? 0) > 0
-                        ? 'Còn ${(widget.item[10] as num).toInt()}'
-                        : 'Hết hàng',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: (widget.item[10] ?? 0) > 0
-                              ? Colors.green[800]
-                              : Colors.red[800],
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        (widget.item[10] ?? 0) > 0 ? Icons.check_circle_outline : Icons.remove_circle_outline,
+                        size: 14,
+                        color: (widget.item[10] ?? 0) > 0 ? Colors.green[700] : Colors.red[700],
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        (widget.item[10] ?? 0) > 0
+                            ? 'Còn ${(widget.item[10] as num).toInt()}'
+                            : 'Hết hàng',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: (widget.item[10] ?? 0) > 0 ? Colors.green[700] : Colors.red[700],
                         ),
+                      ),
+                    ],
                   ),
                 ),
             ],
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
+
           // Info chips
           Wrap(
             spacing: 8,
-            runSpacing: 6,
+            runSpacing: 8,
             children: [
-              Chip(
-                visualDensity: VisualDensity.compact,
-                backgroundColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.08),
-                label: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(Icons.category,
-                      size: 14, color: Theme.of(context).colorScheme.primary),
-                  const SizedBox(width: 6),
-                  Text(widget.item[2]?.toString() ?? '')
-                ]),
-              ),
-              Chip(
-                visualDensity: VisualDensity.compact,
-                backgroundColor:
-                    Theme.of(context).colorScheme.secondary.withOpacity(0.06),
-                label: Row(mainAxisSize: MainAxisSize.min, children: [
-                  const Icon(Icons.calendar_today,
-                      size: 14, color: Colors.black54),
-                  const SizedBox(width: 6),
-                  Text("Tuổi sách: ${tinhtuoisach(widget.item[3] ?? '2000-01-01')}"),
-                ]),
-              ),
-              Chip(
-                visualDensity: VisualDensity.compact,
-                backgroundColor: Colors.grey.withOpacity(0.06),
-                label: Row(mainAxisSize: MainAxisSize.min, children: [
-                  const Icon(Icons.info, size: 14, color: Colors.black54),
-                  const SizedBox(width: 6),
-                  Text('Còn lại: ${widget.item[7]?.toString() ?? ''}')
-                ]),
-              ),
+              _buildChip(context, Icons.category_rounded, widget.item[2]?.toString() ?? '', cs.primary.withOpacity(0.08), cs.primary),
+              _buildChip(context, Icons.access_time_rounded, "Tuổi: ${tinhtuoisach(widget.item[3] ?? '2000-01-01')} năm", cs.onSurface.withOpacity(0.06), cs.onSurface.withOpacity(0.7)),
             ],
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
+
+          // Description
           Builder(builder: (c) {
             final full = "${widget.item[5]}".trim();
             final preview = full.split('\n').take(3).join('\n');
@@ -296,26 +307,52 @@ class _WidgetItemInformationChangeState
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(showFull ? full : preview,
-                    style: Theme.of(context).textTheme.bodyMedium),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: cs.onSurface.withOpacity(0.03),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(showFull ? full : preview,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5)),
+                ),
                 if (full.length > preview.length)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: TextButton.icon(
                       onPressed: () => setState(() => _expanded = !_expanded),
-                      child: Text(_expanded ? 'Thu gọn' : 'Xem thêm'),
+                      icon: Icon(_expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, size: 18),
+                      label: Text(_expanded ? 'Thu gọn' : 'Xem thêm', style: const TextStyle(fontSize: 13)),
                     ),
                   )
               ],
             );
           }),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
 
-          // Action button from parent: full-width on narrow screens
+          // Action button
           isNarrow
               ? SizedBox(width: double.infinity, child: widget.widgetButton)
               : widget.widgetButton,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChip(BuildContext context, IconData icon, String label, Color bg, Color fg) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: fg),
+          const SizedBox(width: 6),
+          Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: fg)),
         ],
       ),
     );
