@@ -36,6 +36,73 @@ class _ProductState extends State<Product> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
+  Future<void> _pickImageWithLoading(ImageSource source) async {
+    final cubit = context.read<ProductCubit>();
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+    if (pickedFile == null) return;
+
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => PopScope(
+        canPop: false,
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 44,
+                  height: 44,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3.5,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Text(
+                  'Đang tìm kiếm sách...',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Vui lòng chờ trong giây lát',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    try {
+      await cubit.scanPickedImage(File(pickedFile.path), widget.userdata.id!);
+    } finally {
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -155,10 +222,7 @@ class _ProductState extends State<Product> {
                       SizedBox(
                         height: 48,
                         child: ElevatedButton(
-                          onPressed: () => context
-                              .read<ProductCubit>()
-                              .pickImage(
-                                  ImageSource.gallery, widget.userdata.id!),
+                          onPressed: () => _pickImageWithLoading(ImageSource.gallery),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: cs.primary,
                             foregroundColor: Colors.white,
@@ -210,9 +274,7 @@ class _ProductState extends State<Product> {
                             color: cs.onSurface.withOpacity(0.5))),
                     const SizedBox(height: 18),
                     ElevatedButton.icon(
-                      onPressed: () => context
-                          .read<ProductCubit>()
-                          .pickImage(ImageSource.gallery, widget.userdata.id!),
+                      onPressed: () => _pickImageWithLoading(ImageSource.gallery),
                       icon: const Icon(Icons.photo_camera_outlined),
                       label: const Text('Tìm bằng ảnh'),
                       style: ElevatedButton.styleFrom(
