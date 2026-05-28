@@ -1,6 +1,8 @@
 
 import 'package:exchange_book/service/assistant_service.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui';
+import 'dart:math' as Math;
 
 class Assistant extends StatefulWidget {
   const Assistant({super.key});
@@ -105,125 +107,184 @@ class _AssistantState extends State<Assistant> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.blue.shade600,
-        foregroundColor: Colors.white,
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(
-                Icons.smart_toy_rounded,
-                size: 24,
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.grey.shade50,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white.withOpacity(0.8),
+          foregroundColor: Colors.blue.shade900,
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.blue.shade50.withOpacity(0.5),
+                      Colors.purple.shade50.withOpacity(0.5),
+                    ],
+                  ),
+                ),
               ),
             ),
-            const SizedBox(width: 12),
-            const Text(
-              'Trợ lý BookSwap',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            )
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Clear chat
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.blue.shade600, Colors.purple.shade500],
                   ),
-                  title: const Text('Xóa cuộc trò chuyện'),
-                  content: const Text('Bạn có muốn xóa tất cả tin nhắn?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Hủy'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          for (var message in _messages) {
-                            message.animationController.dispose();
-                          }
-                          _messages.clear();
-                        });
-                        Navigator.pop(context);
-                        // Add welcome message back
-                        _addMessage(
-                          "Xin chào! Tôi là Trợ lý BookSwap 📚\nTôi có thể giúp bạn:\n• Tìm kiếm sách\n• Hướng dẫn trao đổi\n• Giải đáp thắc mắc\n• Gợi ý sách hay\n\nBạn cần hỗ trợ gì hôm nay?",
-                          false,
-                        );
-                      },
-                      child: const Text('Xóa'),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
-              );
-            },
-            icon: const Icon(Icons.delete_outline_rounded),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Chat messages
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(16),
-              itemCount: _messages.length + (_isTyping ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index == _messages.length && _isTyping) {
-                  return _buildTypingIndicator();
-                }
-                return _buildMessageBubble(_messages[index]);
-              },
-            ),
-          ),
-
-          // Input area
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  spreadRadius: 0,
-                  blurRadius: 10,
-                  offset: const Offset(0, -2),
+                child: const Icon(
+                  Icons.smart_toy_rounded,
+                  size: 20,
+                  color: Colors.white,
                 ),
-              ],
-            ),
-            child: SafeArea(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                        ),
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                'Trợ lý BookSwap',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.5,
+                ),
+              )
+            ],
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    title: const Text(
+                      'Xóa cuộc trò chuyện',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    content: const Text('Bạn có muốn xóa tất cả tin nhắn?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('Hủy', style: TextStyle(color: Colors.grey.shade600)),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            for (var message in _messages) {
+                              message.animationController.dispose();
+                            }
+                            _messages.clear();
+                          });
+                          Navigator.pop(context);
+                          _addMessage(
+                            "Xin chào! Tôi là Trợ lý BookSwap 📚\nTôi có thể giúp bạn:\n• Tìm kiếm sách\n• Hướng dẫn trao đổi\n• Giải đáp thắc mắc\n• Gợi ý sách hay\n\nBạn cần hỗ trợ gì hôm nay?",
+                            false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red.shade500,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text('Xóa'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(Icons.delete_outline_rounded, color: Colors.red.shade400, size: 20),
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
+        ),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('https://www.transparenttextures.com/patterns/cubes.png'),
+            opacity: 0.4,
+            repeat: ImageRepeat.repeat,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                  itemCount: _messages.length + (_isTyping ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index == _messages.length && _isTyping) {
+                      return _buildTypingIndicator();
+                    }
+                    return _buildMessageBubble(_messages[index]);
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.08),
+                      spreadRadius: 0,
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.02),
+                      spreadRadius: 0,
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                  border: Border.all(
+                    color: Colors.blue.shade50,
+                    width: 2,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
                       child: TextField(
                         controller: _messageController,
-                        decoration: const InputDecoration(
-                          hintText: 'Nhập tin nhắn...',
+                        style: const TextStyle(fontSize: 16),
+                        decoration: InputDecoration(
+                          hintText: 'Nhập tin nhắn của bạn...',
+                          hintStyle: TextStyle(color: Colors.grey.shade400),
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20,
                             vertical: 12,
                           ),
@@ -231,33 +292,44 @@ class _AssistantState extends State<Assistant> with TickerProviderStateMixin {
                         maxLines: null,
                         textInputAction: TextInputAction.send,
                         onSubmitted: (_) => _sendMessage(),
-                        enabled: !_isTyping, // Disable khi AI đang typing
+                        enabled: !_isTyping,
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: _isTyping
-                          ? Colors.grey.shade400
-                          : Colors.blue.shade600,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: IconButton(
-                      onPressed: _isTyping ? null : _sendMessage,
-                      icon: Icon(
-                        _isTyping
-                            ? Icons.hourglass_empty_rounded
-                            : Icons.send_rounded,
-                        color: Colors.white,
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: _isTyping
+                              ? [Colors.grey.shade300, Colors.grey.shade400]
+                              : [Colors.blue.shade500, Colors.indigo.shade600],
+                        ),
+                        shape: BoxShape.circle,
+                        boxShadow: _isTyping ? [] : [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.3),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: _isTyping ? null : _sendMessage,
+                        icon: Icon(
+                          _isTyping
+                              ? Icons.hourglass_empty_rounded
+                              : Icons.send_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 4),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -267,16 +339,16 @@ class _AssistantState extends State<Assistant> with TickerProviderStateMixin {
       opacity: message.animationController,
       child: SlideTransition(
         position: Tween<Offset>(
-          begin: const Offset(0, 0.3),
+          begin: const Offset(0, 0.2),
           end: Offset.zero,
         ).animate(CurvedAnimation(
           parent: message.animationController,
-          curve: Curves.easeOut,
+          curve: Curves.easeOutCubic,
         )),
         child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: 20),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: message.isUser
                 ? MainAxisAlignment.end
                 : MainAxisAlignment.start,
@@ -287,75 +359,87 @@ class _AssistantState extends State<Assistant> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.blue.shade100,
-                        Colors.purple.shade100,
+                        Colors.blue.shade400,
+                        Colors.purple.shade400,
                       ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.purple.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      )
+                    ]
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.auto_awesome_rounded,
-                    color: Colors.blue.shade600,
-                    size: 20,
+                    color: Colors.white,
+                    size: 16,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 12),
               ],
               Flexible(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                   decoration: BoxDecoration(
-                    color: message.isUser ? Colors.blue.shade600 : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    gradient: message.isUser ? LinearGradient(
+                      colors: [Colors.blue.shade600, Colors.indigo.shade600],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ) : const LinearGradient(
+                      colors: [Colors.white, Colors.white],
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(24),
+                      topRight: const Radius.circular(24),
+                      bottomLeft: Radius.circular(message.isUser ? 24 : 8),
+                      bottomRight: Radius.circular(message.isUser ? 8 : 24),
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: message.isUser 
+                          ? Colors.blue.withOpacity(0.25)
+                          : Colors.black.withOpacity(0.04),
                         spreadRadius: 0,
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
+                        blurRadius: 15,
+                        offset: const Offset(0, 5),
                       ),
                     ],
+                    border: message.isUser ? null : Border.all(
+                      color: Colors.grey.shade100,
+                      width: 1,
+                    ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: message.isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                     children: [
                       Text(
                         message.text,
                         style: TextStyle(
                           color: message.isUser ? Colors.white : Colors.black87,
                           fontSize: 15,
-                          height: 1.4,
+                          height: 1.5,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
                       Text(
                         _formatTime(message.timestamp),
                         style: TextStyle(
                           color: message.isUser
-                              ? Colors.white.withOpacity(0.7)
-                              : Colors.grey.shade500,
+                              ? Colors.white.withOpacity(0.6)
+                              : Colors.grey.shade400,
                           fontSize: 11,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              if (message.isUser) ...[
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Icon(
-                    Icons.person_rounded,
-                    color: Colors.grey.shade600,
-                    size: 20,
-                  ),
-                ),
-              ],
             ],
           ),
         ),
@@ -365,40 +449,50 @@ class _AssistantState extends State<Assistant> with TickerProviderStateMixin {
 
   Widget _buildTypingIndicator() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.blue.shade100,
-                  Colors.purple.shade100,
+                  Colors.blue.shade400,
+                  Colors.purple.shade400,
                 ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.auto_awesome_rounded,
-              color: Colors.blue.shade600,
-              size: 20,
+              color: Colors.white,
+              size: 16,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(24),
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withOpacity(0.04),
                   spreadRadius: 0,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
                 ),
               ],
+              border: Border.all(
+                color: Colors.grey.shade100,
+                width: 1,
+              ),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -406,16 +500,17 @@ class _AssistantState extends State<Assistant> with TickerProviderStateMixin {
                 Text(
                   'Đang suy nghĩ',
                   style: TextStyle(
-                    color: Colors.grey.shade600,
+                    color: Colors.grey.shade500,
                     fontSize: 14,
+                    fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 12),
                 _buildTypingDot(0),
-                const SizedBox(width: 4),
+                const SizedBox(width: 6),
                 _buildTypingDot(1),
-                const SizedBox(width: 4),
+                const SizedBox(width: 6),
                 _buildTypingDot(2),
               ],
             ),
@@ -431,12 +526,14 @@ class _AssistantState extends State<Assistant> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 600 + (index * 200)),
       builder: (context, value, child) {
         return Transform.scale(
-          scale: 0.5 + (0.5 * value),
+          scale: 0.5 + (0.5 * Math.sin(value * Math.pi)),
           child: Container(
             width: 8,
             height: 8,
             decoration: BoxDecoration(
-              color: Colors.blue.shade400,
+              gradient: LinearGradient(
+                colors: [Colors.blue.shade300, Colors.purple.shade300],
+              ),
               shape: BoxShape.circle,
             ),
           ),

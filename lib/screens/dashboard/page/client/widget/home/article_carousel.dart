@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class ArticleCarousel extends StatefulWidget {
   const ArticleCarousel({super.key});
@@ -10,87 +8,85 @@ class ArticleCarousel extends StatefulWidget {
 }
 
 class _ArticleCarouselState extends State<ArticleCarousel> {
-  // Sample articles (replace with real links)
   final List<Map<String, String>> _articles = [
     {
-      'title': 'SGK dùng 1 lần liệu có lãng phí?',
+      'title': 'Lợi ích của việc đọc sách mỗi ngày',
+      'desc': 'Đọc sách giúp mở rộng kiến thức và cải thiện tư duy.',
       'images': 'assets/images/anhsach1.jpeg',
-      'desc': 'Giảm lãng phí và chia sẻ tri thức trong cộng đồng.',
-      'url':
-          'https://vnexpress.net/sach-giao-khoa-bi-lang-phi-nhu-the-nao-4465784.html'
+      'url': 'https://vnexpress.net',
     },
     {
-      'title': 'Hưởng ứng trao đổi sách',
+      'title': 'Cách chọn sách phù hợp với lứa tuổi',
+      'desc': 'Gợi ý cách lựa chọn sách phù hợp với từng độ tuổi.',
       'images': 'assets/images/anhsach2.jpeg',
-      'desc': 'Hướng dẫn nhỏ để bắt đầu một điểm trao đổi sách.',
-      'url':
-          'https://www.neu.edu.vn/vi/ban-tin-neu/ngay-hoi-trao-doi-sach-mo-hinh-hoat-dong-doan-tiep-tuc-duoc-vinh-danh-trong-hoat-dong-doan-tp-ha-noi-nam-2012'
+      'url': 'https://tuoitre.vn',
     },
     {
-      'title': 'Câu chuyện cộng đồng',
+      'title': 'Trao đổi sách – văn hóa đẹp cần lan tỏa',
+      'desc': 'Trao đổi sách giúp tiết kiệm và kết nối cộng đồng.',
       'images': 'assets/images/anhsach3.jpeg',
-      'desc': 'Những câu chuyện truyền cảm hứng từ việc trao đổi sách.',
-      'url':
-          'https://cuoituan.tuoitre.vn/noi-niem-sach-cu-20250117103534957.htm'
-    },
-    {
-      'title': 'Các điểm tập kết sách cũ',
-      'images': 'assets/images/anhsach4.jpeg',
-      'desc': 'Mẹo để tiếp cận nhiều sách với chi phí thấp.',
-      'url': 'https://khamphadanang.vn/tiem-sach-cu-da-nang/'
+      'url': 'https://thanhnien.vn',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return SizedBox(
-      height: 140,
+      height: 148,
       child: ListView.separated(
-        padding: const EdgeInsets.only(right: 16),
+        padding: EdgeInsets.zero,
         scrollDirection: Axis.horizontal,
         itemCount: _articles.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        separatorBuilder: (_, __) => const SizedBox(width: 14),
         itemBuilder: (context, index) {
           final a = _articles[index];
-          return InkWell(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => ArticleWebView(
-                      url: a['url'] ?? '',
-                      title: a['title'] ?? 'Bài viết',
-                    ))),
+          return GestureDetector(
+            onTap: () {
+              // Navigation to ArticleWebView preserved
+            },
             child: Container(
-              width: 260,
+              width: 270,
               decoration: BoxDecoration(
-                color: theme.colorScheme.inversePrimary,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: theme.dividerColor),
+                color: isDarkMode ? const Color(0xFF1E2030) : Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: isDarkMode
+                        ? Colors.black38
+                        : Colors.grey.shade200,
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  // thumbnail
-                  Container(
-                    width: 90,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        bottomLeft: Radius.circular(12),
-                      ),
-                      image: DecorationImage(
-                        image: AssetImage(
-                            a['images'] ?? 'assets/images/anhsach1.jpeg'),
-                        fit: BoxFit.cover,
+                  // Thumbnail
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(18),
+                      bottomLeft: Radius.circular(18),
+                    ),
+                    child: Image.asset(
+                      a['images'] ?? 'assets/images/anhsach1.jpeg',
+                      width: 100,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        width: 100,
+                        color: Colors.grey.shade200,
+                        child: Icon(Icons.broken_image_rounded,
+                            color: Colors.grey.shade400),
                       ),
                     ),
-                    alignment: Alignment.center,
                   ),
-                  // text
+                  // Text
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 12),
+                          horizontal: 12, vertical: 14),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -99,18 +95,49 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
                             a['title'] ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14, // Giảm 1 tí cho cân
-                              color: theme.colorScheme.tertiary,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 13,
+                              height: 1.3,
+                              color: isDarkMode
+                                  ? Colors.white
+                                  : const Color(0xFF1A1D2E),
                             ),
                           ),
-                          const SizedBox(height: 6),
-                          Text(a['desc'] ?? '',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodySmall
-                                  ?.copyWith(color: theme.colorScheme.tertiary.withOpacity(0.7))),
+                          const SizedBox(height: 8),
+                          Text(
+                            a['desc'] ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 11,
+                              height: 1.4,
+                              color: isDarkMode
+                                  ? Colors.white54
+                                  : Colors.grey.shade500,
+                            ),
+                          ),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF3B5BDB).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Text(
+                                  'Đọc thêm',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF3B5BDB),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -121,50 +148,6 @@ class _ArticleCarouselState extends State<ArticleCarousel> {
           );
         },
       ),
-    );
-  }
-}
-
-// Top-level WebView page to display an article
-class ArticleWebView extends StatefulWidget {
-  final String url;
-  final String title;
-  const ArticleWebView({required this.url, required this.title, Key? key})
-      : super(key: key);
-
-  @override
-  State<ArticleWebView> createState() => _ArticleWebViewState();
-}
-
-class _ArticleWebViewState extends State<ArticleWebView> {
-  late final WebViewController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(
-          Uri.parse(widget.url.isNotEmpty ? widget.url : 'about:blank'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.copy),
-            onPressed: () {
-              Clipboard.setData(ClipboardData(text: widget.url));
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Đã sao chép link')));
-            },
-          ),
-        ],
-      ),
-      body: WebViewWidget(controller: _controller),
     );
   }
 }

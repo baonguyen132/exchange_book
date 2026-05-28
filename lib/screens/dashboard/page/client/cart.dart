@@ -37,6 +37,8 @@ class _CartState extends State<Cart> {
   }
 
   Widget getWidget(constraints, CartState state) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     String _fmt(int v) => v
         .toString()
         .replaceAllMapped(RegExp(r"\B(?=(\d{3})+(?!\d))"), (m) => ',');
@@ -47,54 +49,109 @@ class _CartState extends State<Cart> {
       width: constraints.maxWidth < 500
           ? constraints.maxWidth
           : constraints.maxWidth * 0.3,
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Theme.of(context).colorScheme.surface,
-        border:
-            Border.all(color: Theme.of(context).dividerColor.withOpacity(0.06)),
+        borderRadius: BorderRadius.circular(16),
+        color: isDark ? cs.surface : Colors.white,
+        border: Border.all(color: cs.onSurface.withOpacity(0.06)),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Thông tin người mua",
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w700),
+          // Header
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: cs.primary.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(Icons.person_outline_rounded, color: cs.primary, size: 22),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(
+                  "Thông tin người mua",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.3),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          Text('Tên: ${widget.userModel.name}',
-              style: Theme.of(context).textTheme.bodyMedium),
-          const SizedBox(height: 4),
-          Text('Email: ${widget.userModel.email}',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Colors.black54)),
-          const SizedBox(height: 12),
-          Divider(color: Theme.of(context).dividerColor),
-          const SizedBox(height: 12),
-          Text('Tổng tiền',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 6),
-          Text(_fmt(total) + ' VND',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.green[700], fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
+
+          // User info
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: cs.onSurface.withOpacity(0.03),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.badge_outlined, size: 16, color: cs.onSurface.withOpacity(0.5)),
+                    const SizedBox(width: 8),
+                    Text(widget.userModel.name,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(Icons.email_outlined, size: 16, color: cs.onSurface.withOpacity(0.5)),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(widget.userModel.email,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: cs.onSurface.withOpacity(0.6))),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          Divider(color: cs.onSurface.withOpacity(0.06)),
+          const SizedBox(height: 16),
+
+          // Total
+          Row(
+            children: [
+              Text('Tổng tiền',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: cs.onSurface.withOpacity(0.7))),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text('${_fmt(total)} VND',
+                    style: TextStyle(
+                        color: Colors.green[700], fontWeight: FontWeight.w800, fontSize: 16)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+
           WidgetTextFieldCustom(
             controller: address,
             textInputType: TextInputType.text,
             hint: "Nhập địa chỉ nhận",
             iconData: CupertinoIcons.location,
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 20),
+
+          // Submit button
           SizedBox(
             width: double.infinity,
+            height: 50,
             child: ElevatedButton(
               onPressed: () {
                 widget.handleInsert(
@@ -105,15 +162,22 @@ class _CartState extends State<Cart> {
                     "$location/insert_cart");
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: cs.primary,
+                foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 elevation: 0,
               ),
-              child: Text('Gửi',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.w700)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.send_rounded, size: 18, color: Colors.white),
+                  const SizedBox(width: 10),
+                  Text('Gửi đơn hàng',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.w700)),
+                ],
+              ),
             ),
           ),
         ],
@@ -123,12 +187,15 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     int number = 1;
+
     return BlocBuilder<CartCubit, CartState>(
         bloc: cartCubit,
         builder: (context, state) => LayoutBuilder(
               builder: (context, constraints) => SingleChildScrollView(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(16),
                   child: Wrap(
                     children: [
                       SizedBox(
@@ -138,17 +205,42 @@ class _CartState extends State<Cart> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Header
                               Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Text(
-                                  "Danh sách sản phẩm",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .maintext),
+                                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                                margin: const EdgeInsets.only(bottom: 16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      cs.primary.withOpacity(0.10),
+                                      cs.primary.withOpacity(0.03),
+                                      isDark ? cs.surface : Colors.white,
+                                    ],
+                                    stops: const [0.0, 0.4, 1.0],
+                                  ),
+                                  border: Border.all(color: cs.primary.withOpacity(0.08)),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: cs.primary.withOpacity(0.12),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Icon(Icons.shopping_bag_rounded, color: cs.primary, size: 22),
+                                    ),
+                                    const SizedBox(width: 14),
+                                    Text(
+                                      "Giỏ hàng",
+                                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: -0.3),
+                                    ),
+                                  ],
                                 ),
                               ),
                               if (state.listSeller != null)
@@ -187,9 +279,7 @@ class _CartState extends State<Cart> {
                                   )
                             ],
                           )),
-                      const SizedBox(
-                        width: 20,
-                      ),
+                      const SizedBox(width: 20),
                       if (cartCubit.state.isDone)
                         getWidget(constraints, cartCubit.state),
                     ],

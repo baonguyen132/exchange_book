@@ -132,7 +132,7 @@ class _HomeAdminState extends State<HomeAdmin> {
             mainAxisSpacing: 8,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: 3.3,
+            childAspectRatio: 2.8,
             children: const [
               SummaryCard(icon: Icons.person, label: "User", value: "105"),
               SummaryCard(icon: Icons.book_outlined, label: "Books", value: "86"),

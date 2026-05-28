@@ -53,6 +53,13 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
+  Future<void> scanPickedImage(File image, String id) async {
+    String name_book = await BookModal.scanImage(image);
+    List<dynamic> data = (await BookModal.scanBooks(id, name_book))!;
+    print(data);
+    emit(state.copyWith(listProduct: data));
+  }
+
   void change(String status, int id) async {
     int currentPage = state.currentPage ;
     if(status == "+") {currentPage++ ;}

@@ -26,9 +26,9 @@ class CardPoint extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.2),
+            color: Colors.blue.withOpacity(0.25),
             spreadRadius: 0,
-            blurRadius: 12,
+            blurRadius: 16,
             offset: const Offset(0, 6),
           ),
         ],
@@ -45,7 +45,7 @@ class CardPoint extends StatelessWidget {
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
                     Icons.account_circle_rounded,
@@ -60,32 +60,52 @@ class CardPoint extends StatelessWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
+                    letterSpacing: 0.3,
                   ),
                 ),
                 const Spacer(),
-                Text(
-                  'Quét mã',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.white.withOpacity(0.8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.qr_code_rounded,
+                        color: Colors.white.withOpacity(0.9),
+                        size: 12,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Quét mã',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
-            // Main Content
+            // Main Content Card
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
-                color: theme.colorScheme.inversePrimary,
+                color: isDarkMode ? Colors.grey.shade900 : Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withOpacity(0.08),
                     spreadRadius: 0,
-                    blurRadius: 6,
+                    blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
                 ],
@@ -105,36 +125,54 @@ class CardPoint extends StatelessWidget {
                               color: Colors.amber.shade600,
                               size: 16,
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 5),
                             Text(
                               'Số dư hiện tại',
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w600,
-                                color: theme.colorScheme.tertiary.withOpacity(0.7),
+                                color: isDarkMode
+                                    ? Colors.white60
+                                    : Colors.grey.shade500,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 6),
                         Text(
-                          point,
+                          point.isNotEmpty ? point : '0',
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.amber.shade700,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w900,
+                            color: isDarkMode
+                                ? Colors.white
+                                : Colors.blue.shade700,
+                            letterSpacing: 0.5,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'ID: ${qrData.isNotEmpty ? qrData : '0000000000'}',
-                          style: TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w500,
-                            color: theme.colorScheme.tertiary.withOpacity(0.5),
-                            fontFamily: 'monospace',
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: isDarkMode
+                                ? Colors.white.withOpacity(0.08)
+                                : Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(6),
                           ),
-                          overflow: TextOverflow.ellipsis,
+                          child: Text(
+                            'ID: ${qrData.isNotEmpty ? qrData : '0000000000'}',
+                            style: TextStyle(
+                              fontSize: 9,
+                              fontWeight: FontWeight.w500,
+                              color: isDarkMode
+                                  ? Colors.white54
+                                  : Colors.grey.shade500,
+                              fontFamily: 'monospace',
+                              letterSpacing: 0.3,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -146,10 +184,14 @@ class CardPoint extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: isDarkMode ? Colors.white.withOpacity(0.1) : Colors.grey.shade50,
-                      borderRadius: BorderRadius.circular(8),
+                      color: isDarkMode
+                          ? Colors.white.withOpacity(0.08)
+                          : Colors.grey.shade50,
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: isDarkMode ? Colors.white.withOpacity(0.1) : Colors.grey.shade200,
+                        color: isDarkMode
+                            ? Colors.white.withOpacity(0.1)
+                            : Colors.grey.shade200,
                         width: 1,
                       ),
                     ),
@@ -158,7 +200,8 @@ class CardPoint extends StatelessWidget {
                       version: QrVersions.auto,
                       size: 75,
                       backgroundColor: Colors.transparent,
-                      foregroundColor: isDarkMode ? Colors.white : Colors.black87,
+                      foregroundColor:
+                          isDarkMode ? Colors.white : Colors.black87,
                       errorCorrectionLevel: QrErrorCorrectLevel.M,
                     ),
                   ),

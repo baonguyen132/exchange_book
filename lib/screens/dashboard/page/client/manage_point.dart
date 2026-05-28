@@ -57,7 +57,7 @@ class _ManagePointState extends State<ManagePoint> {
     return Column(children: filteredList.map((userData) {
       return UserCard(
         userData: userData,
-        point: point,
+        point: (point/filteredList.length).toInt(),
       );
     }).toList(),);
   }
@@ -91,7 +91,7 @@ class _ManagePointState extends State<ManagePoint> {
                       },
                     ),
                     SearchSection(
-                      pointOnePerson: point,
+                      pointOnePerson: (point/list.length).toInt(),
                       address: address,
                       exchangeAddress: (address) => managePointCubit.exchangeAddress(address),
                       exchangePoint: (value) =>  managePointCubit.exchangePoint(value),

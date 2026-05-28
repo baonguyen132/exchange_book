@@ -54,7 +54,7 @@ Future<void> createQuestion(
       body: jsonEncode(
           {
             "link": "question",
-            "message": "Hãy tạo 5 câu hỏi trắc nghiệm các môn học lớp $message. Tuyết đối không được có ```json trong kết quả trả về",
+            "message": "Hãy tạo 5 câu hỏi trắc nghiệm các môn học lớp $message dưới dạng một mảng JSON hợp lệ. Mỗi câu hỏi là một đối tượng có các trường: 'content', 'A', 'B', 'C', 'D', 'correct'. Sử dụng dấu ngoặc kép (\") cho các phím và giá trị chuỗi. Tuyệt đối không bao gồm markdown (như ```json) hay bất kỳ văn bản giải thích nào, chỉ trả về mảng JSON.",
           }
       ),
     );
